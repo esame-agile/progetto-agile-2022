@@ -14,9 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('responsabili', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('id_ricercatore')->unsigned();
-            $table->foreign('id_ricercatore')->references('id')->on('ricercatori');
+            $table->id('id_responsabile');
+            $table->foreign('id_ric')->references('id_ricercatore')->on('ricercatori');
             $table->timestamps();
         });
     }

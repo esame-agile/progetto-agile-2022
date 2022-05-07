@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('finanziatori', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_finanziatore');
+            $table->string('nome_azienda');
             $table->timestamps();
         });
     }

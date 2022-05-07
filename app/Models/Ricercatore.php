@@ -8,7 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Ricercatore extends Utente
 {
     use HasFactory;
-    protected $table = 'utenti';
+    protected $table = 'ricercatori';
+    protected $primaryKey = 'id_ricercatore';
+    public $timestamps = true;
+
+    protected $fillable = [
+        'data_nascita',
+        'universita',
+        'ambito_ricerca'
+    ];
+
+
 
     public function __construct(array $attributes = [])
     {

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Utente extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -43,4 +43,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * restituisce l'utente se è manager
+     */
+    public function scopeIsManager($query)
+    {
+        return $query->where('ruolo', '=', 'manager');
+    }
+
+    //https://tighten.com/blog/extending-models-in-eloquent/ -  estendere un model in eloquent
+    /**
+     * restituisce l'utente se è manager
+     */
+    public function scopeIsRicercatore($query)
+    {
+        return $query->where('ruolo', '=', 'ricercatore');
+    }
+
+    /**
+     * restituisce l'utente se è manager
+     */
+    public function scopeIsFinanziatore($query)
+    {
+        return $query->where('ruolo', '=', 'finanziatore');
+    }
 }

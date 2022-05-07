@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('responsabili', function (Blueprint $table) {
             $table->id('id_responsabile');
-            $table->foreign('id_ric')->references('id_ricercatore')->on('ricercatori');
+            $table->foreign('id_ricercatori')->references('id_ricercatore')->on('ricercatori');
             $table->timestamps();
         });
     }

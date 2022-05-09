@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-      - 'TS-1_database_e_modelli'
-      - 'US*'
+      - TS-1_database_e_modelli
 
 jobs:
   laravel-tests:

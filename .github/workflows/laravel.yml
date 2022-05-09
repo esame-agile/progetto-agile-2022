@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - 'TS*'
+      - 'TS-1_database_e_modelli'
       - 'US*'
 
 jobs:

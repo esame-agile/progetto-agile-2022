@@ -8,7 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Finanziatore extends Utente
 {
     use HasFactory;
-    protected $table = 'utenti';
+    protected $table = 'finanziatori';
+    protected $primaryKey = 'id_finanziatore';
+    public $timestamps = true;
+
+    protected $fillable = [
+        'nome_azienda'
+    ];
 
     public function __construct(array $attributes = [])
     {

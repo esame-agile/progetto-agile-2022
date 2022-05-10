@@ -20,7 +20,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('ruolo');
+            $table->string('ruolo')->nullable();
+            $table->string('data_nascita')->nullable();
+            $table->string('universita')->nullable();
+            $table->string('ambito_ricerca')->nullable();
+            $table->string('nome_azienda')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

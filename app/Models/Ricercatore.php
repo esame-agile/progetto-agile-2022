@@ -8,15 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Ricercatore extends Utente
 {
     use HasFactory;
-    protected $table = 'ricercatori';
-    protected $primaryKey = 'id_ricercatore';
+    protected $table = 'utenti';
+    protected $primaryKey = 'id_utente';
     public $timestamps = true;
-
-    protected $fillable = [
-        'data_nascita',
-        'universita',
-        'ambito_ricerca'
-    ];
 
 
 
@@ -24,10 +18,10 @@ class Ricercatore extends Utente
     {
         parent::__construct($attributes);
 
-        $this->mergeFillable(['dataNascita', 'università', 'ambitoRicerca']);
+        $this->mergeFillable(['data_nascita', 'universita', 'ambito_ricerca']);
     }
 
-    public static function boot()
+   public static function boot()
     {
         parent::boot();
 

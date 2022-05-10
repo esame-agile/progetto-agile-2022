@@ -8,19 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Finanziatore extends Utente
 {
     use HasFactory;
-    protected $table = 'finanziatori';
-    protected $primaryKey = 'id_finanziatore';
+    protected $table = 'utenti';
+    protected $primaryKey = 'id_utente';
     public $timestamps = true;
-
-    protected $fillable = [
-        'nome_azienda'
-    ];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->mergeFillable(['nomeAzienda']);
+        $this->mergeFillable(['nome_azienda']);
     }
 
     public static function boot()

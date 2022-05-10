@@ -9,12 +9,10 @@ class Responsabile extends Ricercatore
 {
     use HasFactory;
 
-    protected $table = 'responsabili';
-    protected $primaryKey = 'id_responsabile';
+    protected $table = 'utenti';
+    protected $primaryKey = 'id_utente';
     public $timestamps = true;
 
-    protected $fillable = [
-    ];
 
     public function __construct(array $attributes = [])
     {

@@ -7,13 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Manager extends Utente
 {
     use HasFactory;
-    protected $table = 'manager';
-    protected $primaryKey = 'id_manager';
+    protected $table = 'utenti';
+    protected $primaryKey = 'id_utente';
     public $timestamps = true;
 
-    protected $fillable = [
-
-    ];
 
     public function __construct(array $attributes = [])
     {

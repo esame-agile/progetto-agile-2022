@@ -12,18 +12,21 @@ use Illuminate\Database\Eloquent\Model;
 class Utente extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    protected $table = 'utenti';
+    protected $primaryKey = 'id_utente';
+    public $timestamps = true;
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
         'nome',
         'cognome',
         'email',
         'password',
-        'ruolo',
+        'ruolo'
     ];
 
     /**
@@ -60,6 +63,14 @@ class Utente extends Authenticatable
     public function scopeIsRicercatore($query)
     {
         return $query->where('ruolo', '=', 'ricercatore');
+    }
+
+    /**
+     * restituisce l'utente se responsabile
+     */
+    public function scopeIsResponsabile($query)
+    {
+        return $query->where('ruolo', '=', 'responsabile');
     }
 
     /**

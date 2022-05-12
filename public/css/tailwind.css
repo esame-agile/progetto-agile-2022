@@ -628,8 +628,8 @@ video {
 
 .bg-gray-100{
   --bg-opacity: 1;
-  background-color: #f7fafc;
-  background-color: rgba(247, 250, 252, var(--bg-opacity));
+  background-color: #d5d5d5;
+
 }
 
 .bg-gray-200{
@@ -1195,7 +1195,7 @@ p {
   height: 100%;
   --bg-opacity: 1;
   background-color: #FFFFFF;
- 
+
 }
 
 .navigation {
@@ -1267,8 +1267,7 @@ p {
   padding-bottom: 0.75rem;
   font-weight: 700;
   --text-opacity: 1;
-  color: #1a202c;
-  color: rgba(26, 32, 44, var(--text-opacity));
+  color:#000000;
   text-transform: uppercase;
   transition-duration: 300ms;
 }
@@ -1276,8 +1275,8 @@ p {
 .navbar-nav .nav-item.active a,
 .navbar-nav .nav-item a:hover {
   --text-opacity: 1;
-  color: #3182ce;
-  color: rgba(49, 130, 206, var(--text-opacity));
+  color: #000000;
+  color: #9b9b9b;
 }
 
 .navbar-nav .nav-item.active a::before,
@@ -1296,8 +1295,8 @@ p {
   height: 0.25rem;
   transition-duration: 300ms;
   --bg-opacity: 1;
-  background-color: #3182ce;
-  background-color: rgba(49, 130, 206, var(--bg-opacity));
+  background-color: #000000;
+  background-color: #9b9b9b;
   opacity: 0;
 }
 
@@ -1311,16 +1310,16 @@ p {
 
 .main-btn.video-popup {
   --text-opacity: 1;
-  color: #3182ce;
-  color: rgba(49, 130, 206, var(--text-opacity));
+  color: #000000;
+
   --bg-opacity: 1;
-  background-color: #fff;
+  background-color: #cacaca;
   background-color: rgba(255, 255, 255, var(--bg-opacity));
 }
 
 .main-btn.video-popup:hover {
   --bg-opacity: 1;
-  background-color: #fff;
+  background-color: #cacaca;
   background-color: rgba(255, 255, 255, var(--bg-opacity));
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
@@ -1569,8 +1568,7 @@ p {
   margin: 0.25rem;
   transition-duration: 300ms;
   --bg-opacity: 1;
-  background-color: #ebf8ff;
-  background-color: rgba(235, 248, 255, var(--bg-opacity));
+  background-color: #7b7b7b;
   border-width: 0;
   border-radius: 9999px;
 }
@@ -1578,8 +1576,7 @@ p {
 .slick-dots .slick-active button,
 .slick-dots button:hover {
   --bg-opacity: 1;
-  background-color: #3182ce;
-  background-color: rgba(49, 130, 206, var(--bg-opacity));
+  background-color: #3d3d3d;
 }
 
 .slick-dots button:focus {
@@ -1683,8 +1680,8 @@ p {
   color: rgba(255, 255, 255, var(--text-opacity));
   transition-duration: 300ms;
   --bg-opacity: 1;
-  background-color: #3182ce;
-  background-color: rgba(49, 130, 206, var(--bg-opacity));
+  background-color: #9b9b9b;
+
   border-radius: 0.25rem;
 }
 

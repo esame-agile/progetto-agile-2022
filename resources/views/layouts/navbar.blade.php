@@ -5,7 +5,7 @@
                 <div class="w-full">
                     <nav class="flex items-center justify-between navbar navbar-expand-md">
                         <a class="mr-4 navbar-brand">
-                            <img src={{ asset('images/625px-Stark_Industries.png') }}  alt="Logo">
+                            <img src={{ asset('images/Stark_Industrieslogo.png') }}  alt="Logo">
                         </a>
 
                         <button class="block navbar-toggler focus:outline-none md:hidden" type="button"

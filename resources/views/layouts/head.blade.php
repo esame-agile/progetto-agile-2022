@@ -1,0 +1,57 @@
+@section('head')
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <head>
+        <!--====== Required meta tags ======-->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!--====== Title ======-->
+        <title>Stark Industries</title>
+
+        <!--====== Favicon Icon ======-->
+
+        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
+        <!--====== Slick css ======-->
+
+        <link rel="stylesheet" href="{{ asset('css/slick.css') }}">
+
+        <!--====== Line Icons css ======-->
+        <link rel="stylesheet" href="{{ asset('css/LineIcons.css') }}">
+
+
+        <!--====== Magnific Popup css ======-->
+        <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
+
+
+        <!--====== tailwind css ======-->
+        <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
+
+        <!--====== jquery js ======-->
+        <script src=" {{ asset('js/vendor/modernizr-3.6.0.min.js') }}"></script>
+
+        <script src="{{ asset('js/vendor/jquery-1.12.4.min.js ') }} "></script>
+
+        <!--====== Ajax Contact js ======-->
+        <script src="{{ asset('js/ajax-contact.js') }}"></script>
+
+        <!--====== Scrolling Nav js ======-->
+        <script src="{{ asset('js/jquery.easing.min.js') }}"></script>
+        <script src="{{ asset('js/scrolling-nav.js') }}"></script>
+
+        <!--====== Validator js ======-->
+        <script src="{{ asset('js/validator.min.js') }}" ></script>
+        <!--====== Magnific Popup js ======-->
+        <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+
+        <!--====== Slick js ======-->
+        <script src="{{ asset('js/slick.min.js') }}"></script>
+
+        <!--====== Main js ======-->
+        <script src="{{ asset('js/main.js') }}"></script>
+
+    </head>
+@endsection

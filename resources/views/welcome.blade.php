@@ -39,13 +39,14 @@
 <!--====== HEADER PART START ======-->
 
 <header class="header-area">
+
     <div class="navigation">
         <div class="container">
             <div class="row">
                 <div class="w-full">
                     <nav class="flex items-center justify-between navbar navbar-expand-md">
                         <a class="mr-4 navbar-brand" >
-                            <img src={{ asset('images/1200px-Stark_Industries.png') }}  alt="Logo">
+                            <img src={{ asset('images/625px-Stark_Industries.png') }}  alt="Logo">
 
                         </a>
 
@@ -61,13 +62,11 @@
                                 <!-- flex flex-row mx-auto my-0 navbar-nav -->
 
                                 <li class="nav-item">
-                                    <a class="page-scroll" href="#service">Progetti</a>
+                                    <a class="page-scroll" href="#service">Chi siamo</a>
                                 </li>
+
                                 <li class="nav-item">
-                                    <a class="page-scroll" href="#pricing"></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="page-scroll" href="#testimonial">Testimonial</a>
+                                    <a class="page-scroll" href="#testimonial">Top 5</a>
                                 </li>
 
                                 <li class="nav-item"><a class="nav-link" href="{{route('dashboard')}}">Log in</a></li>
@@ -87,18 +86,18 @@
             <div class="justify-center row">
                 <div class="w-full lg:w-5/6 xl:w-2/3">
                     <div class="pt-48 pb-64 text-center header-content">
-                        <h3 class="mb-5 text-3xl font-semibold leading-tight text-gray-900 md:text-5xl">Handcrafted Landing Page for Startups and SaaS Businesses</h3>
-                        <p class="px-5 mb-10 text-xl text-gray-700">A simple, customizable, and, beautiful SaaS business focused landing page to make your project closer to launch!</p>
+                        <h3 class="mb-5 text-3xl font-semibold leading-tight text-gray-900 md:text-5xl">Prendiamo le tue idee</h3>
+                        <p class="px-5 mb-10 text-xl text-gray-700">e le diamo a chi le sa pensare e implementare</p>
                         <ul class="flex flex-wrap justify-center">
-                            <li><a class="mx-3 main-btn gradient-btn" href="javascript:void(0)">GET IN TOUCH</a></li>
-                            <li><a class="mx-3 main-btn video-popup" href="https://www.youtube.com/watch?v=r44RKWyfcFw">WATCH THE VIDEO <i class="ml-2 lni-play"></i></a></li>
+                            <li><a class="mx-3 main-btn gradient-btn" href="javascript:void(0)">RICERCATORI</a></li>
+                            <li><a class="mx-3 main-btn video-popup" href="https://www.youtube.com/watch?v=r44RKWyfcFw">I NOSTRI PROGETTI <i class="ml-2 lni-play"></i></a></li>
                         </ul>
                     </div> <!-- header content -->
                 </div>
             </div> <!-- row -->
         </div> <!-- container -->
         <div class="absolute bottom-0 z-20 w-full h-auto -mb-1 header-shape">
-            <img src="public/images/header-shape.svg" alt="shape">
+            <img src="{{ asset('images/header-shape.svg') }}" alt="shape">
         </div>
     </div> <!-- header content -->
 </header>
@@ -112,8 +111,8 @@
         <div class="flex">
             <div class="w-full mx-4 lg:w-1/2">
                 <div class="pb-10 section-title">
-                    <h4 class="title">Crafted For</h4>
-                    <p class="text">Stop wasting time and money designing and managing a website that doesn’t get results. Happiness guaranteed!</p>
+                    <h4 class="title">Di cosa ci occupiamo</h4>
+                    <p class="text">Aggiornamento continuo e assidua ricerca di soluzioni ottimali, il futuro è sempre più vicino </p>
                 </div> <!-- section title -->
             </div>
         </div> <!-- row -->
@@ -122,45 +121,33 @@
                 <div class="row">
                     <div class="w-full md:w-1/2">
                         <div class="block mx-4 services-content sm:flex">
-                            <div class="services-icon">
-                                <i class="lni-bolt"></i>
-                            </div>
                             <div class="mb-8 ml-0 services-content media-body sm:ml-3">
-                                <h4 class="services-title">Startup</h4>
-                                <p class="text">Short description for the ones who look for something new.</p>
+                                <h4 class="services-title">Progetti nazionali ed Europei</h4>
+                                <p class="text">Non ci facciamo fermare dai confini, la conoscenza è ovunque</p>
                             </div>
                         </div> <!-- services content -->
                     </div>
                     <div class="w-full md:w-1/2">
                         <div class="block mx-4 services-content sm:flex">
-                            <div class="services-icon">
-                                <i class="lni-bar-chart"></i>
-                            </div>
                             <div class="mb-8 ml-0 services-content media-body sm:ml-3">
-                                <h4 class="services-title">SaaS Business</h4>
-                                <p class="text">Short description for the ones who look for something new.</p>
+                                <h4 class="services-title">Sempre a caccia di innovazione</h4>
+                                <p class="text">Siamo sempre in continuo aggiornamento, non permettiamo a nessuno di lasciarci indietro.</p>
                             </div>
                         </div> <!-- services content -->
                     </div>
                     <div class="w-full md:w-1/2">
                         <div class="block mx-4 services-content sm:flex">
-                            <div class="services-icon">
-                                <i class="lni-brush"></i>
-                            </div>
                             <div class="mb-8 ml-0 services-content media-body sm:ml-3">
-                                <h4 class="services-title">Agency</h4>
-                                <p class="text">Short description for the ones who look for something new.</p>
+                                <h4 class="services-title">Agenzia</h4>
+                                <p class="text">Siamo un'azienda che non ha paura del nuovo, per lo sviluppo dei nostri software e per le nostre ricerche ci affidiamo ai metodi più rapidi, innovativi ed efficienti.</p>
                             </div>
                         </div> <!-- services content -->
                     </div>
                     <div class="w-full md:w-1/2">
                         <div class="block mx-4 services-content sm:flex">
-                            <div class="services-icon">
-                                <i class="lni-bulb"></i>
-                            </div>
                             <div class="mb-8 ml-0 services-content media-body sm:ml-3">
-                                <h4 class="services-title">App Landing</h4>
-                                <p class="text">Short description for the ones who look for something new.</p>
+                                <h4 class="services-title">Trasparenza</h4>
+                                <p class="text">Tutto il nostro lavoro è disponibile online.</p>
                             </div>
                         </div> <!-- services content -->
                     </div>
@@ -170,7 +157,8 @@
     </div> <!-- container -->
     <div class="services-image">
         <div class="image">
-            <img src="assets/images/services.png" alt="Services">
+
+            <img src="{{ asset('/images/StarkIndustriesBack.jpg') }}" alt="Services">
         </div>
     </div> <!-- services image -->
 </section>
@@ -563,27 +551,28 @@
 
 
 <!--====== jquery js ======-->
-<script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
-<script src="assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src=" {{ asset('js/vendor/modernizr-3.6.0.min.js') }}"></script>
+
+<script src="{{ asset('js/vendor/jquery-1.12.4.min.js ') }} "></script>
 
 <!--====== Ajax Contact js ======-->
-<script src="assets/js/ajax-contact.js"></script>
+<script src="{{ asset('js/ajax-contact.js') }}"></script>
 
 <!--====== Scrolling Nav js ======-->
-<script src="assets/js/jquery.easing.min.js"></script>
-<script src="assets/js/scrolling-nav.js"></script>
+<script src="{{ asset('js/jquery.easing.min.js') }}"></script>
+<script src="{{ asset('js/scrolling-nav.js') }}"></script>
 
 <!--====== Validator js ======-->
-<script src="assets/js/validator.min.js"></script>
-
+<script src="{{ asset('js/validator.min.js') }}" ></script>
+{{ asset('images/favicon.png') }}
 <!--====== Magnific Popup js ======-->
-<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
 
 <!--====== Slick js ======-->
-<script src="assets/js/slick.min.js"></script>
+<script src="{{ asset('js/slick.min.js') }}"></script>
 
 <!--====== Main js ======-->
-<script src="assets/js/main.js"></script>
+<script src="{{ asset('js/main.js') }}"></script>
 
 </body>
 

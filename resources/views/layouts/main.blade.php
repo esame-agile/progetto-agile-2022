@@ -5,7 +5,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     @yield('head')
     <body>
-
+    @yield('navbar')
     @yield('content')
     </body>
     @yield('footer')

@@ -58,7 +58,7 @@ class Utente extends Authenticatable
 
     //https://tighten.com/blog/extending-models-in-eloquent/ -  estendere un model in eloquent
     /**
-     * restituisce l'utente se è manager
+     * restituisce l'utente se è ricercatore
      */
     public function scopeIsRicercatore($query)
     {
@@ -74,7 +74,7 @@ class Utente extends Authenticatable
     }
 
     /**
-     * restituisce l'utente se è manager
+     * restituisce l'utente se è finanziatore
      */
     public function scopeIsFinanziatore($query)
     {

@@ -17,11 +17,15 @@ Route::get('/', function () {
 });
 
 /**
+ * Vista pagina personale di un ricercatore per i non autenticati.
+ *
+ */
+//Route::get('/pagina-personale{user}', [PaginaPersonaleController::class, 'guestIndex'])->name('pagina-personale');
+
+/**
  * Vista pagina personale di un ricercatore.
  *
  */
-Route::get('/pagina-personale{user}', [PaginaPersonaleController::class, 'guestIndex'])->name('pagina-personale');
-
 Route::get('/pagina-personale', [PaginaPersonaleController::class, 'index'])->name('pagina-personale')->middleware('auth');
 
 

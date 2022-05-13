@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Utente;
 use Illuminate\Support\Facades\Auth;
 
 class PaginaPersonaleController extends Controller
@@ -10,12 +11,17 @@ class PaginaPersonaleController extends Controller
     {
         $nav = [
             ['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
-            ['label' => 'LOG OUT', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/login']
         ];
 
         $user = Auth::user();
-
         return view('pagina-personale', compact('nav', 'user'));
+    }
 
+    public function guestIndex(Utente $user)
+    {
+        $nav = [
+            ['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
+        ];
+        return view('pagina-personale', compact('nav', 'user'));
     }
 }

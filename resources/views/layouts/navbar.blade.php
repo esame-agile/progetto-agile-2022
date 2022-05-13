@@ -25,10 +25,31 @@
                                 @if($nav != null && count($nav) > 0)
                                     @foreach($nav as $item)
                                         <li class="nav-item">
-                                            <a class="{{$item['class']}}" href="{{$item['href']}}">{{$item['label']}}</a>
+                                            <a class="{{$item['class']}}"
+                                               href="{{$item['href']}}">{{$item['label']}}</a>
                                         </li>
                                     @endforeach
                                 @endif
+                                @auth()
+                                    @if(Route::currentRouteName() != 'pagina-personale')
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                           href="{{route('pagina-personale')}}">PAGINA PERSONALE</a>
+                                    </li>
+                                    @endif
+                                    <li class="nav-item">
+                                        <form method="POST" action="{{ route('logout') }}" id="logout">
+                                            @csrf
+                                            <button class="nav-btn" type="submit">LOGOUT</button>
+                                        </form>
+                                    </li>
+                                @endauth
+                                @guest()
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                           href="{{route('login')}}">LOG IN</a>
+                                    </li>
+                                @endguest
                             </ul>
                         </div>
                     </nav> <!-- navbar -->

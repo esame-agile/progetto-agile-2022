@@ -628,7 +628,7 @@ video {
 
 .bg-gray-100{
   --bg-opacity: 1;
-  background-color: #d5d5d5;
+  background-color: #f7fafc;
 
 }
 
@@ -844,6 +844,10 @@ video {
 
 .mt-8{
   margin-top: 2rem;
+}
+
+.mLR{
+  margin-top: 7rem;
 }
 
 .mb-8{

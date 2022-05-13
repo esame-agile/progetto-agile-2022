@@ -29,6 +29,8 @@
 
         <!--====== tailwind css ======-->
         <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
+        <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+
 
         <!--====== jquery js ======-->
         <script src=" {{ asset('js/vendor/modernizr-3.6.0.min.js') }}"></script>

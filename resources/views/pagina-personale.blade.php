@@ -13,16 +13,25 @@
                 <!--- Immagine del profilo --->
             </div>
             <div class="nome-utente-container">
+<<<<<<< HEAD
                 <p class="testo grande">Nome Di Prova{{-- {{$user->nome}} {{$user->cognome}} --}} </p>
                 @auth
                     <button class="edit-button"><i class="lni lni-pencil"></i></button>
                 @endauth
                 <p class="testo">Ambito di ricerca{{-- {{$user->ambito_ricerca}} --}} <br> {{-- {{$user->nome_azienda}} --}} romano
+=======
+                <p class="testo grande">Nome Di Prova{{-- {{$nome}} {{$cognome}} --}} </p>
+                @auth
+                    <button class="edit-button"><i class="lni lni-pencil"></i></button>
+                @endauth
+                <p class="testo">Ambito di ricerca{{-- {{$ambito_ricerca}} --}} <br> {{-- {{$nome_azienda}} --}} romano
+>>>>>>> origin/TS-5_vista_pagina_personale
                     spa </p>
 
             </div>
             <div class="contatti">
                 <p class="testo">
+<<<<<<< HEAD
                     {{--{{$user->università}}--}}Università degli Studi di Milano
                 </p>
                 <p class="testo">
@@ -30,6 +39,15 @@
                 </p>
                 <p class="testo">
                     {{--{{$user->telefono}}--}}3279461214
+=======
+                    {{--{{$università}}--}}Università degli Studi di Milano
+                </p>
+                <p class="testo">
+                    {{--{{$email}}--}}davide.deacetis13@gmail.com
+                </p>
+                <p class="testo">
+                    {{--{{$telefono}}--}}3279461214
+>>>>>>> origin/TS-5_vista_pagina_personale
                 </p>
             </div>
         </div>

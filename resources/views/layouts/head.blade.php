@@ -22,10 +22,8 @@
         <!--====== Line Icons css ======-->
         <link rel="stylesheet" href="{{ asset('css/LineIcons.css') }}">
 
-
         <!--====== Magnific Popup css ======-->
         <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
-
 
         <!--====== tailwind css ======-->
         <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">

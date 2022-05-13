@@ -13,23 +13,23 @@
                 <!--- Immagine del profilo --->
             </div>
             <div class="nome-utente-container">
-                <p class="testo grande">Nome Di Prova{{-- {{$nome}} {{$cognome}} --}} </p>
+                <p class="testo grande">Nome Di Prova{{-- {{$user->nome}} {{$user->cognome}} --}} </p>
                 @auth
                     <button class="edit-button"><i class="lni lni-pencil"></i></button>
                 @endauth
-                <p class="testo">Ambito di ricerca{{-- {{$ambito_ricerca}} --}} <br> {{-- {{$nome_azienda}} --}} romano
+                <p class="testo">Ambito di ricerca{{-- {{$user->ambito_ricerca}} --}} <br> {{-- {{$user->nome_azienda}} --}} romano
                     spa </p>
 
             </div>
             <div class="contatti">
                 <p class="testo">
-                    {{--{{$università}}--}}Università degli Studi di Milano
+                    {{--{{$user->università}}--}}Università degli Studi di Milano
                 </p>
                 <p class="testo">
-                    {{--{{$email}}--}}davide.deacetis13@gmail.com
+                    {{--{{$user->email}}--}}davide.deacetis13@gmail.com
                 </p>
                 <p class="testo">
-                    {{--{{$telefono}}--}}3279461214
+                    {{--{{$user->telefono}}--}}3279461214
                 </p>
             </div>
         </div>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 class PaginaPersonaleController extends Controller
 {
     public function index()
@@ -11,6 +13,8 @@ class PaginaPersonaleController extends Controller
             ['label' => 'LOG OUT', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/login']
         ];
 
-        return view('pagina-personale', compact('nav'));
+        $user = Auth::user();
+
+        return view('pagina-personale', compact('nav', 'user'));
     }
 }

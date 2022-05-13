@@ -31,10 +31,10 @@
                                     @endforeach
                                 @endif
                                 @auth()
-                                    @if(Route::currentRouteName() != 'pagina-personale')
+                                    @if(Route::currentRouteName() != 'pagina-personale.index')
                                     <li class="nav-item">
                                         <a class="nav-link"
-                                           href="{{route('pagina-personale')}}">PAGINA PERSONALE</a>
+                                           href="{{route('pagina-personale.index')}}">PAGINA PERSONALE</a>
                                     </li>
                                     @endif
                                     <li class="nav-item">

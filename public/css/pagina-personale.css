@@ -99,3 +99,56 @@
     font-size: 24px;
 }
 
+@media (max-width: 1024px) {
+    .responsive {
+        display: none;
+    }
+
+
+    .testo.grande, .testo.titolo.grande {
+        font-size: 18px;
+    }
+
+    .testo {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 640px) {
+    .contatti {
+        display: none;
+    }
+
+    .contatti.hidden {
+        display: inline-block;
+        float: none;
+        margin: 2% 0 5% 5%;
+        text-align: left;
+        position: relative;
+    }
+}
+
+.form-container {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 0 2% 2% 2%;
+}
+
+.form-control {
+    width: 49%;
+    padding-bottom: 2%;
+}
+
+.bg-gray-700 {
+    background-color: #9b9b9b;
+}
+
+ .bg-gray-700:hover {
+     background-color: #5b5b5b;
+ }
+
+ .card {
+     margin-bottom: 2%;
+ }
+

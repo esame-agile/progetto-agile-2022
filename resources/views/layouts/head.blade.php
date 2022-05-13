@@ -52,5 +52,11 @@
         <!--====== Main js ======-->
         <script src="{{ asset('js/main.js') }}"></script>
 
+        <!--====== Alert js ======-->
+        <script src="{{ asset('js/alert.js') }}"></script>
+
+        <!--====== Datepicker ======-->
+        <script src="https://unpkg.com/flowbite@1.4.5/dist/datepicker.js"></script>
+
     </head>
 @endsection

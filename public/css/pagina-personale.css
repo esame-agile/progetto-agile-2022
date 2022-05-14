@@ -99,6 +99,11 @@
     font-size: 24px;
 }
 
+.lni-pencil.edit {
+    float: right;
+    padding: 2% 2% 2% 2%;
+}
+
 @media (max-width: 1024px) {
     .responsive {
         display: none;
@@ -122,9 +127,26 @@
     .contatti.hidden {
         display: inline-block;
         float: none;
-        margin: 2% 0 5% 5%;
+        margin: 5% 0 5% 5%;
         text-align: left;
         position: relative;
+    }
+
+    .informazioni {
+        display: none;
+    }
+
+    .informazioni.hidden {
+        display: inline;
+        padding: 0 2% 2% 2%;
+    }
+
+    .testo.grande, .testo.titolo.grande {
+        font-size: 14px;
+    }
+
+    .testo {
+        font-size: 12px;
     }
 }
 

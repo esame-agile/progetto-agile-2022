@@ -8,7 +8,8 @@
         <!--- Copertina del profilo --->
         <div class="card copertina-profilo">
             @if(session()->has('success'))
-                <div id="alert" class="flex p-4 mb-4 bg-green-100 border-t-4 border-green-500 dark:bg-green-200" role="alert">
+                <div id="alert" class="flex p-4 mb-4 bg-green-100 border-t-4 border-green-500 dark:bg-green-200"
+                     role="alert">
                     <svg class="flex-shrink-0 w-5 h-5 text-red-700 dark:text-green-800" fill="currentColor"
                          viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
@@ -39,42 +40,58 @@
                 </div>
 
                 <div class="nome-utente-container">
-                    <p class="testo grande">{{$user->nome}} {{$user->cognome}} </p>
-                    @auth
-                        {{-- Pulsante per editare informazioni personali --}}
-                        <a href="{{route('pagina-personale.edit-info', $user)}}"><i class="lni lni-pencil"></i></a>
-                    @endauth
-                    <p class="testo">{{$user->ambito_ricerca}}<br> {{$user->nome_azienda}}</p>
+                    <p class="testo grande">{{$utente->nome}} {{$utente->cognome}} </p>
+                    @if(Auth::user()->ruolo == 'ricercatore' || Auth::user()->ruolo == 'responsabile')
+                        {{-- Se l'utente è un ricercatore --}}
+                        <p class="testo">
+                            {{$utente->ambito_ricerca}}
+                            <br>
+                            {{$utente->universita}}
+                        </p>
+                    @endif
                 </div>
-
-
                 <div class="contatti">
+                    @if(Auth::user()->ruolo == 'finanziatore')
+                        {{-- Se l'utente è un ricercatore --}}
+                        <p class="testo">
+                            {{$utente->nome_azienda}}
+                        </p>
+                    @endif
                     <p class="testo">
-                        {{$user->universita}}
-                    </p>
-                    <p class="testo">
-                        {{$user->email}}
+                        {{$utente->email}}
                     </p>
                 </div>
             </div>
+                @auth
+                    {{-- Pulsante per editare informazioni personali --}}
+                    <a href="{{route('pagina-personale.edit-info', $utente)}}"><i class="lni lni-pencil edit"></i></a>
+                @endauth
             <div class="contatti hidden">
+                @if(Auth::user()->ruolo == 'finanziatore')
+                    {{-- Se l'utente è un ricercatore --}}
+                    <p class="testo">
+                        {{$utente->nome_azienda}}
+                    </p>
+                @endif
                 <p class="testo">
-                    {{$user->universita}}
-                </p>
-                <p class="testo">
-                    {{$user->email}}
+                    {{$utente->email}}
                 </p>
             </div>
         </div>
         <!--- Fine copertina del profilo --->
 
         <!--- Pubblicazioni --->
-        <h2 class="testo titolo grande">Elenco pubblicazioni</h2>
+        @if(Auth::user()->ruolo == 'finanziatore')
+            <h2 class="testo titolo grande">Elenco publicazioni finanziati</h2>
+        @else
+            <h2 class="testo titolo grande">Elenco progetti</h2>
+        @endif
         <div class="card tabella">
             <div class="container max-h-96">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <thead
+                            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 Pubblicazione
@@ -88,11 +105,16 @@
                             <th scope="col" class="px-6 py-3 responsive">
                                 Nome attributo
                             </th>
-                            @auth()
+                            @if(Auth::user()->ruolo == 'ricercatore' || Auth::user()->ruolo == 'responsabile' || Auth::user()->ruolo == 'manager')
                                 <th scope="col" class="px-6 py-3 text-center">
                                     Edita
                                 </th>
                             @endauth
+                            @if(Auth::user()->ruolo == 'finanziatore')
+                                <th scope="col" class="px-6 py-3 text-center">
+                                    Azioni
+                                </th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -110,12 +132,17 @@
                             <td class="px-6 py-4 text-left responsive">
                                 $2999
                             </td>
-                            @auth()
+                            @if(Auth::user()->ruolo == 'ricercatore' || Auth::user()->ruolo == 'responsabile' || Auth::user()->ruolo == 'manager')
                                 <td class="px-6 py-4 place-content-between">
                                     <a href="#"><i class="lni lni-pencil float-left"></i></a>
                                     <a href="#"><i class="lni lni-trash float-right"></i></a>
                                 </td>
                             @endauth
+                            @if(Auth::user()->ruolo == 'finanziatore')
+                                <td class="px-6 py-4 text-center">
+                                    <a href="#"><i class="lni lni-dollar"></i></a>
+                                </td>
+                            @endif
                         </tr>
                         </tbody>
                     </table>
@@ -124,13 +151,18 @@
         </div>
         <!--- Fine pubblicazioni --->
 
-        <!--- Ricerche --->
-        <h2 class="testo titolo grande">Elenco progetti</h2>
+        <!--- Progetti --->
+        @if(Auth::user()->ruolo == 'finanziatore')
+            <h2 class="testo titolo grande">Elenco progetti finanziati</h2>
+        @else
+            <h2 class="testo titolo grande">Elenco progetti</h2>
+        @endif
         <div class="card tabella ">
             <div class="container">
                 <div class="tabella-container relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <thead
+                            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 Progetto
@@ -144,11 +176,16 @@
                             <th scope="col" class="px-6 py-3 responsive">
                                 Nome attributo
                             </th>
-                            @auth()
+                            @if(Auth::user()->ruolo == 'ricercatore' || Auth::user()->ruolo == 'responsabile' || Auth::user()->ruolo == 'manager')
                                 <th scope="col" class="px-6 py-3 text-center">
                                     Edita
                                 </th>
-                            @endauth
+                            @endif
+                            @if(Auth::user()->ruolo == 'finanziatore')
+                                <th scope="col" class="px-6 py-3 text-center">
+                                    Azioni
+                                </th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -166,12 +203,17 @@
                             <td class="px-6 py-4 text-left responsive">
                                 $2999
                             </td>
-                            @auth()
+                            @if(Auth::user()->ruolo == 'ricercatore' || Auth::user()->ruolo == 'responsabile' || Auth::user()->ruolo == 'manager')
                                 <td class="px-6 py-4 place-content-between">
                                     <a href="#"><i class="lni lni-pencil float-left"></i></a>
                                     <a href="#"><i class="lni lni-trash float-right"></i></a>
                                 </td>
-                            @endauth
+                            @endif
+                            @if(Auth::user()->ruolo == 'finanziatore')
+                                <td class="px-6 py-4 text-center">
+                                    <a href="#"><i class="lni lni-dollar"></i></a>
+                                </td>
+                            @endif
                         </tr>
                         </tbody>
                     </table>

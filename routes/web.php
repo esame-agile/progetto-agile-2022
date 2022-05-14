@@ -34,13 +34,13 @@ Route::prefix('pagina-personale')->group(function() {
      * Vista per editare le informazioni di un ricercatore.
      *
      */
-    Route::get('/edit-info/{user}', [PaginaPersonaleController::class, 'edit_info'])->name('pagina-personale.edit-info')->middleware('auth');
+    Route::get('/edit-info/{utente}', [PaginaPersonaleController::class, 'edit_info'])->name('pagina-personale.edit-info')->middleware('auth');
 
     /**
      * Aggiorna le informazioni di un utente.
      *
      */
-    Route::put('/update-info/{user}', [PaginaPersonaleController::class, 'update_info'])->name('pagina-personale.update-info')->middleware('auth');
+    Route::put('/update-info/{utente}', [PaginaPersonaleController::class, 'update_info'])->name('pagina-personale.update-info')->middleware('auth');
 });
 
 /**

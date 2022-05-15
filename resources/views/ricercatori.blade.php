@@ -14,7 +14,7 @@
                     </tr>
                     </thead>
                     <tbody class="bg-white">
-                    @if($ricercatore != null)
+                    @if($ricercatori != null)
                         @foreach($ricercatori as $ricercatore)
                             <tr class="text-gray-700">
                                 <td class="px-4 py-3 text-ms font-semibold border"><a

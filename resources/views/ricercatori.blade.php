@@ -14,14 +14,18 @@
                     </tr>
                     </thead>
                     <tbody class="bg-white">
-                    @foreach($ricercatori as $ricercatore)
-                        <tr class="text-gray-700">
-                            <td class="px-4 py-3 text-ms font-semibold border"><a href="{{route("pagina-personale.guest-index", $ricercatore)}}">{{$ricercatore->nome}}</a></td>
-                            <td class="px-4 py-3 text-ms font-semibold border">{{$ricercatore->cognome}}</td>
-                            <td class="px-4 py-3 text-sm font-semibold border"> {{$ricercatore->ambito_ricerca}}</td>
-                            <td class="px-4 py-3 text-sm font-semibold border">{{$ricercatore->universita}}</td>
-                        </tr>
-                    @endforeach
+                    @if($ricercatore != null)
+                        @foreach($ricercatori as $ricercatore)
+                            <tr class="text-gray-700">
+                                <td class="px-4 py-3 text-ms font-semibold border"><a
+                                        href="{{route("pagina-personale.guest-index", $ricercatore)}}">{{$ricercatore->nome}}</a>
+                                </td>
+                                <td class="px-4 py-3 text-ms font-semibold border">{{$ricercatore->cognome}}</td>
+                                <td class="px-4 py-3 text-sm font-semibold border"> {{$ricercatore->ambito_ricerca}}</td>
+                                <td class="px-4 py-3 text-sm font-semibold border">{{$ricercatore->universita}}</td>
+                            </tr>
+                        @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>

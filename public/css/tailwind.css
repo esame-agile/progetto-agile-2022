@@ -1258,6 +1258,10 @@ p {
     transform: rotate(135deg);
 }
 
+.mLR {
+    margin-top: 7rem;
+}
+
 .navbar-nav .nav-item a, .navbar-nav .nav-item .nav-btn {
     outline: none;
     position: relative;

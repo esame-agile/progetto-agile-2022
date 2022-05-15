@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Ricercatore;
-
+use Faker;
 use Tests\TestCase;
 
 class PaginaPersonaleTest extends TestCase
@@ -15,6 +15,7 @@ class PaginaPersonaleTest extends TestCase
      */
     public function test_the_pagina_personale_index_returns_a_successful_response()
     {
+
         $ricercatore = Ricercatore::factory()->create();
         $this->post('/login', [
             'email' => $ricercatore->email,
@@ -47,6 +48,7 @@ class PaginaPersonaleTest extends TestCase
 
     public function test_the_utente_puo_modificare_i_suoi_campi_index_returns_a_successful_response()
     {
+        $faker = Faker\Factory::create();;
         $ricercatore =  Ricercatore::factory()->create();
         $this->post('/login', [
             'email' => $ricercatore->email,
@@ -55,13 +57,13 @@ class PaginaPersonaleTest extends TestCase
         $this->assertAuthenticated();
         $this->get('/pagina-personale/ricercatore/edit-info/'.$ricercatore->id_utente);
         $response = $this->put('pagina-personale/ricercatore/update-info/'.$ricercatore->id_utente, [
-            'nome' => 'Antonio',
-            'cognome' => 'Giordano',
-            'email' => 'antonio.giordano@example.com',
+            'nome' => $faker->firstName(),
+            'cognome' => $faker->lastName(),
+            'email' => $faker->safeEmail(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'password_confirmation' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'data_nascita' => '2000-01-01',
-            'universita' => 'Università di Torino',
+            'universita' => 'Università di {$faker->city()}',
             'ambito_ricerca' => 'Ingegneria',
         ]);
 

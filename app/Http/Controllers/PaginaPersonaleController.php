@@ -19,12 +19,13 @@ class PaginaPersonaleController extends Controller
         return view('pagina-personale.index', compact('nav', 'utente'));
     }
 
-    public function guest_index(Utente $utente)
+    public function guest_index(Ricercatore $utente)
     {
         $nav = [
             ['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
         ];
-        return view('pagina-personale.guestIndex', compact('nav', 'utente'));
+
+        return view('pagina-personale.index', compact('nav', 'utente'));
     }
 
     public function edit_info(Utente $utente)

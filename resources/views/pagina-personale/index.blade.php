@@ -38,10 +38,9 @@
                 <div class="profile-picture">
                     <!--- Immagine del profilo --->
                 </div>
-
                 <div class="nome-utente-container">
                     <p class="testo grande">{{$utente->nome}} {{$utente->cognome}} </p>
-                    @if(Auth::user()->ruolo == 'ricercatore' || Auth::user()->ruolo == 'responsabile')
+                    @if($utente->ruolo == 'ricercatore' || $utente->ruolo == 'responsabile')
                         {{-- Se l'utente è un ricercatore --}}
                         <p class="testo">
                             {{$utente->ambito_ricerca}}
@@ -51,7 +50,7 @@
                     @endif
                 </div>
                 <div class="contatti">
-                    @if(Auth::user()->ruolo == 'finanziatore')
+                    @if($utente->ruolo == 'finanziatore')
                         {{-- Se l'utente è un ricercatore --}}
                         <p class="testo">
                             {{$utente->nome_azienda}}
@@ -62,12 +61,12 @@
                     </p>
                 </div>
             </div>
-                @auth
-                    {{-- Pulsante per editare informazioni personali --}}
-                    <a href="{{route('pagina-personale.edit-info', $utente)}}"><i class="lni lni-pencil edit"></i></a>
-                @endauth
+            @auth
+                {{-- Pulsante per editare informazioni personali --}}
+                <a href="{{route('pagina-personale.edit-info', $utente)}}"><i class="lni lni-pencil edit"></i></a>
+            @endauth
             <div class="contatti hidden">
-                @if(Auth::user()->ruolo == 'finanziatore')
+                @if($utente->ruolo == 'finanziatore')
                     {{-- Se l'utente è un ricercatore --}}
                     <p class="testo">
                         {{$utente->nome_azienda}}
@@ -81,7 +80,7 @@
         <!--- Fine copertina del profilo --->
 
         <!--- Pubblicazioni --->
-        @if(Auth::user()->ruolo == 'finanziatore')
+        @if($utente->ruolo == 'finanziatore')
             <h2 class="testo titolo grande">Elenco publicazioni finanziati</h2>
         @else
             <h2 class="testo titolo grande">Elenco progetti</h2>
@@ -105,16 +104,18 @@
                             <th scope="col" class="px-6 py-3 responsive">
                                 Nome attributo
                             </th>
-                            @if(Auth::user()->ruolo == 'ricercatore' || Auth::user()->ruolo == 'responsabile' || Auth::user()->ruolo == 'manager')
-                                <th scope="col" class="px-6 py-3 text-center">
-                                    Edita
-                                </th>
+                            @auth
+                                @if($utente->ruolo == 'ricercatore' || $utente->ruolo == 'responsabile' || $utente->ruolo == 'manager')
+                                    <th scope="col" class="px-6 py-3 text-center">
+                                        Edita
+                                    </th>
+                                @endauth
+                                @if($utente->ruolo == 'finanziatore')
+                                    <th scope="col" class="px-6 py-3 text-center">
+                                        Azioni
+                                    </th>
+                                @endif
                             @endauth
-                            @if(Auth::user()->ruolo == 'finanziatore')
-                                <th scope="col" class="px-6 py-3 text-center">
-                                    Azioni
-                                </th>
-                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -132,17 +133,19 @@
                             <td class="px-6 py-4 text-left responsive">
                                 $2999
                             </td>
-                            @if(Auth::user()->ruolo == 'ricercatore' || Auth::user()->ruolo == 'responsabile' || Auth::user()->ruolo == 'manager')
-                                <td class="px-6 py-4 place-content-between">
-                                    <a href="#"><i class="lni lni-pencil float-left"></i></a>
-                                    <a href="#"><i class="lni lni-trash float-right"></i></a>
-                                </td>
+                            @auth
+                                @if($utente->ruolo == 'ricercatore' || $utente->ruolo == 'responsabile' || $utente->ruolo == 'manager')
+                                    <td class="px-6 py-4 place-content-between">
+                                        <a href="#"><i class="lni lni-pencil float-left"></i></a>
+                                        <a href="#"><i class="lni lni-trash float-right"></i></a>
+                                    </td>
+                                @endauth
+                                @if($utente->ruolo == 'finanziatore')
+                                    <td class="px-6 py-4 text-center">
+                                        <a href="#"><i class="lni lni-dollar"></i></a>
+                                    </td>
+                                @endif
                             @endauth
-                            @if(Auth::user()->ruolo == 'finanziatore')
-                                <td class="px-6 py-4 text-center">
-                                    <a href="#"><i class="lni lni-dollar"></i></a>
-                                </td>
-                            @endif
                         </tr>
                         </tbody>
                     </table>
@@ -152,7 +155,7 @@
         <!--- Fine pubblicazioni --->
 
         <!--- Progetti --->
-        @if(Auth::user()->ruolo == 'finanziatore')
+        @if($utente->ruolo == 'finanziatore')
             <h2 class="testo titolo grande">Elenco progetti finanziati</h2>
         @else
             <h2 class="testo titolo grande">Elenco progetti</h2>
@@ -176,16 +179,18 @@
                             <th scope="col" class="px-6 py-3 responsive">
                                 Nome attributo
                             </th>
-                            @if(Auth::user()->ruolo == 'ricercatore' || Auth::user()->ruolo == 'responsabile' || Auth::user()->ruolo == 'manager')
-                                <th scope="col" class="px-6 py-3 text-center">
-                                    Edita
-                                </th>
-                            @endif
-                            @if(Auth::user()->ruolo == 'finanziatore')
-                                <th scope="col" class="px-6 py-3 text-center">
-                                    Azioni
-                                </th>
-                            @endif
+                            @auth
+                                @if($utente->ruolo == 'ricercatore' || $utente->ruolo == 'responsabile' || $utente->ruolo == 'manager')
+                                    <th scope="col" class="px-6 py-3 text-center">
+                                        Edita
+                                    </th>
+                                @endif
+                                @if($utente->ruolo == 'finanziatore')
+                                    <th scope="col" class="px-6 py-3 text-center">
+                                        Azioni
+                                    </th>
+                                @endif
+                            @endauth
                         </tr>
                         </thead>
                         <tbody>
@@ -203,17 +208,19 @@
                             <td class="px-6 py-4 text-left responsive">
                                 $2999
                             </td>
-                            @if(Auth::user()->ruolo == 'ricercatore' || Auth::user()->ruolo == 'responsabile' || Auth::user()->ruolo == 'manager')
-                                <td class="px-6 py-4 place-content-between">
-                                    <a href="#"><i class="lni lni-pencil float-left"></i></a>
-                                    <a href="#"><i class="lni lni-trash float-right"></i></a>
-                                </td>
-                            @endif
-                            @if(Auth::user()->ruolo == 'finanziatore')
-                                <td class="px-6 py-4 text-center">
-                                    <a href="#"><i class="lni lni-dollar"></i></a>
-                                </td>
-                            @endif
+                            @auth
+                                @if($utente->ruolo == 'ricercatore' || $utente->ruolo == 'responsabile' || $utente->ruolo == 'manager')
+                                    <td class="px-6 py-4 place-content-between">
+                                        <a href="#"><i class="lni lni-pencil float-left"></i></a>
+                                        <a href="#"><i class="lni lni-trash float-right"></i></a>
+                                    </td>
+                                @endif
+                                @if($utente->ruolo == 'finanziatore')
+                                    <td class="px-6 py-4 text-center">
+                                        <a href="#"><i class="lni lni-dollar"></i></a>
+                                    </td>
+                                @endif
+                            @endauth
                         </tr>
                         </tbody>
                     </table>

@@ -12,7 +12,7 @@
                         <h3 class="mb-5 text-3xl font-semibold leading-tight text-gray-900 md:text-5xl">Prendiamo le tue idee</h3>
                         <p class="px-5 mb-10 text-xl text-gray-700">e le diamo a chi le sa pensare e implementare</p>
                         <ul class="flex flex-wrap justify-center">
-                            <li><a class="mx-3 main-btn gradient-btn" href="/ricercatori">RICERCATORI</a></li>
+                            <li><a class="mx-3 main-btn gradient-btn" href="{{ route('ricercatori') }}">RICERCATORI</a></li>
                             <li><a class="mx-3 main-btn gradient-btn" >I NOSTRI PROGETTI </a></li>
                         </ul>
                     </div> <!-- header content -->

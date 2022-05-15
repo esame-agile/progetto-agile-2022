@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PaginaPersonaleController;
+use App\Http\Controllers\RicercatoriController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -11,7 +12,6 @@ Route::get('/', function () {
     $nav = [
         ['label' => 'TOP 5', 'class' => 'page-scroll', 'href' => '#testimonial'],        ['label' => 'CHI SIAMO', 'class' => 'page-scroll', 'href' => '#service'],
     ];
-
     return view('home', compact('nav'));
 });
 
@@ -21,7 +21,7 @@ Route::prefix('pagina-personale')->group(function () {
      * Vista pagina personale di un ricercatore per i non autenticati.
      *
      */
-    //Route::get('/index/{user}', [PaginaPersonaleController::class, 'guest_index'])->name('guest-index');
+    Route::get('/index/{utente}', [PaginaPersonaleController::class, 'guest_index'])->name('pagina-personale.guest-index');
 
     /**
      * Vista pagina personale di un ricercatore.
@@ -42,5 +42,10 @@ Route::prefix('pagina-personale')->group(function () {
     Route::put('/update-info/{utente}', [PaginaPersonaleController::class, 'update_info'])->name('pagina-personale.update-info')->middleware('auth');
 });
 
+/**
+ * Elenco ricercatori per un guest.
+ *
+ */
+Route::get('/ricercatori', [RicercatoriController::class, 'index'])->name('ricercatori');
 
 require __DIR__ . '/auth.php';

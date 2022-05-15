@@ -9,21 +9,10 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('/', function () {
     $nav = [
-        ['label' => 'CHI SIAMO', 'class' => 'page-scroll', 'href' => '#service'],
-        ['label' => 'TOP 5', 'class' => 'page-scroll', 'href' => '#testimonial'],
+        ['label' => 'TOP 5', 'class' => 'page-scroll', 'href' => '#testimonial'],        ['label' => 'CHI SIAMO', 'class' => 'page-scroll', 'href' => '#service'],
     ];
 
     return view('home', compact('nav'));
-});
-
-/**
- * Elenco ricercatori per un guest.
- *
- */
-Route::get('/ricercatori', function () {
-    $nav = [['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000']
-    ];
-    return view('ricercatori', compact('nav'));
 });
 
 

@@ -10,18 +10,18 @@
                         <th class="px-4 py-3">Nome</th>
                         <th class="px-4 py-3">Cognome</th>
                         <th class="px-4 py-3">Ambito ricerca</th>
-                        <th class="px-4 py-3">Università/Azienda</th>
+                        <th class="px-4 py-3">Università</th>
                     </tr>
                     </thead>
                     <tbody class="bg-white">
-                    <tr class="text-gray-700">
-                       {{--@foreach($users as $user) {{$user->nome}}--}}
-                        <td class="px-4 py-3 text-ms font-semibold border">Ciccio</td>
-                        <td class="px-4 py-3 text-ms font-semibold border">22</td>
-                        <td class="px-4 py-3 text-sm font-semibold border"> oihigoi</td>
-                        <td class="px-4 py-3 text-sm font-semibold border">6/4/2000</td>
-                        {{--@endforeach--}}
-                    </tr>
+                    @foreach($ricercatori as $ricercatore)
+                        <tr class="text-gray-700">
+                            <td class="px-4 py-3 text-ms font-semibold border"><a href="{{route("pagina-personale.guest-index", $ricercatore)}}">{{$ricercatore->nome}}</a></td>
+                            <td class="px-4 py-3 text-ms font-semibold border">{{$ricercatore->cognome}}</td>
+                            <td class="px-4 py-3 text-sm font-semibold border"> {{$ricercatore->ambito_ricerca}}</td>
+                            <td class="px-4 py-3 text-sm font-semibold border">{{$ricercatore->universita}}</td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
             </div>

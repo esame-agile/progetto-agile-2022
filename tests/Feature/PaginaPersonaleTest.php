@@ -14,7 +14,7 @@ class PaginaPersonaleTest extends TestCase
      */
     public function test_the_pagina_personale_index_returns_a_successful_response()
     {
-        $response = $this->get('/pagina-personale');
+        $response = $this->get('/pagina-personale/index');
 
         $response->assertStatus(302);
     }

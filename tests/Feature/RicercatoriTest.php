@@ -15,7 +15,6 @@ class RicercatoriTest extends TestCase
 
         $response = $this->get('/pagina-personale/ricercatore/index/'.$ricercatore->id_utente);
 
-        $ricercatore->delete();
         $response->assertStatus(200);
     }
 }

@@ -23,7 +23,6 @@ class PaginaPersonaleTest extends TestCase
         $this->assertAuthenticated();
         $response = $this->get('/pagina-personale/ricercatore/index');
 
-        $ricercatore->delete();
         $response->assertStatus(200);
     }
 
@@ -43,7 +42,6 @@ class PaginaPersonaleTest extends TestCase
         $this->assertAuthenticated();
         $response = $this->get('/pagina-personale/ricercatore/edit-info/'.$ricercatore->id_utente);
 
-        $ricercatore->delete();
         $response->assertStatus(200);
     }
 
@@ -68,7 +66,6 @@ class PaginaPersonaleTest extends TestCase
         ]);
 
         $response->assertRedirect('pagina-personale/ricercatore/index?utente='.$ricercatore->id_utente);
-        $ricercatore->delete();
     }
 
     public function test_the_pagina_edit_restituisce_errore_se_i_campi_non_sono_validi_index_returns_a_successful_response()
@@ -92,7 +89,6 @@ class PaginaPersonaleTest extends TestCase
         ]);
 
         $response->assertRedirect('pagina-personale/ricercatore/edit-info/'.$ricercatore->id_utente);
-        $ricercatore->delete();
     }
 
     public function test_the_guest_non_puo_modificare_informazioni_di_un_utente_index_returns_a_successful_response()

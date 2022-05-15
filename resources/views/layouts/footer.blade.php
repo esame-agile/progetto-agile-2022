@@ -1,6 +1,6 @@
 @section('footer')
     <footer id="footer" class="bg-gray-100 footer-area">
-        <div class="mb-16 footer-widget">
+        <div class="footer-widget">
             <div class="container">
                 <div class="row">
                     <div class="w-full">

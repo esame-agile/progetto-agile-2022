@@ -31,12 +31,13 @@ class HomeTest extends TestCase
 
         $response->assertStatus(200);
     }
-//    public function test_the_ricercatori_button_returns_a_successful_response()
-//    {
-//        $response = $this->get('/ricercatori');
-//
-//        $response->assertStatus(200);
-//    }
+
+    public function test_the_ricercatori_button_returns_a_successful_response()
+    {
+        $response = $this->get('/ricercatori');
+
+        $response->assertStatus(200);
+    }
 //    public function test_the_ricercatore_buttonName_returns_a_successful_response()
 //    {
 //        $response = $this->get('/pagina-personale/index/1');

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Finanziatore;
+use App\Models\Manager;
+use App\Models\Responsabile;
 use App\Models\Ricercatore;
 use App\Models\Utente;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +19,9 @@ class PaginaPersonaleController extends Controller
         ];
 
         $utente = Auth::user();
-        return view('pagina-personale.index', compact('nav', 'utente'));
+        $pubblicazioni = "pubblicazioni";   /*da definire*/
+        $progetti = "progetti";             /*da definire*/
+        return view('pagina-personale.ricercatore.index', compact('nav', 'utente', 'pubblicazioni', 'progetti'));
     }
 
     public function guest_index(Ricercatore $utente)
@@ -25,7 +30,7 @@ class PaginaPersonaleController extends Controller
             ['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
         ];
 
-        return view('pagina-personale.index', compact('nav', 'utente'));
+        return view('pagina-personale.ricercatore.guest-index', compact('nav', 'utente'));
     }
 
     public function edit_info(Utente $utente)
@@ -34,17 +39,26 @@ class PaginaPersonaleController extends Controller
             ['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
         ];
 
-        return view('pagina-personale.edit-info', compact('nav', 'utente'));
+        return view('pagina-personale.ricercatore.edit-info', compact('nav', 'utente'));
     }
 
     public function update_info(Utente $utente, Request $request)
     {
         $this->validateUtente();
 
-        $ruolo = $utente->ruolo;
-
-        switch ($ruolo) {
-            case 'ricercatore' or 'responsabile':
+        switch ($utente->ruolo) {
+            case 'ricercatore':
+                $utente = Ricercatore::find($utente->id_utente);
+                $this->validateRicercatoreOrResponsabile();
+                if($request->password != null) {
+                    $this->validatePassword();
+                    $utente->update($request->all(['nome', 'cognome', 'email', 'password', 'data_nascita', 'universita', 'ambito_ricerca']));
+                } else {
+                    $utente->update($request->all(['nome', 'cognome', 'email', 'data_nascita', 'universita', 'ambito_ricerca']));
+                }
+                break;
+            case 'responsabile':
+                $utente = Responsabile::find($utente->id_utente);
                 $this->validateRicercatoreOrResponsabile();
                 if($request->password != null) {
                     $this->validatePassword();
@@ -54,6 +68,7 @@ class PaginaPersonaleController extends Controller
                 }
                 break;
             case 'finanziatore':
+                $utente = Finanziatore::find($utente->id_utente);
                 $this->validateFinanziatore();
                 if($request->password != null) {
                     $this->validatePassword();
@@ -63,6 +78,7 @@ class PaginaPersonaleController extends Controller
                 }
                 break;
             case 'manager':
+                $utente = Manager::find($utente->id_utente);
                 if($request->password != null) {
                     $this->validatePassword();
                     $utente->update($request->all(['nome', 'cognome', 'email', 'password']));
@@ -71,7 +87,7 @@ class PaginaPersonaleController extends Controller
                 }
                 break;
             default:
-                return redirect()->route('pagina-personale.edit-info', compact('utente'))->with('error', 'Qualcosa è andato storto.');
+                return redirect()->route('pagina-personale.ricercatore.edit-info', compact('utente'))->with('error', 'Qualcosa è andato storto.');
         }
 
         /*if ($request->hasfile('images')) {
@@ -86,7 +102,7 @@ class PaginaPersonaleController extends Controller
             }
         }*/
 
-        return redirect()->route('pagina-personale.index', compact('utente'))->with('success', 'Informazioni aggiorante con successo.');
+        return redirect()->route('pagina-personale.ricercatore.index', compact('utente'))->with('success', 'Informazioni aggiorante con successo.');
     }
 
     protected function validateUtente()

@@ -18,7 +18,7 @@
                         @foreach($ricercatori as $ricercatore)
                             <tr class="text-gray-700">
                                 <td class="px-4 py-3 text-ms font-semibold border"><a
-                                        href="{{route("pagina-personale.guest-index", $ricercatore)}}">{{$ricercatore->nome}}</a>
+                                        href="{{route("pagina-personale.ricercatore.guest-index", $ricercatore)}}">{{$ricercatore->nome}}</a>
                                 </td>
                                 <td class="px-4 py-3 text-ms font-semibold border">{{$ricercatore->cognome}}</td>
                                 <td class="px-4 py-3 text-sm font-semibold border"> {{$ricercatore->ambito_ricerca}}</td>

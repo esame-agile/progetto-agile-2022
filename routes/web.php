@@ -16,30 +16,30 @@ Route::get('/', function () {
 });
 
 
-Route::prefix('pagina-personale')->group(function () {
+Route::prefix('pagina-personale/ricercatore')->group(function () {
     /**
      * Vista pagina personale di un ricercatore per i non autenticati.
      *
      */
-    Route::get('/index/{utente}', [PaginaPersonaleController::class, 'guest_index'])->name('pagina-personale.guest-index');
+    Route::get('/index/{utente}', [PaginaPersonaleController::class, 'guest_index'])->name('pagina-personale.ricercatore.guest-index');
 
     /**
      * Vista pagina personale di un ricercatore.
      *
      */
-    Route::get('/index', [PaginaPersonaleController::class, 'index'])->name('pagina-personale.index')->middleware('auth');
+    Route::get('/index', [PaginaPersonaleController::class, 'index'])->name('pagina-personale.ricercatore.index')->middleware('auth');
 
     /**
      * Vista per editare le informazioni di un ricercatore.
      *
      */
-    Route::get('/edit-info/{utente}', [PaginaPersonaleController::class, 'edit_info'])->name('pagina-personale.edit-info')->middleware('auth');
+    Route::get('/edit-info/{utente}', [PaginaPersonaleController::class, 'edit_info'])->name('pagina-personale.ricercatore.edit-info')->middleware('auth');
 
     /**
      * Aggiorna le informazioni di un utente.
      *
      */
-    Route::put('/update-info/{utente}', [PaginaPersonaleController::class, 'update_info'])->name('pagina-personale.update-info')->middleware('auth');
+    Route::put('/update-info/{utente}', [PaginaPersonaleController::class, 'update_info'])->name('pagina-personale.ricercatore.update-info')->middleware('auth');
 });
 
 /**

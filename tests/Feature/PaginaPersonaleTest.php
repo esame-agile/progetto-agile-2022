@@ -3,11 +3,14 @@
 namespace Tests\Feature;
 
 use App\Models\Ricercatore;
-use App\Models\Utente;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PaginaPersonaleTest extends TestCase
 {
+
+    use RefreshDatabase;
     /**
      * Apertura vista pagina-personale.
      *
@@ -23,6 +26,7 @@ class PaginaPersonaleTest extends TestCase
         $this->assertAuthenticated();
         $response = $this->get('/pagina-personale/ricercatore/index');
 
+        $ricercatore->delete();
         $response->assertStatus(200);
     }
 

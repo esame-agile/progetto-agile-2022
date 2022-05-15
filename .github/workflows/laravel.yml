@@ -12,12 +12,12 @@ jobs:
      mysql:
        image: mysql:8.0
        env:
-         MYSQL_DATABASE: laravel
          MYSQL_USER: laravel_user
-         MYSQL_PASSWORD: ""
-         MYSQL_ROOT_PASSWORD: ""
+         MYSQL_PASSWORD: laravel_pass
+         MYSQL_ROOT_PASSWORD: root
+         MYSQL_DATABASE: laravel
        ports:
-         - 3306
+         - 3306:3306
        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
 
@@ -44,6 +44,6 @@ jobs:
       env:
         MYSQL_DATABASE: laravel
         DB_USERNAME: laravel_user
-        DB_PASSWORD: ""
+        DB_PASSWORD: laravel_pass
         DB_PORT: ${{ job.services.mysql.ports[3306] }}
       run: vendor/bin/phpunit

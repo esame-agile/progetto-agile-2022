@@ -8,7 +8,7 @@ use Tests\TestCase;
 class HomeTest extends TestCase
 {
     /**
-     * A basic test example.
+     * Apertura vista home.
      *
      * @return void
      */
@@ -20,7 +20,7 @@ class HomeTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * Apertura vista login.
      *
      * @return void
      */

@@ -22,15 +22,12 @@
         <!--====== Line Icons css ======-->
         <link rel="stylesheet" href="{{ asset('css/LineIcons.css') }}">
 
-
         <!--====== Magnific Popup css ======-->
         <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
-
 
         <!--====== tailwind css ======-->
         <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
         <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
-
 
         <!--====== jquery js ======-->
         <script src=" {{ asset('js/vendor/modernizr-3.6.0.min.js') }}"></script>
@@ -54,6 +51,12 @@
 
         <!--====== Main js ======-->
         <script src="{{ asset('js/main.js') }}"></script>
+
+        <!--====== Alert js ======-->
+        <script src="{{ asset('js/alert.js') }}"></script>
+
+        <!--====== Datepicker ======-->
+        <script src="https://unpkg.com/flowbite@1.4.5/dist/datepicker.js"></script>
 
     </head>
 @endsection

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaginaPersonaleController;
 use App\Http\Controllers\RicercatoriController;
 use Illuminate\Support\Facades\Route;
@@ -8,13 +9,7 @@ use Illuminate\Support\Facades\Route;
  * Vista home.
  *
  */
-Route::get('/', function () {
-    $nav = [
-        ['label' => 'TOP 5', 'class' => 'page-scroll', 'href' => '#testimonial'],        ['label' => 'CHI SIAMO', 'class' => 'page-scroll', 'href' => '#service'],
-    ];
-    return view('home', compact('nav'));
-});
-
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('pagina-personale/ricercatore')->group(function () {
     /**

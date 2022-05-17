@@ -11,7 +11,7 @@ class Responsabile extends Utente
 
     protected $table = 'utenti';
     public $timestamps = true;
-
+    protected $guarded = [];
 
     public function __construct(array $attributes = [])
     {

@@ -10,10 +10,10 @@
                 <div class="w-full lg:w-5/6 xl:w-2/3">
                     <div class="pt-48 pb-64 text-center header-content">
                         <h3 class="mb-5 text-3xl font-semibold leading-tight text-gray-900 md:text-5xl">Prendiamo le tue idee</h3>
-                        <p class="px-5 mb-10 text-xl text-gray-700">e le diamo a chi le sa pensare e implementare</p>
+                        <p class="px-5 mb-10 text-xl text-gray-700">e le diamo a chi le sa realizzare</p>
                         <ul class="flex flex-wrap justify-center">
-                            <li><a class="mx-3 main-btn gradient-btn" href="{{ route('ricercatori') }}">RICERCATORI</a></li>
-                            <li><a class="mx-3 main-btn gradient-btn" >I NOSTRI PROGETTI </a></li>
+                            <li><a class="page-scroll mx-3 main-btn gradient-btn" href="#service">CHI SIAMO</a></li>
+                            <li><a class="page-scroll mx-3 main-btn gradient-btn" href="#testimonial">TOP 5</a></li>
                         </ul>
                     </div> <!-- header content -->
                 </div>

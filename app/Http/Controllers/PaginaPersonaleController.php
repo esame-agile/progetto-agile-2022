@@ -14,32 +14,20 @@ class PaginaPersonaleController extends Controller
 {
     public function index()
     {
-        $nav = [
-            ['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
-        ];
-
         $utente = Auth::user();
-        $pubblicazioni = "pubblicazioni";   /*da definire*/
-        $progetti = "progetti";             /*da definire*/
-        return view('pagina-personale.ricercatore.index', compact('nav', 'utente', 'pubblicazioni', 'progetti'));
+        $pubblicazioni = ['pub1', 'pub2', 'pub3'];   /*da definire*/
+        $progetti = ['prog1', 'prog2', 'prog3'];     /*da definire*/
+        return view('pagina-personale.ricercatore.index', compact('utente', 'pubblicazioni', 'progetti'));
     }
 
     public function guest_index(Ricercatore $utente)
     {
-        $nav = [
-            ['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
-        ];
-
-        return view('pagina-personale.ricercatore.guest-index', compact('nav', 'utente'));
+        return view('pagina-personale.ricercatore.guest-index', compact ('utente'));
     }
 
     public function edit_info(Utente $utente)
     {
-        $nav = [
-            ['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
-        ];
-
-        return view('pagina-personale.ricercatore.edit-info', compact('nav', 'utente'));
+        return view('pagina-personale.ricercatore.edit-info', compact('utente'));
     }
 
     public function update_info(Utente $utente, Request $request)

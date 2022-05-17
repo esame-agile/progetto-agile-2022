@@ -1262,6 +1262,10 @@ p {
     margin-top: 7rem;
 }
 
+.page-scroll {
+    width: 150px;
+}
+
 .navbar-nav .nav-item a, .navbar-nav .nav-item .nav-btn {
     outline: none;
     position: relative;

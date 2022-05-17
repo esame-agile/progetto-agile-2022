@@ -21,45 +21,18 @@
                             id="navbarOne">
                             <ul class="items-center content-start mr-auto lg:justify-center md:justify-end navbar-nav md:flex">
                                 <!-- flex flex-row mx-auto my-0 navbar-nav -->
-                                <!-- riempie la navbar con i pulsanti -->
-                                @if($nav != null && count($nav) > 0)
-                                    @foreach($nav as $item)
-                                        <li class="nav-item">
-                                            <a class="{{$item['class']}}"
-                                               href="{{$item['href']}}">{{$item['label']}}</a>
-                                        </li>
-                                    @endforeach
-                                @endif
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('ricercatori')}}">RICERCATORI</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('home')}}">PROGETTI</a>
+                                </li>
                                 @auth()
-                                    @if(Route::currentRouteName() != 'pagina-personale.ricercatore.index' && Auth::user()->isRicercatore())
+                                    @if(Auth::user()->ruolo == 'manager')
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{route('pagina-personale.ricercatore.index')}}">PAGINA
-                                                PERSONALE</a>
+                                            <a class="nav-link" href="{{route('home')}}">MANAGEMENT</a>
                                         </li>
                                     @endif
-                                {{-- da aggiungere quando verranno create le pagine personali degli altri utenti --}}
-                                {{--@if(Route::currentRouteName() != 'pagina-personale.responsabile.index' && Auth::user()->isResponsabile())
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{route('pagina-personale.responsabile.index')}}">PAGINA
-                                                PERSONALE</a>
-                                        </li>
-                                    @endif
-                                    @if(Route::currentRouteName() != 'pagina-personale.Manager.index' && Auth::user()->isManager())
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{route('pagina-personale.ricercatore.index')}}">PAGINA
-                                                PERSONALE</a>
-                                        </li>
-                                    @endif
-                                    @if(Route::currentRouteName() != 'pagina-personale.ricercatore.index' && Auth::user()->isFinanziatore())
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{route('pagina-personale.ricercatore.index')}}">PAGINA
-                                                PERSONALE</a>
-                                        </li>
-                                    @endif      --}}
                                     <li class="nav-item">
                                         <form method="POST" action="{{ route('logout') }}" id="logout">
                                             @csrf
@@ -69,10 +42,19 @@
                                 @endauth
                                 @guest()
                                     <li class="nav-item">
-                                        <a class="nav-link"
-                                           href="{{route('login')}}">LOG IN</a>
+                                        <a class="nav-link" href="{{route('login')}}">LOG IN</a>
                                     </li>
                                 @endguest
+                                <li class="">
+                                    <a class="material-symbols-rounded nav-icon"
+                                       href="{{route('home')}}">home</a>
+                                </li>
+                                @auth()
+                                    <li class="">
+                                        <a class="material-symbols-rounded nav-icon"
+                                           href="{{route('pagina-personale.ricercatore.index')}}">person</a>
+                                    </li>
+                                @endauth
                             </ul>
                         </div>
                     </nav> <!-- navbar -->
@@ -80,4 +62,10 @@
             </div> <!-- row -->
         </div> <!-- container -->
     </div> <!-- navgition -->
+
+    <style>
+        .nav-icon {
+            padding: 0.75rem 1rem;
+        }
+    </style>
 @endsection

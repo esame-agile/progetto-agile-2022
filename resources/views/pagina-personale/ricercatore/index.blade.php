@@ -1,9 +1,6 @@
 @extends('layouts.main')
 @include('/pagina-personale/alert-message')
 @section('content')
-    <!--====== pagina-personale css ======-->
-    <link rel="stylesheet" href="{{ asset('css/pagina-personale.css') }}">
-
     <div class="container mx-auto">
         <!--- Copertina del profilo --->
         <div class="card copertina-profilo">

@@ -29,4 +29,8 @@ class Ricercatore extends Utente
             $query->where('ruolo', 'ricercatore');
         });
     }
+
+    public function progetti(){
+        return $this->hasMany(Progetto::class);
+    }
 }

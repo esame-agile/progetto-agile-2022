@@ -27,4 +27,8 @@ class Finanziatore extends Utente
             $query->where('ruolo', 'finanziatore');
         });
     }
+
+    public function progetti(){
+        return $this->hasMany(Progetto::class);
+    }
 }

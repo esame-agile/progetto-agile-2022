@@ -48,7 +48,7 @@ class PaginaPersonaleTest extends TestCase
 
     public function test_utente_puo_modificare_i_suoi_campi_index_returns_a_successful_response()
     {
-        $faker = Faker\Factory::create();;
+        $faker = Faker\Factory::create();
         $ricercatore =  Ricercatore::factory()->create();
         $this->post('/login', [
             'email' => $ricercatore->email,

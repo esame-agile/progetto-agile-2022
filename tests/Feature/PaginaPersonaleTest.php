@@ -13,7 +13,7 @@ class PaginaPersonaleTest extends TestCase
      *
      * @return void
      */
-    public function test_the_pagina_personale_index_returns_a_successful_response()
+    public function test_pagina_personale_index_returns_a_successful_response()
     {
 
         $ricercatore = Ricercatore::factory()->create();
@@ -27,13 +27,13 @@ class PaginaPersonaleTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_the_pagina_personale_non_puo_essere_visualizzata_da_un_guest_index_returns_a_successful_response()
+    public function test_pagina_personale_non_puo_essere_visualizzata_da_un_guest_index_returns_a_successful_response()
     {
         $response = $this->get('/pagina-personale/ricercatore/index');
         $response->assertStatus(302);
     }
 
-    public function test_the_utente_puo_accedere_alla_pagina_di_modifica_delle_sue_informazioni_index_returns_a_successful_response()
+    public function test_utente_puo_accedere_alla_pagina_di_modifica_delle_sue_informazioni_index_returns_a_successful_response()
     {
         $ricercatore =  Ricercatore::factory()->create();
         $this->post('/login', [
@@ -46,7 +46,7 @@ class PaginaPersonaleTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_the_utente_puo_modificare_i_suoi_campi_index_returns_a_successful_response()
+    public function test_utente_puo_modificare_i_suoi_campi_index_returns_a_successful_response()
     {
         $faker = Faker\Factory::create();;
         $ricercatore =  Ricercatore::factory()->create();
@@ -70,7 +70,7 @@ class PaginaPersonaleTest extends TestCase
         $response->assertRedirect('pagina-personale/ricercatore/index?utente='.$ricercatore->id_utente);
     }
 
-    public function test_the_pagina_edit_restituisce_errore_se_i_campi_non_sono_validi_index_returns_a_successful_response()
+    public function test_pagina_edit_restituisce_errore_se_i_campi_non_sono_validi_index_returns_a_successful_response()
     {
         $ricercatore =  Ricercatore::factory()->create();
         $this->post('/login', [
@@ -93,7 +93,7 @@ class PaginaPersonaleTest extends TestCase
         $response->assertRedirect('pagina-personale/ricercatore/edit-info/'.$ricercatore->id_utente);
     }
 
-    public function test_the_guest_non_puo_modificare_informazioni_di_un_utente_index_returns_a_successful_response()
+    public function test_guest_non_puo_modificare_informazioni_di_un_utente_index_returns_a_successful_response()
     {
         $response = $this->get('/pagina-personale/ricercatore/edit-info/'.rand(1,10));
         $response->assertStatus(302);

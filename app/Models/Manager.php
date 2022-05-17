@@ -8,7 +8,6 @@ class Manager extends Utente
 {
     use HasFactory;
     protected $table = 'utenti';
-    protected $primaryKey = 'id_utente';
     public $timestamps = true;
 
 

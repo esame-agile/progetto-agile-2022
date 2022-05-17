@@ -48,7 +48,7 @@ class PaginaPersonaleController extends Controller
 
         switch ($utente->ruolo) {
             case 'ricercatore':
-                $utente = Ricercatore::find($utente->id_utente);
+                $utente = Ricercatore::find($utente->id);
                 $this->validateRicercatoreOrResponsabile();
                 if($request->password != null) {
                     $this->validatePassword();
@@ -58,7 +58,7 @@ class PaginaPersonaleController extends Controller
                 }
                 break;
             case 'responsabile':
-                $utente = Responsabile::find($utente->id_utente);
+                $utente = Responsabile::find($utente->id);
                 $this->validateRicercatoreOrResponsabile();
                 if($request->password != null) {
                     $this->validatePassword();
@@ -68,7 +68,7 @@ class PaginaPersonaleController extends Controller
                 }
                 break;
             case 'finanziatore':
-                $utente = Finanziatore::find($utente->id_utente);
+                $utente = Finanziatore::find($utente->id);
                 $this->validateFinanziatore();
                 if($request->password != null) {
                     $this->validatePassword();
@@ -78,7 +78,7 @@ class PaginaPersonaleController extends Controller
                 }
                 break;
             case 'manager':
-                $utente = Manager::find($utente->id_utente);
+                $utente = Manager::find($utente->id);
                 if($request->password != null) {
                     $this->validatePassword();
                     $utente->update($request->all(['nome', 'cognome', 'email', 'password']));

@@ -4,10 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\Ricercatore;
 use Faker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PaginaPersonaleTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * Apertura vista pagina-personale.
      *

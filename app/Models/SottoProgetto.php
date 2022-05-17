@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Progetto extends Model
+class SottoProgetto extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'progetti';
+    protected $table = 'sotto_progetti';
     public $timestamps = true;
 
     /**
@@ -22,25 +22,24 @@ class Progetto extends Model
     protected $fillable = [
         'titolo',
         'descrizione',
-        'scopo',
-        'data_inizio',
-        'data_fine',
+        'data_rilascio',
         'responsabile_id',
+        'progetto_id',
     ];
 
     public function responsabile(){
         return $this->belongsTo(Responsabile::class, 'responsabile_id');
     }
 
-    public function finanziatori(){
-        return $this->hasMany(Finanziatore::class);
+    public function progetto(){
+        return $this->belongsTo(Progetto::class, 'progetto_id');
     }
 
     public function ricercatori(){
         return $this->hasMany(Ricercatore::class);
     }
 
-    public function sotto_progetti(){
-        return $this->hasMany(SottoProgetto::class);
+    public function milestones(){
+        return $this->hasMany(Milestone::class);
     }
 }

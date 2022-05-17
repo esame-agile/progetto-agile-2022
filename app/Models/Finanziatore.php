@@ -9,7 +9,6 @@ class Finanziatore extends Utente
 {
     use HasFactory;
     protected $table = 'utenti';
-    protected $primaryKey = 'id_utente';
     public $timestamps = true;
 
     public function __construct(array $attributes = [])

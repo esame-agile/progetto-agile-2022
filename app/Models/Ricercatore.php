@@ -9,7 +9,6 @@ class Ricercatore extends Utente
 {
     use HasFactory;
     protected $table = 'utenti';
-    protected $primaryKey = 'id_utente';
     public $timestamps = true;
 
 
@@ -32,5 +31,9 @@ class Ricercatore extends Utente
 
     public function progetti(){
         return $this->hasMany(Progetto::class);
+    }
+
+    public function sotto_progetto(){
+        return $this->hasMany(SottoProgetto::class);
     }
 }

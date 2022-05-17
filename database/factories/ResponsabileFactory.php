@@ -27,7 +27,8 @@ class ResponsabileFactory extends UtenteFactory
     public function definition()
     {
         return array_merge(Parent::definition(),
-            ['ruolo' => 'responsabile',
+            [
+                'ruolo' => 'responsabile',
                 'data_nascita' => $this->faker->date(),
                 'universita' => $this->faker->company,
                 'ambito_ricerca' => $this->faker->sentence,

@@ -43,7 +43,7 @@ class PaginaPersonaleTest extends TestCase
             'password' => 'password',
         ]);
         $this->assertAuthenticated();
-        $response = $this->get('/pagina-personale/ricercatore/edit-info/'.$ricercatore->id_utente);
+        $response = $this->get('/pagina-personale/ricercatore/edit-info/'.$ricercatore->id);
 
         $response->assertStatus(200);
     }
@@ -57,8 +57,8 @@ class PaginaPersonaleTest extends TestCase
             'password' => 'password',
         ]);
         $this->assertAuthenticated();
-        $this->get('/pagina-personale/ricercatore/edit-info/'.$ricercatore->id_utente);
-        $response = $this->put('pagina-personale/ricercatore/update-info/'.$ricercatore->id_utente, [
+        $this->get('/pagina-personale/ricercatore/edit-info/'.$ricercatore->id);
+        $response = $this->put('pagina-personale/ricercatore/update-info/'.$ricercatore->id, [
             'nome' => $faker->firstName(),
             'cognome' => $faker->lastName(),
             'email' => $faker->safeEmail(),
@@ -69,7 +69,7 @@ class PaginaPersonaleTest extends TestCase
             'ambito_ricerca' => 'Ingegneria',
         ]);
 
-        $response->assertRedirect('pagina-personale/ricercatore/index?utente='.$ricercatore->id_utente);
+        $response->assertRedirect('pagina-personale/ricercatore/index?utente='.$ricercatore->id);
     }
 
     public function test_pagina_edit_restituisce_errore_se_i_campi_non_sono_validi_index_returns_a_successful_response()
@@ -80,8 +80,8 @@ class PaginaPersonaleTest extends TestCase
             'password' => 'password',
         ]);
         $this->assertAuthenticated();
-        $this->get('/pagina-personale/ricercatore/edit-info/'.$ricercatore->id_utente);
-        $response = $this->put('pagina-personale/ricercatore/update-info/'.$ricercatore->id_utente, [
+        $this->get('/pagina-personale/ricercatore/edit-info/'.$ricercatore->id);
+        $response = $this->put('pagina-personale/ricercatore/update-info/'.$ricercatore->id, [
             'nome' => '',
             'cognome' => '',
             'email' => '',
@@ -92,7 +92,7 @@ class PaginaPersonaleTest extends TestCase
             'ambito_ricerca' => '',
         ]);
 
-        $response->assertRedirect('pagina-personale/ricercatore/edit-info/'.$ricercatore->id_utente);
+        $response->assertRedirect('pagina-personale/ricercatore/edit-info/'.$ricercatore->id);
     }
 
     public function test_guest_non_puo_modificare_informazioni_di_un_utente_index_returns_a_successful_response()

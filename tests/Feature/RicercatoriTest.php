@@ -15,7 +15,7 @@ class RicercatoriTest extends TestCase
     {
         $ricercatore = Ricercatore::factory()->create();
 
-        $response = $this->get('/pagina-personale/ricercatore/index/'.$ricercatore->id_utente);
+        $response = $this->get('/pagina-personale/ricercatore/index/'.$ricercatore->id);
 
         $response->assertStatus(200);
     }

@@ -54,20 +54,11 @@ jobs:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: ankane/setup-mysql@v1
-        with:
-          mysql-version: 8.0
-          database: laravel
-      - run: mysql -D laravel -e 'SELECT VERSION()'
-      - run: mysql -D laravel -e 'SELECT CURRENT_USER()'
-      - run: mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
-
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
           php-version: '8.0'
       - uses: actions/checkout@v3
-      - name: Copy .env ubuntu
+      - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -77,11 +68,16 @@ jobs:
         run: php artisan key:generate
       - name: Clear Cache
         run: php artisan cache:clear; php artisan config:clear;
+      - uses: actions/checkout@v1
+      - uses: ankane/setup-mysql@v1
+        with:
+          mysql-version: 8.0
+          database: laravel
       - name: Migrate
         env:
           MYSQL_DATABASE: laravel
           DB_USERNAME: laravel_user
-          DB_PASSWORD: laravel_pass
+          DB_PASSWORD: root
           DB_PORT: 3306
         run: php artisan migrate:fresh
       - name: Execute tests (Unit and Feature tests) via PHPUnit

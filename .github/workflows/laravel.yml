@@ -82,7 +82,6 @@ jobs:
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
           MYSQL_DATABASE: laravel
-          DB_USERNAME: laravel_user
-          DB_PASSWORD: laravel_pass
+          DB_USERNAME: runner
           DB_PORT: 3306
         run: vendor/bin/phpunit

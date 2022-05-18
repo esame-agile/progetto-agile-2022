@@ -101,63 +101,73 @@
         <div class="row">
             <div class="w-full">
                 <div class="row testimonial-active">
-                    <div class="w-full lg:w-1/3">
-                        <div class="text-center single-testimonial">
-                            <div class="testimonial-image">
-                                <img src={{ asset('images/francesca.jpg') }}  alt="Author">
-                            </div>
-                            <div class="testimonial-content">
-                                <p class="pb-5 mb-6 border-b border-gray-300">“I migliori studi e le ricerche che si possono fare, sono quelli fatti per seguire le proprie passioni e soddisfare la propria curiosità. Non è indispensabile avere basi o conoscenze pregresse, la cosa più importante è avere passione e voglia di comprendere e imparare ciò che non conosciamo. La curiosità di cercare di capire è il vero motore della vita.”</p>
-                                <h6 class="text-lg font-semibold text-gray-900">Francesca Moreira</h6>
-                            </div>
-                        </div> <!-- single testimonial -->
-                    </div>
-                    <div class="w-full lg:w-1/3">
-                        <div class="text-center single-testimonial">
-                            <div class="testimonial-image">
-                                <img src={{ asset('images/jacob.jpg') }}  alt="Author">
-                            </div>
-                            <div class="testimonial-content">
-                                <p class="pb-5 mb-6 border-b border-gray-300">“Non sono arrabbiato con Linux, davvero, e nemmeno lui ce l'ha con me.”</p>
-                                <h6 class="text-lg font-semibold text-gray-900">Jacob Deidda</h6>
+                    <x-research-card>
+                        <x-slot name="foto">
+                            <img src={{ asset('images/francesca.jpg') }}  alt="Author">
+                        </x-slot>
 
-                            </div>
-                        </div> <!-- single testimonial -->
-                    </div>
-                    <div class="w-full lg:w-1/3">
-                        <div class="text-center single-testimonial">
-                            <div class="testimonial-image">
-                                <img src={{ asset('images/Roberto.jpg') }}  alt="Author">
-                            </div>
-                            <div class="testimonial-content">
-                                <p class="pb-5 mb-6 border-b border-gray-300">“Vine sollecita il desiderio di essere registi e attori della propria vita; tenere il dito premuto sullo schermo, poi toglierlo, cambiareinquadratura e ripetere la stessa operazione più volte è un gesto essenziale che traduce un profondo mutamento di punto di vista. E cambiare punto di vista costringe a stimolare la creatività.”</p>
-                                <h6 class="text-lg font-semibold text-gray-900">Roberto Paolini</h6>
-                            </div>
-                        </div> <!-- single testimonial -->
-                    </div>
-                    <div class="w-full lg:w-1/3">
-                        <div class="text-center single-testimonial">
-                            <div class="testimonial-image">
-                                <img src={{ asset('images/cinese.jpg') }}  alt="Author">
-                            </div>
-                            <div class="testimonial-content">
-                                <p class="pb-5 mb-6 border-b border-gray-300">“Il test di un programma può essere usato per mostrare la presenza di bug, ma mai per mostrare la loro assenza.”</p>
-                                <h6 class="text-lg font-semibold text-gray-900">Mei Ling Huang</h6>
-                            </div>
-                        </div> <!-- single testimonial -->
-                        <!-- single testimonial -->
-                    </div>
-                    <div class="w-full lg:w-1/3">
-                        <div class="text-center single-testimonial">
-                            <div class="testimonial-image">
-                                <img src={{ asset('images/tedesca.jpg') }}  alt="Author">
-                            </div>
-                            <div class="testimonial-content">
-                                <p class="pb-5 mb-6 border-b border-gray-300">"Considerando il cattivo stato dei nostri atttuali programmi per computer, lo sviluppo del software è chiaramente ancora una magia nera, e non può essere ancora definita una disciplina ingegneristica."</p>
-                                <h6 class="text-lg font-semibold text-gray-900">Beatrix Weber</h6>
-                            </div>
-                        </div> <!-- single testimonial -->
-                    </div>
+                        <x-slot name="testo">
+                            “I migliori studi e le ricerche che si possono fare, sono quelli fatti per seguire le proprie passioni e soddisfare la propria curiosità. Non è indispensabile avere basi o conoscenze pregresse, la cosa più importante è avere passione e voglia di comprendere e imparare ciò che non conosciamo. La curiosità di cercare di capire è il vero motore della vita.”
+                        </x-slot>
+
+                        <x-slot name="nome">
+                            Francesca Moreira
+                        </x-slot>
+
+                    </x-research-card>
+                    <x-research-card>
+                        <x-slot name="foto">
+                            <img src={{ asset('images/Jacob.jpg') }}  alt="Author">
+                        </x-slot>
+
+                        <x-slot name="testo">
+                            “Non sono arrabbiato con Linux, davvero, e nemmeno lui ce l'ha con me.”
+                        </x-slot>
+
+                        <x-slot name="nome">
+                            Jacob Deidda
+                        </x-slot>
+                    </x-research-card>
+                    <x-research-card>
+                        <x-slot name="foto">
+                            <img src={{ asset('images/Roberto.jpg') }}  alt="Author">
+                        </x-slot>
+
+                        <x-slot name="testo">
+                            “Vine sollecita il desiderio di essere registi e attori della propria vita; tenere il dito premuto sullo schermo, poi toglierlo, cambiareinquadratura e ripetere la stessa operazione più volte è un gesto essenziale che traduce un profondo mutamento di punto di vista. E cambiare punto di vista costringe a stimolare la creatività.”
+                        </x-slot>
+
+                        <x-slot name="nome">
+                            Roberto Paolini
+                        </x-slot>
+                    </x-research-card>
+                    <x-research-card>
+                        <x-slot name="foto">
+                            <img src={{ asset('images/cinese.jpg') }}  alt="Author">
+                        </x-slot>
+
+                        <x-slot name="testo">
+                            “Il test di un programma può essere usato per mostrare la presenza di bug, ma mai per mostrare la loro assenza.”
+                        </x-slot>
+
+                        <x-slot name="nome">
+                            Mei Ling Huang
+                        </x-slot>
+                    </x-research-card>
+
+                    <x-research-card>
+                        <x-slot name="foto">
+                            <img src={{ asset('images/tedesca.jpg') }}  alt="Author">
+                        </x-slot>
+
+                        <x-slot name="testo">
+                            "Considerando il cattivo stato dei nostri atttuali programmi per computer, lo sviluppo del software è chiaramente ancora una magia nera, e non può essere ancora definita una disciplina ingegneristica."
+                        </x-slot>
+
+                        <x-slot name="nome">
+                            Beatrix Weber
+                        </x-slot>
+                    </x-research-card>
                 </div> <!-- row -->
             </div>
         </div> <!-- row -->

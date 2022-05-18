@@ -79,7 +79,4 @@ jobs:
       - name: Migrate
         run: php artisan migrate:fresh
       - name: Execute tests (Unit and Feature tests) via PHPUnit
-        env:
-          MYSQL_DATABASE: laravel
-          DB_USERNAME: laravel_user
         run: vendor/bin/phpunit

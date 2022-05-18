@@ -76,4 +76,9 @@ jobs:
       - name: Migrate
         run: php artisan migrate:fresh
       - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          MYSQL_DATABASE: laravel
+          DB_USERNAME: root
+          DB_PASSWORD: root
+          DB_PORT: 3306
         run: vendor/bin/phpunit

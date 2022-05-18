@@ -79,6 +79,5 @@ jobs:
         env:
           MYSQL_DATABASE: laravel
           DB_USERNAME: laravel_user
-          DB_PASSWORD: laravel_pass
-          DB_PORT: 3306
+
         run: vendor/bin/phpunit

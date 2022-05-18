@@ -48,7 +48,25 @@ class Utente extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function isManager(): bool
+    {
+        return $this->ruolo == 'manager';
+    }
 
+    public function isRicercatore(): bool
+    {
+        return $this->ruolo == 'ricercatore';
+    }
+
+    public function isResponsabile(): bool
+    {
+        return $this->ruolo == 'responsabile';
+    }
+
+    public function isFinanziatore(): bool
+    {
+        return $this->ruolo == 'finanziatore';
+    }
     /**
      * restituisce l'utente se è manager
      */

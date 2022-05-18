@@ -36,6 +36,12 @@ return [
     */
 
     'guards' => [
+        //TODO: guardie per ogni utente
+        'manager' => [
+            'driver' => 'session',
+            'provider' => 'manager',
+        ],
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -60,6 +66,11 @@ return [
     */
 
     'providers' => [
+        //TODO: providers di ogni utente
+        'manager' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Manager::class,
+        ],
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\Utente::class,

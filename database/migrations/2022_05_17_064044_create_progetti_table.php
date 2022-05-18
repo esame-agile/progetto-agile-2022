@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('titolo');
             $table->string('descrizione');
             $table->string('scopo');
-            $table->timestamp('data_inizio');
-            $table->timestamp('data_fine');
+            $table->date('data_inizio');
+            $table->date('data_fine');
             $table->foreignId('responsabile_id')->constrained('utenti');
             $table->timestamps();
         });

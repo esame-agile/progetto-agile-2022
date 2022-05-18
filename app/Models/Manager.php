@@ -10,6 +10,8 @@ class Manager extends Utente
     protected $table = 'utenti';
     public $timestamps = true;
 
+    //TODO
+    protected $guard = 'manager';
 
     public function __construct(array $attributes = [])
     {

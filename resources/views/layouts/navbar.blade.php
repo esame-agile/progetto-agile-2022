@@ -31,7 +31,7 @@
                                     @endforeach
                                 @endif
                                 @auth()
-                                    @if(Route::currentRouteName() != 'pagina-personale.ricercatore.index' && Auth::user()->isRicercatore())
+                                    @if(Route::currentRouteName() != 'pagina-personale.ricercatore.index' && Auth::user()->ruolo=='ricercatore')
                                         <li class="nav-item">
                                             <a class="nav-link"
                                                href="{{route('pagina-personale.ricercatore.index')}}">PAGINA

@@ -5,26 +5,69 @@ on:
     branches: [ '**' ]
 
 jobs:
-  ubuntu-tests:
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_USER: "laravel_user"
-          MYSQL_PASSWORD: "laravel_pass"
-          MYSQL_ROOT_PASSWORD: "root"
-          MYSQL_DATABASE: "laravel"
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+#  ubuntu-tests:
+#    runs-on: ubuntu-latest
+#    services:
+#      mysql:
+#        image: mysql:8.0
+#        env:
+#          MYSQL_USER: "laravel_user"
+#          MYSQL_PASSWORD: "laravel_pass"
+#          MYSQL_ROOT_PASSWORD: "root"
+#          MYSQL_DATABASE: "laravel"
+#        ports:
+#          - 3306:3306
+#        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+#
+#    steps:
+#      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+#        with:
+#          php-version: '8.0'
+#      - uses: actions/checkout@v3
+#      - name: Copy .env ubuntu
+#        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+#      - name: Install Dependencies
+#        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+#      - name: Generate key
+#        run: php artisan key:generate
+#      - name: Directory Permissions
+#        run: chmod -R 777 storage bootstrap/cache
+#      - name: Clear Cache
+#        run: php artisan cache:clear; php artisan config:clear;
+#      - name: Migrate
+#        run: php artisan migrate:fresh
+#      - name: Execute tests (Unit and Feature tests) via PHPUnit
+#        env:
+#          MYSQL_DATABASE: laravel
+#          DB_USERNAME: laravel_user
+#          DB_PASSWORD: laravel_pass
+#          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+#        run: vendor/bin/phpunit
+
+
+  laravel-tests:
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest, ubuntu-latest ]
+        node-version: [ 6, 8, 10 ]
+        mysql-version: [8.0, 5.7, 5.6]
 
     steps:
+      - uses: actions/checkout@v1
+      - uses: ankane/setup-mysql@v1
+        with:
+          mysql-version: ${{ matrix.mysql-version }}
+          database: laravel
+      - run: mysql -D laravel -e 'SELECT VERSION()'
+      - run: mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
           php-version: '8.0'
       - uses: actions/checkout@v3
-      - name: Copy .env ubuntu
+      - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -41,27 +84,5 @@ jobs:
           MYSQL_DATABASE: laravel
           DB_USERNAME: laravel_user
           DB_PASSWORD: laravel_pass
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          DB_PORT: 3306
         run: vendor/bin/phpunit
-
-
-  windows-tests:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - uses: azure/sql-action@v1
-        with:
-          server-name: SQL_SERVER_NAME
-          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-          dacpac-package: './Database.dacpac'
-
-          # Azure logout
-      - name: logout
-        run: |
-          az logout
-
-

@@ -33,16 +33,18 @@ jobs:
           php-version: '8.0'
         if: ${{matrix.os == 'ubuntu-latest'}}
       - uses: actions/checkout@v3
-        if: ${{matrix.os == 'windows-latest' || matrix.os == 'macos-latest'}}
-          - uses: actions/checkout@v1
-          - uses: azure/login@v1
-            with:
-              creds: ${{ secrets.AZURE_CREDENTIALS }}
-          - uses: azure/sql-action@v1
-            with:
-              server-name: SQL_SERVER_NAME
-              connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-              dacpac-package: './Database.dacpac'
+      if: ${{matrix.os == 'windows-latest' || matrix.os == 'macos-latest'}}
+      - uses: actions/checkout@v1
+      if: ${{matrix.os == 'windows-latest' || matrix.os == 'macos-latest'}}
+      - uses: azure/login@v1
+        with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+      if: ${{matrix.os == 'windows-latest' || matrix.os == 'macos-latest'}}
+      - uses: azure/sql-action@v1
+        with:
+            server-name: SQL_SERVER_NAME
+            connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+            dacpac-package: './Database.dacpac'
       - name: Copy .env ubuntu
         if: ${{matrix.os == 'ubuntu-latest'}}
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"

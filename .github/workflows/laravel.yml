@@ -78,10 +78,12 @@ jobs:
       - name: Clear Cache
         run: php artisan cache:clear; php artisan config:clear;
       - name: Migrate
-        run: php artisan migrate:fresh
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
           MYSQL_DATABASE: laravel
-          DB_USERNAME: runner
+          DB_USERNAME: laravel_user
+          DB_PASSWORD: laravel_pass
           DB_PORT: 3306
+        run: php artisan migrate:fresh
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+
         run: vendor/bin/phpunit

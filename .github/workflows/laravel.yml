@@ -1,8 +1,8 @@
 name: Laravel
 
 on:
- push:
-   branches: [ '**' ]
+  push:
+    branches: [ '**' ]
 
 jobs:
   laravel-tests:
@@ -33,16 +33,16 @@ jobs:
           php-version: '8.0'
         if: ${{matrix.os == 'ubuntu-latest'}}
       - uses: actions/checkout@v3
-      else:
-        - uses: actions/checkout@v1
-        - uses: azure/login@v1
-          with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
-        - uses: azure/sql-action@v1
-          with:
-            server-name: SQL_SERVER_NAME
-            connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-            dacpac-package: './Database.dacpac'
+        else:
+          - uses: actions/checkout@v1
+          - uses: azure/login@v1
+            with:
+              creds: ${{ secrets.AZURE_CREDENTIALS }}
+          - uses: azure/sql-action@v1
+            with:
+              server-name: SQL_SERVER_NAME
+              connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+              dacpac-package: './Database.dacpac'
       - name: Copy .env ubuntu
         if: ${{matrix.os == 'ubuntu-latest'}}
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -58,12 +58,12 @@ jobs:
         run: php artisan key:generate
       - name: Directory Permissions
         run:  |
-              if [${{matrix.os == 'windows-latest'}}]
-                takeown /f storage bootstrap/cache /r /d y
-                icacls storage bootstrap/cache /grant administrators:F /t
-              elseif [${{matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest'}}]
-                chmod -R 777 storage bootstrap/cache
-              fi
+          if [${{matrix.os == 'windows-latest'}}]
+            takeown /f storage bootstrap/cache /r /d y
+            icacls storage bootstrap/cache /grant administrators:F /t
+          elseif [${{matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest'}}]
+            chmod -R 777 storage bootstrap/cache
+          fi
         shell: bash
       - name: Clear Cache
         run: php artisan cache:clear; php artisan config:clear;
@@ -78,5 +78,5 @@ jobs:
         run: vendor/bin/phpunit
         if: ${{matrix.os == 'ubuntu-latest'}}
       - name: logout
-          run: |
-              az logout
+        run: |
+          az logout

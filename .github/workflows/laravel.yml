@@ -33,7 +33,7 @@ jobs:
           php-version: '8.0'
         if: ${{matrix.os == 'ubuntu-latest'}}
       - uses: actions/checkout@v3
-        else:
+        if: ${{matrix.os == 'windows-latest' || matrix.os == 'macos-latest'}}
           - uses: actions/checkout@v1
           - uses: azure/login@v1
             with:

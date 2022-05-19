@@ -13,7 +13,7 @@
                         @endif
                         @foreach($progetti as $progetto)
                          <div style='background-color:rgb(255, 255, 255)'>
-                                <div class="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-4" style="cursor: autoqui;">
+                                <div class="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-4" style="cursor: auto;">
                                     <div class="max-w-lg mx-auto overflow-hidden rounded-lg shadow-lg lg:max-w-none lg:flex">
                                         <div class="flex-1 px-6 py-8 bg-white" style="cursor: auto;">
                                             <h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl" style="cursor: auto;">

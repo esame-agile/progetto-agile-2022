@@ -16,12 +16,9 @@ class ProgettoController extends Controller
     public function index()
     {
         $nav = [
-            ['label' => 'TUTTI I PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
-
+            ['label' => 'TUTTI I PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/manager/tuttiprogetti'],
             ['label' => 'CREA PROGETT0', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/manager/creazioneprogetti'],
-
             ['label' => 'GESTIONE PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
-
         ];
 
         $ricercatori = Utente::where('ruolo', '=', 'ricercatore')->get();
@@ -38,12 +35,9 @@ class ProgettoController extends Controller
     public function storeProgetto(Request $request)
     {
         $nav = [
-            ['label' => 'TUTTI I PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
-
+            ['label' => 'TUTTI I PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/manager/tuttiprogetti'],
             ['label' => 'CREA PROGETT0', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/manager/creazioneprogetti'],
-
             ['label' => 'GESTIONE PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
-
         ];
 
         $progetto = new Progetto;
@@ -54,10 +48,11 @@ class ProgettoController extends Controller
         $progetto->data_fine = $request->datafine;
         $progetto->responsabile_id = $request->get('selectRes');
 
-
-
         $progetto->save();
-        return view('manager.manager_successful_access', compact('nav'));
+
+        $progetti = Progetto::all();
+
+        return view('manager.tutti_progetti', compact('nav', 'progetti'));
 
     }
 

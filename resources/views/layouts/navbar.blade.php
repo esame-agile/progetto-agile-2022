@@ -31,35 +31,17 @@
                                     @endforeach
                                 @endif
                                 @auth()
-                                    @if(Route::currentRouteName() != 'pagina-personale.ricercatore.index' && Auth::user()->ruolo=='ricercatore')
                                         <li class="nav-item">
                                             <a class="nav-link"
-                                               href="{{route('pagina-personale.ricercatore.index')}}">PAGINA
-                                                PERSONALE</a>
+                                               @switch(Auth::user()->ruolo)
+                                                   @case('ricercatore')
+                                                   href="{{route('pagina-personale.ricercatore.index')}}">PAGINA PERSONALE
+
+                                                @break
+                                               @endswitch
+                                            </a>
+
                                         </li>
-                                    @endif
-                                {{-- da aggiungere quando verranno create le pagine personali degli altri utenti --}}
-                                {{--@if(Route::currentRouteName() != 'pagina-personale.responsabile.index' && Auth::user()->isResponsabile())
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{route('pagina-personale.responsabile.index')}}">PAGINA
-                                                PERSONALE</a>
-                                        </li>
-                                    @endif
-                                    @if(Route::currentRouteName() != 'pagina-personale.Manager.index' && Auth::user()->isManager())
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{route('pagina-personale.ricercatore.index')}}">PAGINA
-                                                PERSONALE</a>
-                                        </li>
-                                    @endif
-                                    @if(Route::currentRouteName() != 'pagina-personale.ricercatore.index' && Auth::user()->isFinanziatore())
-                                        <li class="nav-item">
-                                            <a class="nav-link"
-                                               href="{{route('pagina-personale.ricercatore.index')}}">PAGINA
-                                                PERSONALE</a>
-                                        </li>
-                                    @endif      --}}
                                     <li class="nav-item">
                                         <form method="POST" action="{{ route('logout') }}" id="logout">
                                             @csrf

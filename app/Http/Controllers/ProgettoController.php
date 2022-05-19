@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Progetto;
+use App\Models\Utente;
 use Illuminate\Http\Request;
 
 class ProgettoController extends Controller
@@ -15,22 +16,17 @@ class ProgettoController extends Controller
     public function index()
     {
         $nav = [
-            ['label' => 'CHI SIAMO', 'class' => 'page-scroll', 'href' => '#service'],
-            ['label' => 'TOP 5', 'class' => 'page-scroll', 'href' => '#testimonial'],
-            ['label' => 'LOG IN', 'class' => 'nav-link', 'href' => ""]
+            ['label' => 'TUTTI I PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
+
+            ['label' => 'CREA PROGETT0', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/manager/creazioneprogetti'],
+
+            ['label' => 'GESTIONE PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
+
         ];
 
-        return view('home', compact('nav'));
-    }
+        $ricercatori = Utente::where('ruolo', '=', 'ricercatore')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('manager.creazione-progetti', compact('nav', 'ricercatori'));
     }
 
     /**
@@ -39,7 +35,40 @@ class ProgettoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeProgetto(Request $request)
+    {
+        $nav = [
+            ['label' => 'TUTTI I PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
+
+            ['label' => 'CREA PROGETT0', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/manager/creazioneprogetti'],
+
+            ['label' => 'GESTIONE PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
+
+        ];
+
+        $progetto = new Progetto;
+        $progetto->titolo = $request->titolo;
+        $progetto->descrizione = $request->descrizione;
+        $progetto->scopo = $request->scopo;
+        $progetto->data_inizio = $request->datainizio;
+        $progetto->data_fine = $request->datafine;
+        $progetto->responsabile_id = $request->get('selectRes');
+
+
+
+        $progetto->save();
+        return view('manager.manager_successful_access', compact('nav'));
+
+    }
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
         //
     }

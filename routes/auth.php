@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
                 ->name('logout');
 
     Route::get('/manager', [LoginController::class, 'loginManager']);
+    Route::post('/manager', [LoginController::class, 'loginManager']);
 
     Route::get('/entefinanziatore', [LoginController::class, 'loginEnteFinanziatore']);
 

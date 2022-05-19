@@ -9,7 +9,12 @@ class LoginController extends Controller
     public function loginManager()
     {
         $nav = [
-            ['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
+            ['label' => 'TUTTI I PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
+
+            ['label' => 'CREA PROGETT0', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/manager/creazioneprogetti'],
+
+            ['label' => 'GESTIONE PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
+
         ];
 
         return view('manager.manager_successful_access',compact('nav'));

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PaginaPersonaleController;
+use App\Http\Controllers\ProgettoController;
 use App\Http\Controllers\RicercatoriController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,9 @@ Route::get('/', function () {
     return view('home', compact('nav'));
 });
 
+//Route sulla creazione dei progetti
+Route::get('manager/creazioneprogetti', [ProgettoController::class, 'index']);
+Route::post('manager/creazioneprogetti',[ProgettoController::class, 'storeProgetto'])->name('creaprogetto');
 
 Route::prefix('pagina-personale/ricercatore')->group(function () {
     /**

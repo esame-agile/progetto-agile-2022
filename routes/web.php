@@ -22,6 +22,7 @@ Route::get('/', function () {
 //Route sulla creazione dei progetti
 Route::get('manager/creazioneprogetti', [ProgettoController::class, 'index']);
 Route::post('manager/creazioneprogetti',[ProgettoController::class, 'storeProgetto'])->name('creaprogetto');
+Route::get('manager/tuttiprogetti', [ProgettoController::class, 'tuttiProgetti']);
 
 Route::prefix('pagina-personale/ricercatore')->group(function () {
     /**

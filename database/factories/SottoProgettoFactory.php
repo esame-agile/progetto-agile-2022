@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Progetto;
-use App\Models\Responsabile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,14 +17,14 @@ class SottoProgettoFactory extends Factory
     public function definition()
     {
         return [
-            'titolo' => $this->faker->sentence(true),
-            'descrizione' => $this->faker->sentence(true),
+            'titolo' => $this->faker->sentence,
+            'descrizione' => $this->faker->paragraph,
             'data_rilascio' => $this->faker->dateTimeBetween(now(), '+1 month')->format('Y-m-d'),
             'responsabile_id' => function () {
-                return Responsabile::factory()->create()->id;
+                return ResponsabileFactory::new()->create()->id;
             },
             'progetto_id' => function () {
-                return Progetto::factory()->create()->id;
+                return ProgettoFactory::new()->create()->id;
             },
         ];
     }

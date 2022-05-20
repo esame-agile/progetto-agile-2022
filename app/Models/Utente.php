@@ -47,11 +47,6 @@ class Utente extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function hasRuolo($ruolo): bool
-    {
-        return $this->ruolo == $ruolo;
-    }
-
     /**
      * restituisce l'utente se è manager
      */

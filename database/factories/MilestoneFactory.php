@@ -21,7 +21,7 @@ class MilestoneFactory extends Factory
             'data_evento' => $this->faker->date(),
             'descrizione' => $this->faker->sentence(),
             'sotto_progetto_id' => function () {
-                return SottoProgetto::factory()->create()->id;
+                return SottoProgettoFactory::new()->create()->id;
             },
         ];
     }

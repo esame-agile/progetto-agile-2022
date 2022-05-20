@@ -6,9 +6,7 @@
     @yield('head')
     <body>
     @yield('navbar')
-    <div class="mt-40">
-        @yield('content')
-    </div>
+    @yield('content')
     </body>
     @yield('footer')
 </html>

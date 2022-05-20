@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Responsabile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,13 +19,13 @@ class ProgettoFactory extends Factory
     {
         return [
             'titolo' => $this->faker->city(),
-            'descrizione' => $this->faker->paragraphs(),
-            'scopo' => $this->faker->sentence(),
+            'descrizione' => $this->faker->sentence(true),
+            'scopo' => $this->faker->sentence(true),
             'data_inizio' => now()->format('Y-m-d'),
             'data_fine' => $this->faker->dateTimeBetween($startDate = now(), $endDate = '+1 years')->format('Y-m-d'),
             'responsabile_id' => function () {
-                return ResponsabileFactory::new()->create()->id;
-            },
+                return Responsabile::factory()->create()->id;
+            }
         ];
     }
 }

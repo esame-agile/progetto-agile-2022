@@ -115,7 +115,7 @@
                     <div class="w-full lg:w-1/3">
                         <div class="text-center single-testimonial">
                             <div class="testimonial-image">
-                                <img src={{ asset('images/jacob.jpg') }}  alt="Author">
+                                <img src={{ asset('images/Jacob.jpg') }}  alt="Author">
                             </div>
                             <div class="testimonial-content">
                                 <p class="pb-5 mb-6 border-b border-gray-300">“Non sono arrabbiato con Linux, davvero, e nemmeno lui ce l'ha con me.”</p>

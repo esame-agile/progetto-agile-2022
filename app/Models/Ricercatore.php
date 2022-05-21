@@ -12,7 +12,6 @@ class Ricercatore extends Utente
     public $timestamps = true;
 
 
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

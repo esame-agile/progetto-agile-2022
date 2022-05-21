@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Model;
 
 class Utente extends Authenticatable
 {
@@ -15,6 +13,7 @@ class Utente extends Authenticatable
     protected $table = 'utenti';
     protected $primaryKey = 'id';
     public $timestamps = true;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -48,25 +47,11 @@ class Utente extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function isManager(): bool
+    public function hasRuolo($ruolo): bool
     {
-        return $this->ruolo == 'manager';
+        return $this->ruolo == $ruolo;
     }
 
-    public function isRicercatore(): bool
-    {
-        return $this->ruolo == 'ricercatore';
-    }
-
-    public function isResponsabile(): bool
-    {
-        return $this->ruolo == 'responsabile';
-    }
-
-    public function isFinanziatore(): bool
-    {
-        return $this->ruolo == 'finanziatore';
-    }
     /**
      * restituisce l'utente se è manager
      */

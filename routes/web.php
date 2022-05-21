@@ -1,28 +1,16 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Milestones\MilestoneController;
 use App\Http\Controllers\PaginaPersonaleController;
-use App\Http\Controllers\ProgettoController;
 use App\Http\Controllers\RicercatoriController;
 use Illuminate\Support\Facades\Route;
-
-
 
 /**
  * Vista home.
  *
  */
-Route::get('/', function () {
-    $nav = [
-        ['label' => 'TOP 5', 'class' => 'page-scroll', 'href' => '#testimonial'],        ['label' => 'CHI SIAMO', 'class' => 'page-scroll', 'href' => '#service'],
-    ];
-    return view('home', compact('nav'));
-});
-
-//Route sulla creazione dei progetti
-Route::get('manager/creazioneprogetti', [ProgettoController::class, 'index']);
-Route::post('manager/creazioneprogetti',[ProgettoController::class, 'storeProgetto'])->name('creaprogetto');
-Route::get('manager/tuttiprogetti', [ProgettoController::class, 'tuttiProgetti']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('pagina-personale/ricercatore')->group(function () {
     /**
@@ -55,5 +43,10 @@ Route::prefix('pagina-personale/ricercatore')->group(function () {
  *
  */
 Route::get('/ricercatori', [RicercatoriController::class, 'index'])->name('ricercatori');
+
+/**
+ * CRUD per le milestones.
+ */
+Route::resource('sottoprogetti.milestones', MilestoneController::class)->middleware('auth')->middleware('ruolo:responsabile');
 
 require __DIR__ . '/auth.php';

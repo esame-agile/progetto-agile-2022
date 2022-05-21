@@ -12,6 +12,9 @@
         <!--====== Title ======-->
         <title>Stark Industries</title>
 
+        <!--====== pagina-personale css ======-->
+        <link rel="stylesheet" href="{{ asset('css/pagina-personale.css') }}">
+
         <!--====== Favicon Icon ======-->
 
         <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
@@ -21,6 +24,10 @@
 
         <!--====== Line Icons css ======-->
         <link rel="stylesheet" href="{{ asset('css/LineIcons.css') }}">
+
+        <!--====== Google icons ======-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,500,1,0"/>
 
         <!--====== Magnific Popup css ======-->
         <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">

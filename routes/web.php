@@ -5,6 +5,7 @@ use App\Http\Controllers\Milestones\MilestoneController;
 use App\Http\Controllers\PaginaPersonaleController;
 use App\Http\Controllers\ProgettoController;
 use App\Http\Controllers\RicercatoriController;
+use App\Http\Controllers\SottoProgettoController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -50,8 +51,18 @@ Route::prefix('pagina-personale/ricercatore')->group(function () {
 Route::get('/ricercatori', [RicercatoriController::class, 'index'])->name('ricercatori');
 
 /**
+ * CRUD per i progetti.
+ */
+
+/**
+ * CRUD per i sottoprogetti.
+ */
+Route::resource('sottoprogetti', SottoProgettoController::class)->middleware('auth')->middleware('ruolo:responsabile,manager');
+
+/**
  * CRUD per le milestones.
  */
-Route::resource('sottoprogetti.milestones', MilestoneController::class)->middleware('auth')->middleware('ruolo:responsabile');
+Route::resource('sottoprogetti.milestones', MilestoneController::class)->middleware('auth')->middleware('ruolo:responsabile,manager');
+Route::get('sottoprogetti/{sottoProgetto}/edit_ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sottoprogetti.edit_ricercatori')->middleware('auth')->middleware('ruolo:responsabile');
 
 require __DIR__ . '/auth.php';

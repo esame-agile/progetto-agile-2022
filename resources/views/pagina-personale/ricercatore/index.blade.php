@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@include('/pagina-personale/alert-message')
+@include('layouts.alert-message')
 @section('content')
     <div class="container mx-auto">
         <!--- Copertina del profilo --->

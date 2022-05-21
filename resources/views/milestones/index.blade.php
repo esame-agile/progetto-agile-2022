@@ -19,8 +19,8 @@
                             <x-td>
                                 <x-slot name="body"> {{ $milestone->descrizione }}</x-slot>
                             </x-td>
-                            <x-td>
-                                <x-slot name="body" class="responsive"> {{ date('d/m/Y', strtotime($milestone->data_evento )) }}</x-slot>
+                            <x-td class="responsive">
+                                <x-slot name="body"> {{ date('d/m/Y', strtotime($milestone->data_evento )) }}</x-slot>
                             </x-td>
                             <x-td>
                                 <x-slot name="body">

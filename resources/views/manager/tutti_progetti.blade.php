@@ -23,7 +23,7 @@
             </div>
 
 	@endif
-	<div class="pt-40 header-content">
+	<div class="pt-5 header-content">
 		@foreach($progetti as $progetto)
 			<div id="home" class="relative z-10 header-hero">
                 <div class="container">

@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Milestones\MilestoneController;
 use App\Http\Controllers\PaginaPersonaleController;
+use App\Http\Controllers\ProgettoController;
 use App\Http\Controllers\RicercatoriController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,10 @@ use Illuminate\Support\Facades\Route;
  *
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('manager/creazioneprogetti', [ProgettoController::class, 'index']);
+Route::post('manager/creazioneprogetti',[ProgettoController::class, 'storeProgetto'])->name('creaprogetto');
+Route::get('manager/tuttiprogetti', [ProgettoController::class, 'tuttiProgetti']);
 
 Route::prefix('pagina-personale/ricercatore')->group(function () {
     /**

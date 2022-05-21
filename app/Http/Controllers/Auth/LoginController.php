@@ -9,15 +9,10 @@ class LoginController extends Controller
 {
     public function loginManager()
     {
-        $nav = [
-            ['label' => 'TUTTI I PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/manager/tuttiprogetti'],
-            ['label' => 'CREA PROGETT0', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/manager/creazioneprogetti'],
-            //TODO: decommentare quando sarà implementato ['label' => 'GESTIONE PROGETTI', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
-        ];
 
         $progetti = Progetto::all();
 
-        return view('manager.tutti_progetti',compact('nav', 'progetti'));
+        return view('manager.tutti_progetti',compact( 'progetti'));
     }
     public function loginEnteFinanziatore()
     {

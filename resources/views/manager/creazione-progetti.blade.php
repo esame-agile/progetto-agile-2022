@@ -6,8 +6,7 @@
         <div class="container">
             <div class="justify-center row">
                 <div class="w-full lg:w-5/6 xl:w-2/3">
-                    <div class="pt-40 pb-64 header-content"> <!-- pt padding top -->
-
+                    <div class="pt-5 pb-64 header-content"> <!-- pt padding top -->
 
                         <form class="" id="creazioneP" method="POST" action="{{ route('creaprogetto') }}">
                             @csrf
@@ -49,8 +48,8 @@
                             </div>
 
                         </form>
-                        <div class="mt-4 form-control inline-block">
-                            <label for="responsabile" class=" ml-64 mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 ">Responsabile:</label>
+                        <div class="mt-4 ml-64 form-control inline-block">
+                            <label for="responsabile" class=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 ">Responsabile:</label>
                             <select name="selectRes" form="creazioneP">
                                 <option selected disabled value="">Incarica ricercatore...</option>
                                 @foreach($ricercatori as $ricercatore)

@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+
 Route::get('manager/creazioneprogetti', [ProgettoController::class, 'index']);
 Route::post('manager/creazioneprogetti',[ProgettoController::class, 'storeProgetto'])->name('creaprogetto');
 Route::get('manager/tuttiprogetti', [ProgettoController::class, 'tuttiProgetti']);
+Route::get('manager/modificaprogetto/{id}', [ProgettoController::class, 'edit']);
+Route::post('manager/modificaprogetto/{id}', [ProgettoController::class, 'update']);
 
 Route::prefix('pagina-personale/ricercatore')->group(function () {
     /**

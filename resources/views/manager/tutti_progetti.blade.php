@@ -34,6 +34,7 @@
 									<div class="max-w-lg mx-auto overflow-hidden rounded-lg shadow-lg lg:max-w-none lg:flex">
 										<div class="flex-1 px-6 py-8 bg-white" style="cursor: auto;">
 											<h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl" style="cursor: auto;">
+                                            <a class="" href="{{ url("/manager/modificaprogetto/".$progetto->id)}}"><img class="mb-3 w-7 h-7 object-cover" src="https://gogeticon.net/files/2565735/ff3fa44f1e75c25cd7b11bf8a8392d74.png"  alt="edit"></a>
 												{{$progetto->titolo}}</h3>
 											<p class="mt-6 text-base text-gray-500">{{$progetto->descrizione}}</p>
 											<div class="mt-8">
@@ -71,7 +72,7 @@
 														</div>
 
 														<p class="ml-3 text-sm text-gray-700">Responsabile in carica:</p>
-														<p class="ml-3 text-sm text-gray-700">{{--$responsabile_in_carica->nome--}}</p> -->
+														<p class="ml-3 text-sm text-gray-700">{{--$progetto->responsabile->nome--}}</p>-->
 													</li>
 												</ul>
 											</div>

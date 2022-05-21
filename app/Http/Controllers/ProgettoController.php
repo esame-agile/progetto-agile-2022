@@ -77,11 +77,14 @@ class ProgettoController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Progetto  $progetto
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit(Progetto $progetto)
+    public function edit($id)
     {
-        //
+
+        $ricercatori = Utente::where('ruolo', '=', 'ricercatore')->get();
+        $progetto = Progetto::find($id);
+        return view('manager.modifica-progetto', compact('progetto', 'ricercatori'));
     }
 
     /**
@@ -91,9 +94,14 @@ class ProgettoController extends Controller
      * @param  \App\Models\Progetto  $progetto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Progetto $progetto)
+    public function update(Request $request, $id)
     {
-        //
+        $progetto=Progetto::find($id);
+        $progetto->update($request->all());
+
+        $progetti = Progetto::all();
+        return view('manager.tutti_progetti', compact('progetti'));
+
     }
 
     /**

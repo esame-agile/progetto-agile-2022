@@ -51,7 +51,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ macos-latest, windows-latest ]
+        os: [ macos-latest, ubuntu-latest, windows-latest ]
 
     steps:
       - uses: actions/checkout@v1
@@ -74,7 +74,8 @@ jobs:
       - name: Clear Cache
         run: php artisan cache:clear; php artisan config:clear;
       - name: Migrate
-        run: php artisan migrate:fresh
+        run:
+          mysql -uroot
+          php artisan migrate:fresh
       - name: Execute tests (Unit and Feature tests) via PHPUnit
-
         run: vendor/bin/phpunit

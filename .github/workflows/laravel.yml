@@ -79,8 +79,6 @@ jobs:
           (Get-Content C:\tools\php\php.ini) -Replace ';extension=pdo_mysql.so/extension=pdo_mysql.so', 'extension=pdo_mysql.so/extension=pdo_mysql.so' | Set-Content C:\tools\php\php.ini;
           (Get-Content C:\tools\php\php.ini) -Replace ';extension=php_fileinfo.dll', 'extension=php_fileinfo.dll' | Set-Content C:\tools\php\php.ini;
         shell: powershell
-      - name: db requirement
-        run: composer require doctrine/dbal
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
       - name: Generate key

@@ -77,7 +77,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run:
           (Get-Content C:\tools\php\php.ini) -Replace ';extension=pdo_mysql.so/extension=pdo_mysql.so', 'extension=pdo_mysql.so/extension=pdo_mysql' | Set-Content C:\tools\php\php.ini;
-          (Get-Content C:\tools\php\php.ini) -Replace ';extension=php_fileinfo.dll', 'extension=php_fileinfo.dll' | Set-Content C:\tools\php\php.ini;
+
         shell: powershell
       - name: SQL dependency
         run: composer require doctrine/dbal --ignore-platform-reqs

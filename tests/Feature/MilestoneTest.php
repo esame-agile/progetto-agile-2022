@@ -5,12 +5,12 @@ use App\Models\Milestone;
 use App\Models\Progetto;
 use App\Models\Responsabile;
 use App\Models\SottoProgetto;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class MilestoneTest extends TestCase
 {
-
-
+    use RefreshDatabase;
     public function test_responsabile_puo_creare_una_milestone()
     {
         $user = Responsabile::factory()->create();

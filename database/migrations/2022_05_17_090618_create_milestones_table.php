@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->date('data_evento');
             $table->string('descrizione');
-            $table->foreignId('sotto_progetto_id')->constrained('sotto_progetti');
+            $table->foreignId('sotto_progetto_id')->constrained('sotto_progetti')->onDelete('cascade');
             $table->timestamps();
         });
     }

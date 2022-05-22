@@ -74,7 +74,7 @@ jobs:
       - name: Install Dependencies
         run: composer update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
       - name: php.ini
-        if: os == 'windows-latest'
+        if: matrix.os == 'windows-latest'
         run:
           sudo sed -i 's/;extension=pdo_mysql.so/extension=pdo_mysql.so/g' C:\tools\php\php.ini;
           sudo sed -i 's/;extension=php_fileinfo.dll/extension=php_fileinfo.dll/g' C:\tools\php\php.ini;

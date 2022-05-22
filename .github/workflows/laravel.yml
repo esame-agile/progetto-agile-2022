@@ -76,8 +76,9 @@ jobs:
       - name: php.ini
         if: matrix.os == 'windows-latest'
         run:
-          sed -i 's/;extension=pdo_mysql.so/extension=pdo_mysql.so/g' C:\tools\php\php.ini;
-          sed -i 's/;extension=php_fileinfo.dll/extension=php_fileinfo.dll/g' C:\tools\php\php.ini;
+          (Get-Content C:\tools\php\php.ini) -Replace ';extension=pdo_mysql.so/extension=pdo_mysql.so', 'extension=pdo_mysql.so/extension=pdo_mysql.so' | Set-Content C:\tools\php\php.ini;
+          (Get-Content C:\tools\php\php.ini) -Replace ';extension=php_fileinfo.dll', 'extension=php_fileinfo.dll' | Set-Content C:\tools\php\php.ini;
+        shell: powershell
       - name: db requirement
         run: composer require doctrine/dbal
       - name: Directory Permissions

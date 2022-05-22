@@ -74,8 +74,9 @@ jobs:
       - name: php.ini
         if: matrix.os == 'windows-latest'
         run:
-          (Get-Content C:\tools\php\php.ini) -Replace ';extension=pdo_mysql.so/extension=pdo_mysql.so', 'extension=pdo_mysql.so/extension=pdo_mysql' | Set-Content C:\tools\php\php.ini;
-          (Get-Content C:\tools\php\php.ini) -Replace ';extension=php_fileinfo.dll', 'extension=php_fileinfo.dll' | Set-Content C:\tools\php\php.ini;
+          (Get-Content C:\tools\php\php.ini) -Replace ';extension=pdo_mysql.so/extension=pdo_mysql', 'extension=pdo_mysql.so/extension=pdo_mysql' | Set-Content C:\tools\php\php.ini;
+          (Get-Content C:\tools\php\php.ini) -Replace ';extension=php_fileinfo', 'extension=php_fileinfo.dll' | Set-Content C:\tools\php\php.ini;
+          Get-Content C:\tools\php\php.ini;
         shell: powershell
       - name: Install Dependencies
         run: composer require doctrine/dbal; composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist

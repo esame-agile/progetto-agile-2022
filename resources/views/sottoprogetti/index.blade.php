@@ -8,15 +8,19 @@
                     @if(Auth::user()->hasRuolo("manager"))
                         <x-button class="float-right"> <a href="{{ route('sottoprogetti.create') }}"><i class="lni lni-plus"></i> Aggiungi Sottoprogetto</a></x-button>
                         <h2 class=" testo titolo grande">Elenco dei sottoprogetti</h2>
-                    @else
+                    @elseif(Auth::user()->hasRuolo("responsabile"))
                         <h2 class=" testo titolo grande">Elenco dei sottoprogetti di cui sei responsabile</h2>
+                    @else
+                        <h2 class=" testo titolo grande">Elenco dei sottoprogetti a cui sei assegnato</h2>
                     @endif
                 </x-slot>
                 <x-slot name="colonne">
                     <th class="px-4 py-3 ">Titolo</th>
                     <th class="px-4 py-3 ">Descrizione</th>
                     <th class="px-4 py-3 responsive">Data Rilascio</th>
-                    <th class="px-4 py-3 ">Azioni</th>
+                    @if(!Auth::user()->hasRuolo("ricercatore"))
+                        <th class="px-4 py-3 ">Azioni</th>
+                    @endif
                 </x-slot>
                 <x-slot name="righe">
                     {{ $sottoProgetti->links() }}
@@ -48,7 +52,7 @@
                                                 @method("DELETE")
                                                 <button type="submit" ><i class="lni lni-trash"></i></button>
                                             </form>
-                                        @else
+                                        @elseif(Auth::user()->hasRuolo("responsabile"))
                                             <a href="{{ route('sottoprogetti.edit_ricercatori', ["sottoProgetto" => $sottoProgetto]) }}">
                                                 <x-button>
                                                     <i class="lni lni-pencil"></i>

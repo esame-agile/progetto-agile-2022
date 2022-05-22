@@ -58,11 +58,13 @@ Route::get('/ricercatori', [RicercatoriController::class, 'index'])->name('ricer
  * CRUD per i sottoprogetti.
  */
 Route::resource('sottoprogetti', SottoProgettoController::class)->middleware('auth')->middleware('ruolo:responsabile,manager');
+Route::get('sottoprogetti/{sottoProgetto}/edit_ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sottoprogetti.edit_ricercatori')->middleware(['auth','ruolo:responsabile']);
+Route::delete('sottoprogetti/{sottoProgetto}/remove_ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sottoprogetti.remove_ricercatore")->middleware(['auth','ruolo:responsabile']);
+Route::post("sottoprogetti/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatore'])->name("sottoprogetti.add_ricercatore")->middleware(['auth','ruolo:responsabile']);
 
 /**
  * CRUD per le milestones.
  */
 Route::resource('sottoprogetti.milestones', MilestoneController::class)->middleware('auth')->middleware('ruolo:responsabile,manager');
-Route::get('sottoprogetti/{sottoProgetto}/edit_ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sottoprogetti.edit_ricercatori')->middleware('auth')->middleware('ruolo:responsabile');
 
 require __DIR__ . '/auth.php';

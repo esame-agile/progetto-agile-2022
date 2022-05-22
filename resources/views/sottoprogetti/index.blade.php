@@ -64,6 +64,8 @@
                     @endforeach
                 </x-slot>
             </x-table>
+        @else
+            @yield('alert-message')
         @endif
     </div>
 

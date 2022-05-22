@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Milestone;
+use App\Models\Ricercatore;
 use App\Models\SottoProgetto;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,11 +19,11 @@ class SottoProgettoController extends Controller
     public function index()
     {
         if (Auth::user()->hasRuolo('manager')) {
-            $sottoProgetti = SottoProgetto::paginate(10);
+            $sottoProgetti = SottoProgetto::where("id", ">", 0)->paginate(10);
         } else {
             $sottoProgetti = SottoProgetto::where('responsabile_id', Auth::user()->id)->paginate(10);
         }
-        if ($sottoProgetti == null) {
+        if ($sottoProgetti->isEmpty()) {
             return view('sottoprogetti.index', ['sottoProgetti' => $sottoProgetti])->with('error', 'Non ci sono sottoprogetti');
         }
         return view('sottoprogetti.index', compact('sottoProgetti'));
@@ -37,8 +38,7 @@ class SottoProgettoController extends Controller
     public function create()
     {
         if (Auth::user()->hasRuolo('manager')) {
-            $sottoProgetti = SottoProgetto::all();
-            return view('sottoprogetti.create', compact('sottoProgetti'));
+            return view('sottoprogetti.create');
         }
         return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per creare un sottoprogetto');
     }
@@ -112,6 +112,20 @@ class SottoProgettoController extends Controller
         }
         return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
+    /**
+     * Rimozione dei ricercatori associati al sottoprogetto
+     * @param SottoProgetto $sottoProgetto
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|RedirectResponse
+     */
+    public function removeRicercatore(SottoProgetto $sottoProgetto, Ricercatore $ricercatore){
+
+        if (Auth::user()->hasRuolo('responsabile') && Auth::user()->id == $sottoProgetto->responsabile_id ) {
+            $sottoProgetto->ricercatori()->detach($ricercatore);
+            return redirect()->route('sottoprogetti.edit_ricercatori', $sottoProgetto->id)->with('success', 'Ricercatore rimosso con successo');
+        }
+        return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
+    }
+
 
     /**
      * @param Request $request

@@ -35,7 +35,11 @@ class   MilestoneController extends Controller
      */
     public function create(int $sottoProgetto ): View
     {
-        return view('milestones.create', compact('sottoProgetto'));
+        if (SottoProgetto::find($sottoProgetto)->responsabile_id == Auth::user()->id) {
+            return view('milestones.create', ['sottoProgetto' => $sottoProgetto]);
+        } else {
+            return redirect()->route('sottoprogetti.index');
+        }
     }
 
     /**

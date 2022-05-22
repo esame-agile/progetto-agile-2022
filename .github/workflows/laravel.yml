@@ -58,6 +58,7 @@ jobs:
       - uses: ankane/setup-mysql@v1
         with:
           mysql-version: 8.0
+          database: laravel
       - run: mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
 
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e

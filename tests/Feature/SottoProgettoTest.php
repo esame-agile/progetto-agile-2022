@@ -10,7 +10,7 @@ use App\Models\SottoProgetto;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class SottoProgettiTest extends TestCase
+class SottoProgettoTest extends TestCase
 {
     use RefreshDatabase;
     public function test_caricamento_views_sottoprogetti_responsabile()
@@ -129,6 +129,8 @@ class SottoProgettiTest extends TestCase
                 'progetto_id' => $project2->progetto_id,
             ])
             ->assertStatus(302);
+        echo $project;
+        echo $project2;
         $this->assertNotEquals($project2->titolo, SottoProgetto::first()->titolo);
     }
 

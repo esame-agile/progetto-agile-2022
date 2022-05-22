@@ -5,45 +5,6 @@ on:
     branches: [ '**' ]
 
 jobs:
-#  ubuntu-tests:
-#    runs-on: ubuntu-latest
-#    services:
-#      mysql:
-#        image: mysql:8.0
-#        env:
-#          MYSQL_USER: "laravel_user"
-#          MYSQL_PASSWORD: "laravel_pass"
-#          MYSQL_ROOT_PASSWORD: "root"
-#          MYSQL_DATABASE: "laravel"
-#        ports:
-#          - 3306:3306
-#        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-#
-#    steps:
-#      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-#        with:
-#          php-version: '8.0'
-#      - uses: actions/checkout@v3
-#      - name: Copy .env ubuntu
-#        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-#      - name: Install Dependencies
-#        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-#      - name: Generate key
-#        run: php artisan key:generate
-#      - name: Directory Permissions
-#        run: chmod -R 777 storage bootstrap/cache
-#      - name: Clear Cache
-#        run: php artisan cache:clear; php artisan config:clear;
-#      - name: Migrate
-#        run: php artisan migrate:fresh
-#      - name: Execute tests (Unit and Feature tests) via PHPUnit
-#        env:
-#          MYSQL_DATABASE: laravel
-#          DB_USERNAME: laravel_user
-#          DB_PASSWORD: laravel_pass
-#          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-#        run: vendor/bin/phpunit
-
 
   laravel-tests:
 
@@ -71,16 +32,19 @@ jobs:
 
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      - name: php.ini
+
+      - name: php.ini setup for Windows
         if: matrix.os == 'windows-latest'
         run:
           (Get-Content C:\tools\php\php.ini) -Replace ';extension=pdo_mysql', 'extension=pdo_mysql' | Set-Content C:\tools\php\php.ini;
           (Get-Content C:\tools\php\php.ini) -Replace ';extension=fileinfo', 'extension=fileinfo' | Set-Content C:\tools\php\php.ini;
           (Get-Content C:\tools\php\php.ini) -Replace ';extension_dir = "ext"', 'extension_dir = "ext"' | Set-Content C:\tools\php\php.ini;
-          Get-Content C:\tools\php\php.ini;
         shell: powershell
       - name: Install Dependencies
-        run: composer require doctrine/dbal; composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run:
+          composer require doctrine/dbal;
+          composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
       - name: Generate key

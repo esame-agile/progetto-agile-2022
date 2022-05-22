@@ -79,7 +79,7 @@ jobs:
       - name: Migrate
         env:
           MYSQL_DATABASE: laravel
-          DB_USERNAME: laravel_user
+          DB_USERNAME: root
           DB_PASSWORD: ''
           DB_PORT: 3306
         run: php artisan migrate:fresh

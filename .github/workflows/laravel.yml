@@ -73,9 +73,9 @@ jobs:
         run: php artisan key:generate
       - name: Clear Cache
         run: php artisan cache:clear; php artisan config:clear;
+      - name: Connect to db
+        run: mysql -u root laravel
       - name: Migrate
-        run:
-          mysql -uroot
-          php artisan migrate:fresh
+        run:php artisan migrate:fresh
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: vendor/bin/phpunit

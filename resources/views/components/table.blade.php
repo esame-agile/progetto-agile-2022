@@ -1,6 +1,6 @@
 <div class="container mx-auto">
-    @yield('alert-message')
     {{ $titolo }}
+    @yield('alert-message')
     <div class="mb-40 card tabella">
         <section class="container mx-auto p-6 font-mono">
             <div class="w-full overflow-hidden rounded-lg shadow-lg">

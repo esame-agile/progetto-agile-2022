@@ -19,10 +19,10 @@ class   MilestoneController extends Controller
      */
     public function index(int $sottoProgetto): View|RedirectResponse
     {
-        $sp = SottoProgetto::find($sottoProgetto);
-        if ($sp->milestones && $sp->responsabile_id == Auth::user()->id) {
+        $sp = SottoProgetto::where("id",$sottoProgetto)->firstOrFail();
+        if ($sp->milestones && ($sp->responsabile_id == Auth::user()->id || Auth::user()->hasRuolo("manager"))) {
             $milestones = Milestone::where('sotto_progetto_id', $sottoProgetto)->paginate(10);
-            return view('milestones.index', compact('sottoProgetto','milestones'));
+            return view('milestones.index', ['sottoProgetto' => $sottoProgetto, 'milestones'=> $milestones]);
         } else {
             return redirect()->route('sottoprogetti.index');
         }
@@ -35,7 +35,11 @@ class   MilestoneController extends Controller
      */
     public function create(int $sottoProgetto ): View
     {
-        return view('milestones.create', compact('sottoProgetto'));
+        if (SottoProgetto::find($sottoProgetto)->responsabile_id == Auth::user()->id) {
+            return view('milestones.create', ['sottoProgetto' => $sottoProgetto]);
+        } else {
+            return redirect()->route('sottoprogetti.index');
+        }
     }
 
     /**
@@ -47,7 +51,8 @@ class   MilestoneController extends Controller
     public function store(int $sottoProgetto, Request $request): RedirectResponse
     {
         $milestone = new Milestone();
-        if(SottoProgetto::find($sottoProgetto)->responsabile_id != Auth::user()->id){
+        $sp = SottoProgetto::where("id",$sottoProgetto)->firstOrFail();
+        if($sp->responsabile_id != Auth::user()->id){
             return redirect()->route('sottoprogetti.index');
         }
         return $this->milestoneFill($request,$sottoProgetto, $milestone);
@@ -61,7 +66,7 @@ class   MilestoneController extends Controller
      */
     public function show($sotto_progetto_id, Milestone $milestone)
     {
-        if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id) {
+        if (($milestone->sotto_progetto->responsabile_id == Auth::user()->id || Auth::user()->hasRuolo("manager")) && $milestone->sotto_progetto->id == $sotto_progetto_id) {
             return view('milestones.show', compact('sotto_progetto_id','milestone'));
         } else {
             return redirect()->route('sottoprogetti.index');
@@ -76,7 +81,7 @@ class   MilestoneController extends Controller
      */
     public function edit(int $sottoProgetto, Milestone $milestone)
     {
-        if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id) {
+        if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id && $milestone->sotto_progetto->id == $sottoProgetto) {
             return view('milestones.edit', compact('sottoProgetto','milestone'));
         } else {
             return redirect()->route('sottoprogetti.index');
@@ -91,7 +96,11 @@ class   MilestoneController extends Controller
      */
     public function update(int $sottoProgetto, Milestone $milestone, Request $request): RedirectResponse
     {
-        return $this->milestoneFill($request, $sottoProgetto, $milestone);
+        if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id && $milestone->sotto_progetto->id == $sottoProgetto) {
+            return $this->milestoneFill($request,$sottoProgetto, $milestone);
+        } else {
+            return redirect()->route('sottoprogetti.index');
+        }
     }
 
     /**
@@ -102,7 +111,7 @@ class   MilestoneController extends Controller
      */
     public function destroy(int $sottoProgetto, Milestone $milestone): RedirectResponse
     {
-        if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id) {
+        if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id && $milestone->sotto_progetto->id == $sottoProgetto) {
             $milestone->delete();
             return redirect()->route('sottoprogetti.milestones.index', ['sottoprogetti' => $sottoProgetto]);
         } else {

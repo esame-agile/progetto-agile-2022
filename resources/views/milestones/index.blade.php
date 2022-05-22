@@ -9,7 +9,9 @@
             <x-slot name="colonne">
                 <th class="px-4 py-3 ">Descrizione</th>
                 <th class="px-4 py-3 responsive">Data Evento</th>
+                @if(!Auth::user()->hasRuolo("manager"))
                 <th class="px-4 py-3 ">Azioni</th>
+                @endif
             </x-slot>
             <x-slot name="righe">
                 {{ $milestones->links() }}
@@ -19,9 +21,10 @@
                             <x-td>
                                 <x-slot name="body"> {{ $milestone->descrizione }}</x-slot>
                             </x-td>
-                            <x-td>
-                                <x-slot name="body" class="responsive"> {{ date('d/m/Y', strtotime($milestone->data_evento )) }}</x-slot>
+                            <x-td class="responsive">
+                                <x-slot name="body"> {{ date('d/m/Y', strtotime($milestone->data_evento )) }}</x-slot>
                             </x-td>
+                            @if(!Auth::user()->hasRuolo("manager"))
                             <x-td>
                                 <x-slot name="body">
                                     <a href="{{ route('sottoprogetti.milestones.show', [$milestone->sotto_progetto->id,$milestone->id]) }}"><i class="lni lni-eye"></i></a>
@@ -37,6 +40,7 @@
                                     </form>
                                 </x-slot>
                             </x-td>
+                            @endif
                         </x-slot>
                     </x-tr>
                 @endforeach

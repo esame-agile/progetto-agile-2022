@@ -37,7 +37,7 @@ class Progetto extends Model
     }
 
     public function ricercatori(){
-        return $this->hasMany(Ricercatore::class);
+        return $this->belongsToMany(Ricercatore::class);
     }
 
     public function sotto_progetti(){

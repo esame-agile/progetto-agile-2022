@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('milestones', function (Blueprint $table) {
-            $table->id();
-            $table->date('data_evento');
-            $table->string('descrizione');
-            $table->foreignId('sotto_progetto_id')->constrained('sotto_progetti')->onDelete('cascade');
-            $table->timestamps();
+        Schema::create('ricercatore_sotto_progetto', function (Blueprint $table) {
+            $table->increments('id');
+            $table->foreignId('sotto_progetto_id')->constrained('sotto_progetti');
+            $table->foreignId('ricercatore_id')->constrained('utenti');
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('milestones');
+        Schema::dropIfExists('ricercatore_sotto_progetto');
     }
 };

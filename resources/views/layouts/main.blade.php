@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     @yield('head')
-    <body>
+    <body class="flex-wrapper">
     @yield('navbar')
     <div class="mt-40">
         @yield('content')
     </div>
-    </body>
     @yield('footer')
+    </body>
 </html>

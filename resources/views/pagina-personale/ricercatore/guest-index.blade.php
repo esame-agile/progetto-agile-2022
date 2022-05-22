@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@include('layouts.alert-message')
 @section('content')
 
     <!--====== pagina-personale css ======-->

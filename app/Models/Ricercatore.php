@@ -29,10 +29,10 @@ class Ricercatore extends Utente
     }
 
     public function progetti(){
-        return $this->hasMany(Progetto::class);
+        return $this->belongsToMany(Progetto::class);
     }
 
     public function sotto_progetto(){
-        return $this->hasMany(SottoProgetto::class);
+        return $this->belongsToMany(SottoProgetto::class);
     }
 }

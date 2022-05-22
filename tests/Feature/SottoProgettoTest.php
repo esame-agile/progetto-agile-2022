@@ -129,8 +129,7 @@ class SottoProgettoTest extends TestCase
                 'progetto_id' => $project2->progetto_id,
             ])
             ->assertStatus(302);
-        echo $project;
-        echo $project2;
+
         $this->assertNotEquals($project2->titolo, SottoProgetto::first()->titolo);
     }
 

@@ -36,22 +36,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $utente = Auth::user();
-        //$utente = Utente::where('email', $request->email)->first();
-
-        //In base al ruolo, fa l'accesso
-        if($utente->ruolo=='manager') {
-            return redirect()->intended(RouteServiceProvider::MANAGER);
-        }
-        if($utente->ruolo=='ente finanziatore') {
-            return redirect()->intended(RouteServiceProvider::ENTEFINANZIATORE);
-        }
-        if($utente->ruolo=='ricercatore') {
-            return redirect()->intended(RouteServiceProvider::RICERCATORE);
-        }
-
-
-        else return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**

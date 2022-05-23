@@ -21,8 +21,8 @@
                     </div>
                 </div>
             </div>
-
 	@endif
+
 	<div class="pt-5 header-content">
 		@foreach($progetti as $progetto)
 			<div id="home" class="relative z-10 header-hero">
@@ -34,7 +34,17 @@
 									<div class="max-w-lg mx-auto overflow-hidden rounded-lg shadow-lg lg:max-w-none lg:flex">
 										<div class="flex-1 px-6 py-8 bg-white" style="cursor: auto;">
 											<h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl" style="cursor: auto;">
-                                            <a class="" href="{{ url("/manager/modificaprogetto/".$progetto->id)}}"><img class="mb-3 w-7 h-7 object-cover" src="https://gogeticon.net/files/2565735/ff3fa44f1e75c25cd7b11bf8a8392d74.png"  alt="edit"></a>
+                                                <a href="{{ route('progetti.edit', ["progetti" => $progetto]) }}"><i class="lni lni-pencil"></i></a>
+                                                <form method="POST"
+                                                      action="{{ route('progetti.destroy', ["progetti" => $progetto] ) }}"
+                                                      id="delete_progetto"
+                                                      name="delete_progetto"
+                                                      onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                                    @csrf
+                                                    @method("DELETE")
+                                                    <button type="submit" ><i class="lni lni-trash"></i></button>
+                                                </form>
+
 												{{$progetto->titolo}}</h3>
 											<p class="mt-6 text-base text-gray-500">{{$progetto->descrizione}}</p>
 											<div class="mt-8">

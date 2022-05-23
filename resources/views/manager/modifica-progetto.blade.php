@@ -8,9 +8,9 @@
                 <div class="w-full lg:w-5/6 xl:w-2/3">
                     <div class="pt-5 pb-64 header-content"> <!-- pt padding top -->
 
-                        <form class="" id="modificaP" method="POST" action="{{ url('/manager/modificaprogetto/'.$progetto->id) }}">
+                        <form class="" id="modificaP" method="POST" action="{{ route('progetti.update', ["progetti"=>$progetto]) }}">
                             @csrf
-                            @method('POST')
+                            @method('PUT')
                             <div class="mb-6">
                                 <div class="flex justify-around">
                                     <div class="inline-block">
@@ -50,10 +50,10 @@
                         </form>
                         <div class="mt-4 ml-64 form-control inline-block">
                             <label for="responsabile" class=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 ">Responsabile:</label>
-                            <select name="selectRes" form="creazioneP">
-                                <option selected disabled value="">Incarica ricercatore...</option>
+                            <select name="responsabile_id" form="modificaP">
                                 @foreach($ricercatori as $ricercatore)
-                                    <option value="{{$ricercatore->id}}">{{$ricercatore->nome}} {{$ricercatore->cognome}}</option>
+                                    <option @if($progetto->responsabile_id==$ricercatore->id) selected @endif
+                                            value="{{$ricercatore->id}}">{{$ricercatore->nome}} {{$ricercatore->cognome}}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -23,10 +23,10 @@
                                 @auth()
                                     @if(Auth::user()->ruolo == 'manager')
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{url('manager/tuttiprogetti')}}">TUTTI I PROGETTI</a>
+                                            <a class="nav-link" href="{{route('progetti.index')}}">TUTTI I PROGETTI</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{url('manager/creazioneprogetti')}}">CREA PROGETTO</a>
+                                            <a class="nav-link" href="{{route('progetti.create')}}">CREA PROGETTO</a>
                                         </li>
                                     @endif
                                         @if(Auth::user()->ruolo == 'ricercatore')
@@ -34,7 +34,7 @@
                                                 <a class="nav-link" href="{{url('ricercatore/ricercatori')}}">TUTTI I RICERCATORI</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{url('ricercatore/imieiprogetti')}}">I MIEI PROGETTI</a>
+                                                <a class="nav-link" href="{{route('progetti.mieiprogetti')}}">I MIEI PROGETTI</a>
                                             </li>
                                         @endif
                                     <li class="nav-item">
@@ -52,8 +52,11 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{route('ricercatori')}}">TUTTI I RICERCATORI</a>
                                     </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{route('progetti.index')}}">TUTTI I PROGETTI</a>
+                                        </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{route('login')}}">LOG IN</a>
+                                        <a class="nav-link" href="{{route('login')}}">LOGIN</a>
                                     </li>
                                 @endguest
                                 @auth()

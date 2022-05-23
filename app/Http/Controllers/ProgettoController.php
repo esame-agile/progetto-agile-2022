@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Progetto;
+use App\Models\Ricercatore;
 use App\Models\Utente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProgettoController extends Controller
 {
@@ -15,8 +17,10 @@ class ProgettoController extends Controller
      */
     public function index()
     {
-        $ricercatori = Utente::where('ruolo', '=', 'ricercatore')->get();
-        return view('manager.creazione-progetti', compact('ricercatori'));
+
+        $progetti = Progetto::all();
+
+        return view('progetti.index', compact( 'progetti'));
     }
 
     /**
@@ -25,29 +29,20 @@ class ProgettoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function storeProgetto(Request $request)
+    public function store(Request $request)
     {
+
         $progetto = new Progetto;
         $progetto->titolo = $request->titolo;
         $progetto->descrizione = $request->descrizione;
         $progetto->scopo = $request->scopo;
         $progetto->data_inizio = $request->datainizio;
         $progetto->data_fine = $request->datafine;
-        $progetto->responsabile_id = $request->get('selectRes');
+        $progetto->responsabile()->associate($request->responsabile_id);
 
         $progetto->save();
 
-        $progetti = Progetto::all();
-
-        return view('manager.tutti_progetti', compact( 'progetti'));
-
-    }
-
-    public function tuttiProgetti() {
-
-        $progetti = Progetto::all();
-
-        return view('manager.tutti_progetti', compact( 'progetti'));
+        return redirect()->route('progetti.index');
 
     }
 
@@ -59,7 +54,9 @@ class ProgettoController extends Controller
      */
     public function create()
     {
-        //
+        $ricercatori = Utente::where('ruolo', '=', 'ricercatore')->get();
+
+        return view('manager.creazione-progetti', compact('ricercatori'));
     }
 
     /**
@@ -68,9 +65,15 @@ class ProgettoController extends Controller
      * @param  \App\Models\Progetto  $progetto
      * @return \Illuminate\Http\Response
      */
-    public function show(Progetto $progetto)
+    public function show(Progetto $progetti)
     {
-        //
+        $ricercatori=$progetti->ricercatori()->get();
+        $sotto_progetti=$progetti->sotto_progetti()->get();
+        return view('progetti.show', [
+            'progetto'=>$progetti,
+            'ricercatori'=>$ricercatori,
+            'sotto_progetti'=>$sotto_progetti,
+        ]);
     }
 
     /**
@@ -79,12 +82,11 @@ class ProgettoController extends Controller
      * @param  \App\Models\Progetto  $progetto
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($id)
+    public function edit(Progetto $progetti)
     {
-
         $ricercatori = Utente::where('ruolo', '=', 'ricercatore')->get();
-        $progetto = Progetto::find($id);
-        return view('manager.modifica-progetto', compact('progetto', 'ricercatori'));
+        //$progetto = Progetto::find($id);
+        return view('manager.modifica-progetto', ["progetto"=>$progetti, "ricercatori"=>$ricercatori]) ;
     }
 
     /**
@@ -94,13 +96,19 @@ class ProgettoController extends Controller
      * @param  \App\Models\Progetto  $progetto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Progetto $progetti)
     {
-        $progetto=Progetto::find($id);
-        $progetto->update($request->all());
 
-        $progetti = Progetto::all();
-        return view('manager.tutti_progetti', compact('progetti'));
+        $progetti->titolo = $request->titolo;
+        $progetti->descrizione = $request->descrizione;
+        $progetti->scopo = $request->scopo;
+        $progetti->data_inizio = $request->datainizio;
+        $progetti->data_fine = $request->datafine;
+        $progetti->responsabile()->associate($request->responsabile_id);
+
+        $progetti->save();
+
+        return redirect()->route('progetti.index');
 
     }
 
@@ -110,8 +118,22 @@ class ProgettoController extends Controller
      * @param  \App\Models\Progetto  $progetto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Progetto $progetto)
+    public function destroy(Progetto $progetti)
     {
-        //
+        if(Auth::user()->hasRuolo('manager')) {
+            $progetti->delete();
+            return redirect()->route('progetti.index')->with('success', 'Progetto eliminato con successo');
+        } else {
+            return redirect()->route('progetti.index')->with('error', 'Non hai i permessi per eliminare un progetto');
+        }
     }
+
+    public function mieiprogetti() {
+
+        $utente = Ricercatore::find(Auth::user()->id);
+        $progetti = $utente->progetti()->get();
+        //$progetti = Progetto::all();
+        return view('progetti.index', compact( 'progetti'));
+    }
+
 }

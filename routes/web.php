@@ -4,7 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Milestones\MilestoneController;
 use App\Http\Controllers\PaginaPersonaleController;
 use App\Http\Controllers\ProgettoController;
-use App\Http\Controllers\RicercatoriController;
+use App\Http\Controllers\RicercatoreController;
 use App\Http\Controllers\SottoProgettoController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,18 +14,23 @@ use Illuminate\Support\Facades\Route;
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::resource('progetti', ProgettoController::class);
 
-Route::get('manager/creazioneprogetti', [ProgettoController::class, 'index']);
-Route::post('manager/creazioneprogetti',[ProgettoController::class, 'storeProgetto'])->name('creaprogetto');
-Route::get('manager/tuttiprogetti', [ProgettoController::class, 'tuttiProgetti']);
-Route::get('manager/modificaprogetto/{id}', [ProgettoController::class, 'edit']);
-Route::post('manager/modificaprogetto/{id}', [ProgettoController::class, 'update']);
+/*
+        Route::get('manager/creazioneprogetti', [ProgettoController::class, 'index']);
+        Route::post('manager/creazioneprogetti',[ProgettoController::class, 'storeProgetto'])->name('creaprogetto');
+        Route::get('manager/tuttiprogetti', [ProgettoController::class, 'tuttiProgetti']);
+        Route::get('manager/modificaprogetto/{id}', [ProgettoController::class, 'edit']);
+        Route::post('manager/modificaprogetto/{id}', [ProgettoController::class, 'update']);*/
 
 
-Route::get('ricercatore/ricercatori', [RicercatoriController::class, 'index']);
-Route::get('ricercatore/imieiprogetti', [RicercatoriController::class, 'iMieiProgetti']);
+Route::get('ricercatore/ricercatori', [RicercatoreController::class, 'index']);
+
+Route::get('ricercatore/mieiprogetti', [ProgettoController::class, 'mieiprogetti'])->name('progetti.mieiprogetti');
+
 
 Route::prefix('pagina-personale/ricercatore')->group(function () {
+
     /**
      * Vista pagina personale di un ricercatore per i non autenticati.
      *
@@ -55,7 +60,7 @@ Route::prefix('pagina-personale/ricercatore')->group(function () {
  * Elenco ricercatori per un guest.
  *
  */
-Route::get('/ricercatori', [RicercatoriController::class, 'index'])->name('ricercatori');
+Route::get('/ricercatori', [RicercatoreController::class, 'index'])->name('ricercatori');
 
 /**
  * CRUD per i progetti.

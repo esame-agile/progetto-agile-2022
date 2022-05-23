@@ -19,8 +19,8 @@
                             @if($ricercatori != null)
                                 @foreach($ricercatori as $ricercatore)
                                     <tr class="text-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td class="px-4 py-3 text-ms font-semibold border"><a
-                                                href="{{route("pagina-personale.ricercatore.guest-index", $ricercatore)}}">{{$ricercatore->nome}}</a>
+                                        <td class="px-4 py-3 text-ms font-semibold border">
+                                            <a href="{{route("pagina-personale.ricercatore.guest-index", $ricercatore)}}">{{$ricercatore->nome}}</a>
                                         </td>
                                         <td class="px-4 py-3 text-ms font-semibold border">{{$ricercatore->cognome}}</td>
                                         <td class="px-4 py-3 text-sm font-semibold border"> {{$ricercatore->ambito_ricerca}}</td>

@@ -135,7 +135,7 @@
                                 @foreach($progetti as $progetto)
                                     <tr class="text-gray-700">
                                         <th class="px-4 py-3 text-ms font-semibold border">
-                                            {{$progetto->titolo}}
+                                            <a href="{{route("progetto_info", $progetto)}}">{{$progetto->titolo}}</a>
                                         </th>
                                         <th class="px-4 py-3 text-ms font-semibold border responsive">
                                             {{$progetto->scopo}}

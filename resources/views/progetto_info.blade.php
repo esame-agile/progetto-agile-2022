@@ -65,7 +65,7 @@
                                             <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2" >Ricercatori</h3>
                                         </div>
                                     </div>
-                                    <!--- Pubblicazioni --->
+                                    <!--- Ricercatori--->
                                     <div class="card tabella">
                                         <section class="container mx-fit p-6 font-semibold">
                                             <div class="w-full overflow-hidden rounded-lg shadow-lg">
@@ -88,45 +88,39 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody class="bg-white">
-                                                        <tr class="text-gray-700">
-                                                            {{--@foreach($pubblicazioni as $pubblicazione)
+                                                            @if($ricercatori==!null)
+                                                                @foreach($ricercatori as $ricercatore)
+                                                                    <tr class="text-gray-700">
                                                                 <th class="px-4 py-3">
-                                                                    Pubblicazione {{$pubblicazione->titolo}}
+                                                                    <a href="{{route("pagina-personale.ricercatore.guest-index", $ricercatore)}}">{{$ricercatore->nome}}</a>
                                                                 </th>
                                                                 <th class="px-4 py-3">
-                                                                    Pubblicazione {{$pubblicazione->titolo}}
+                                                                    {{$ricercatore->cognome}}
                                                                 </th>
-                                                                <td class="px-4 py-3 text-ms font-semibold border">
-                                                                    <a href="#"><i class="lni lni-pencil float-left"></i></a>
-                                                                    <a href="#"><i class="lni lni-trash float-right"></i></a>
-                                                                </td>
-                                                            @endforeach--}}
-                                                            <td class="px-4 py-3 text-ms font-semibold border">
-                                                                Apple MacBook Pro 17"
-                                                            </td>
-                                                            <td class="px-4 py-3 text-ms font-semibold border responsive">
-                                                                Sliver
-                                                            </td>
-                                                            <td class="px-4 py-3 text-ms font-semibold border responsive">
-                                                                Laptop
-                                                            </td>
-                                                            <td class="px-4 py-3 text-ms font-semibold border responsive">
-                                                                $2999
-                                                            </td>
-                                                        </tr>
+                                                                        <th class="px-4 py-3">
+                                                                            {{$ricercatore->ambito_ricerca}}
+                                                                        </th>
+                                                                        <th class="px-4 py-3">
+                                                                            {{$ricercatore->universita}}
+                                                                        </th>
+                                                                    </tr>
+                                                            @endforeach
+                                                            @endif
+
+
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>  <!-- fine container -->
                                         </section>
                                     </div>
-                                    <!--- Fine pubblicazioni --->
+                                    <!--- Fine ricercatori --->
                                     <div  class="mt-10 py-10 border-t border-blueGray-200 text-center">
                                         <div class="text-center mt-12">
-                                            <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2" >Finanziatori</h3>
+                                            <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2" >Progetti affiliati</h3>
                                         </div>
                                     </div>
-                                    <!--- Pubblicazioni --->
+                                    <!--- Progetti affiliati --->
                                     <div class="card tabella">
                                         <section class="container mx-fit p-6 font-semibold">
                                             <div class="w-full overflow-hidden rounded-lg shadow-lg">
@@ -135,40 +129,29 @@
                                                         <thead>
                                                         <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
                                                             <th class="px-4 py-3 text-center">
-                                                                Nome
+                                                                Titolo
                                                             </th>
                                                             <th class="px-4 py-3 responsive text-center">
-                                                                Cognome
+                                                                Data di rilascio
                                                             </th>
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                                Azienda
-                                                            </th>
+
                                                         </tr>
                                                         </thead>
                                                         <tbody class="bg-white">
-                                                        <tr class="text-gray-700">
-                                                            {{--@foreach($pubblicazioni as $pubblicazione)
-                                                                <th class="px-4 py-3">
-                                                                    Pubblicazione {{$pubblicazione->titolo}}
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    Pubblicazione {{$pubblicazione->titolo}}
-                                                                </th>
-                                                                <td class="px-4 py-3 text-ms font-semibold border">
-                                                                    <a href="#"><i class="lni lni-pencil float-left"></i></a>
-                                                                    <a href="#"><i class="lni lni-trash float-right"></i></a>
-                                                                </td>
-                                                            @endforeach--}}
-                                                            <td class="px-4 py-3 text-ms font-semibold border">
-                                                                Apple MacBook Pro 17"
-                                                            </td>
-                                                            <td class="px-4 py-3 text-ms font-semibold border responsive">
-                                                                Sliver
-                                                            </td>
-                                                            <td class="px-4 py-3 text-ms font-semibold border responsive">
-                                                                Laptop
-                                                            </td>
-                                                        </tr>
+
+                                                        @if($sotto_progetti==!null)
+                                                            @foreach($sotto_progetti as $sotto_progetto)
+                                                                <tr class="text-gray-700">
+                                                                    <th class="px-4 py-3">
+                                                                        {{$sotto_progetto->titolo}}
+                                                                    </th>
+                                                                    <th class="px-4 py-3">
+                                                                        {{$sotto_progetto->data_rilascio}}
+                                                                    </th>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endif
+
                                                         </tbody>
                                                     </table>
                                                 </div>

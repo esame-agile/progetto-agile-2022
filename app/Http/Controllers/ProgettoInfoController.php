@@ -6,8 +6,9 @@ use App\Models\Progetto;
 
 class ProgettoInfoController extends Controller
 {
-    public function index(Progetto $progetto)
-    {
-        return view('progetto_info',compact ('progetto'));
+    public function index(Progetto $progetto){
+        $ricercatori= $progetto->ricercatori()->get();
+        $sotto_progetti=$progetto->sotto_progetti()->get();
+        return view('progetto_info',compact ('progetto','ricercatori','sotto_progetti'));
     }
 }

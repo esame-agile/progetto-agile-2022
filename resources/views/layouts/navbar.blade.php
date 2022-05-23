@@ -31,10 +31,10 @@
                                     @endif
                                         @if(Auth::user()->ruolo == 'ricercatore')
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{--url('manager/tuttiprogetti')--}}">PROVA</a>
+                                                <a class="nav-link" href="{{url('ricercatore/ricercatori')}}">TUTTI I RICERCATORI</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{--url('manager/creazioneprogetti')--}}">PROVA</a>
+                                                <a class="nav-link" href="{{url('ricercatore/imieiprogetti')}}">I MIEI PROGETTI</a>
                                             </li>
                                         @endif
                                     <li class="nav-item">
@@ -50,7 +50,7 @@
                                            href="{{route('home')}}">home</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{route('ricercatori')}}">RICERCATORI</a>
+                                        <a class="nav-link" href="{{route('ricercatori')}}">TUTTI I RICERCATORI</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{route('login')}}">LOG IN</a>

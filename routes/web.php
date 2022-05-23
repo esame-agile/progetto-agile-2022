@@ -21,6 +21,10 @@ Route::get('manager/tuttiprogetti', [ProgettoController::class, 'tuttiProgetti']
 Route::get('manager/modificaprogetto/{id}', [ProgettoController::class, 'edit']);
 Route::post('manager/modificaprogetto/{id}', [ProgettoController::class, 'update']);
 
+
+Route::get('ricercatore/ricercatori', [RicercatoriController::class, 'index']);
+Route::get('ricercatore/imieiprogetti', [RicercatoriController::class, 'iMieiProgetti']);
+
 Route::prefix('pagina-personale/ricercatore')->group(function () {
     /**
      * Vista pagina personale di un ricercatore per i non autenticati.

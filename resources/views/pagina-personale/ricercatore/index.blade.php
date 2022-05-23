@@ -41,8 +41,8 @@
         </div>
         <!--- Fine copertina del profilo --->
 
-        <h2 class="testo titolo grande">Elenco pubblicazioni</h2>
-        <!--- Pubblicazioni --->
+      <!--  <h2 class="testo titolo grande">Elenco pubblicazioni</h2>
+         Pubblicazioni
         <div class="card tabella">
             <section class="container mx-auto p-6 font-mono">
                 <div class="w-full overflow-hidden rounded-lg shadow-lg">
@@ -101,10 +101,10 @@
                             </tbody>
                         </table>
                     </div>
-                </div>  <!-- fine container -->
+                </div>   fine container
             </section>
         </div>
-        <!--- Fine pubblicazioni --->
+         Fine pubblicazioni --->
 
         <h2 class="testo titolo grande">Elenco progetti</h2>
         <!--- Progetti --->
@@ -115,54 +115,41 @@
                         <table class="w-full">
                             <thead>
                             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                <th class="px-4 py-3">
-                                    Pubblicazione
-                                </th>
-                                <th class="px-4 py-3 responsive">
-                                    Nome attributo
-                                </th>
-                                <th class="px-4 py-3 responsive">
-                                    Nome attributo
-                                </th>
-                                <th class="px-4 py-3 responsive">
-                                    Nome attributo
-                                </th>
                                 <th class="px-4 py-3 text-center">
-                                    Edita
+                                    Titolo
+                                </th>
+                                <th class="px-4 py-3 responsive text-center">
+                                    Scopo
+                                </th>
+                                <th class="px-4 py-3 responsive text-center">
+                                    Data di inizio
+                                </th>
+                                <th class="px-4 py-3 responsive text-center">
+                                    Data di fine
                                 </th>
                             </tr>
                             </thead>
                             <tbody class="bg-white">
-                            <tr class="text-gray-700">
-                                {{--@foreach($progetti as $progetto)
-                                    <th class="px-4 py-3">
-                                        Pubblicazione {{$progetto->titolo}}
-                                    </th>
-                                    <th class="px-4 py-3">
-                                        Pubblicazione {{$progetto->titolo}}
-                                    </th>
-                                    <td class="px-4 py-3 text-ms font-semibold border">
-                                        <a href="#"><i class="lni lni-pencil float-left"></i></a>
-                                        <a href="#"><i class="lni lni-trash float-right"></i></a>
-                                    </td>
-                                @endforeach--}}
-                                <td class="px-4 py-3 text-ms font-semibold border">
-                                    Apple MacBook Pro 17"
-                                </td>
-                                <td class="px-4 py-3 text-ms font-semibold border responsive">
-                                    Sliver
-                                </td>
-                                <td class="px-4 py-3 text-ms font-semibold border responsive">
-                                    Laptop
-                                </td>
-                                <td class="px-4 py-3 text-ms font-semibold border responsive">
-                                    $2999
-                                </td>
-                                <td class="px-4 py-3 text-ms font-semibold border">
-                                    <a href="#"><i class="lni lni-pencil float-left"></i></a>
-                                    <a href="#"><i class="lni lni-trash float-right"></i></a>
-                                </td>
-                            </tr>
+
+                            @if($progetti != null)
+                                @foreach($progetti as $progetto)
+                                    <tr class="text-gray-700">
+                                        <th class="px-4 py-3 text-ms font-semibold border">
+                                            {{$progetto->titolo}}
+                                        </th>
+                                        <th class="px-4 py-3 text-ms font-semibold border responsive">
+                                            {{$progetto->scopo}}
+                                        </th>
+                                        <th class="px-4 py-3 text-ms font-semibold border responsive">
+                                            {{$progetto->data_inizio}}
+                                        </th>
+                                        <th class="px-4 py-3 text-ms font-semibold border responsive">
+                                            {{$progetto->data_fine}}
+                                        </th>
+                                    </tr>
+                                @endforeach
+                            @endif
+
                             </tbody>
                         </table>
                     </div>

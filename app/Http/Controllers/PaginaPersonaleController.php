@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Finanziatore;
 use App\Models\Manager;
+use App\Models\Progetto;
 use App\Models\Responsabile;
 use App\Models\Ricercatore;
 use App\Models\Utente;
@@ -15,14 +16,17 @@ class PaginaPersonaleController extends Controller
     public function index()
     {
         $utente = Auth::user();
-        $pubblicazioni = ['pub1', 'pub2', 'pub3'];   /*da definire*/
-        $progetti = ['prog1', 'prog2', 'prog3'];     /*da definire*/
-        return view('pagina-personale.ricercatore.index', compact('utente', 'pubblicazioni', 'progetti'));
+        $ricercatore=Ricercatore::find($utente->id);
+        $progetti=$ricercatore->progetti()->get();
+
+        return view('pagina-personale.ricercatore.index', compact('utente',  'progetti'));
     }
 
     public function guest_index(Ricercatore $utente)
     {
-        return view('pagina-personale.ricercatore.guest-index', compact ('utente'));
+        $progetti=$utente->progetti()->get();
+
+        return view('pagina-personale.ricercatore.guest-index', compact ('utente', 'progetti'));
     }
 
     public function edit_info(Utente $utente)

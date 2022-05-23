@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ricercatore;
 
-class RicercatoriController extends Controller
+use App\Models\Progetto;
+use Illuminate\Support\Facades\Auth;
+
+class ProgettiController extends Controller
 {
     public function index()
     {
-
         $nav = [
             ['label' => 'HOME', 'class' => 'nav-link', 'href' => 'http://127.0.0.1:8000/'],
         ];
 
-        $ricercatori = Ricercatore::all();
+        $progetti = Progetto::all();
 
-        return view('ricercatori', compact('nav', 'ricercatori'));
+        return view('progetti', compact('nav', 'progetti'));
     }
 }

@@ -48,7 +48,7 @@
                                 {{$progetto->data_fine}}
                             </div>
                         </div>
-                            <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
+                            <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
                             <div class="text-center mt-12">
                                 <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-700 font-bold uppercase">
                                     In cosa consiste
@@ -58,8 +58,8 @@
                                     <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
                                         {{$progetto->descrizione}}
                                     </p>
-                                    <div  class="mt-10 py-10 border-t border-blueGray-200 text-center">
-                                        <div class="text-center mt-12">
+                                    <div  class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
+                                        <div class="text-center mt-12 ">
                                             <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2" >Ricercatori</h3>
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@
                                         </section>
                                     </div>
                                     <!--- Fine ricercatori --->
-                                    <div  class="mt-10 py-10 border-t border-blueGray-200 text-center">
+                                    <div  class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
                                         <div class="text-center mt-12">
                                             <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2" >Progetti affiliati</h3>
                                         </div>

@@ -36,6 +36,10 @@
                                             <li class="nav-item">
                                                 <a class="nav-link" href="{{route('progetti.mieiprogetti')}}">I MIEI PROGETTI</a>
                                             </li>
+                                            <li class="">
+                                                <a class="material-symbols-rounded nav-icon"
+                                                   href="{{route('pagina-personale.ricercatore.index')}}">person</a>
+                                            </li>
                                         @endif
                                     <li class="nav-item">
                                         <form method="POST" action="{{ route('logout') }}" id="logout">

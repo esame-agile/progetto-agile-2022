@@ -86,6 +86,11 @@
                         </div>
                     </div>
                 </section>
+                <x-button class="m-5">
+                    <a href="{{route("sottoprogetti.index")}}">
+                        VAI AI SOTTOPROGETTI
+                    </a>
+                </x-button>
             </div>
         </div>
     @endif

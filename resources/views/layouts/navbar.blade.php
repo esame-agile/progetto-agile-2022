@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="w-full">
                     <nav class="flex items-center justify-between navbar navbar-expand-md">
-                        <a class="mr-4 navbar-brand">
+                        <a class="mr-4 navbar-brand" href="{{route("home")}}">
                             <img src={{ asset('images/Stark_Industrieslogo.png') }}  alt="Logo">
                         </a>
 

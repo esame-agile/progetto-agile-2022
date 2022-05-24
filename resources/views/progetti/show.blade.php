@@ -1,11 +1,11 @@
 @extends('layouts.main')
 @section('content')
 
-    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+    <!-- <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"> -->
     <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 
     <main class="profile-page">
-        <section class="relative block h-350-px">
+        <section class="relative block h-40">
 
             <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px" style="transform: translateZ(0px)">
                 <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" version="1.1" viewBox="0 0 2560 100" x="0" y="0">
@@ -26,145 +26,150 @@
                             </div>
                             <div class="w-full lg:w-4/12 px-4 lg:order-1">
                                 <div class="flex justify-center py-4 lg:pt-4 pt-8">
-                            </div>
-                        </div>
-                        <div class="text-center mt-12 w-full">
-                            <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                               {{$progetto->titolo}}
-                            </h3>
-                            <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-700 font-bold uppercase">
-                                {{$progetto->scopo}}
-                            </div>
-                            <div class="mb-2 text-blueGray-700 mt-5">
-                                Data di inizio
-                            </div>
-                            <div class="mb-2 text-blueGray-600 mt-2">
-                                {{$progetto->data_inizio}}
-                            </div>
-                            <div class="mb-2 text-blueGray-700 mt-2">
-                                Data di fine
-                            </div>
-                            <div class="mb-2 text-blueGray-600 mt-2">
-                                {{$progetto->data_fine}}
-                            </div>
-                        </div>
-                            <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
-                            <div class="text-center mt-12">
-                                <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-700 font-bold uppercase">
-                                    In cosa consiste
                                 </div>
-                            <div class="flex flex-wrap justify-center">
-                                <div class="w-full lg:w-9/12 px-4">
-                                    <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
-                                        {{$progetto->descrizione}}
-                                    </p>
-                                    <div  class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
-                                        <div class="text-center mt-12 ">
-                                            <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2" >Ricercatori</h3>
-                                        </div>
+                            </div>
+                            <div class="text-center mt-12 w-full">
+                                <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+                                    {{$progetto->titolo}}
+                                </h3>
+                                <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-700 font-bold uppercase">
+                                    {{$progetto->scopo}}
+                                </div>
+                                <div class="mb-2 text-blueGray-700 mt-5">
+                                    Data di inizio
+                                </div>
+                                <div class="mb-2 text-blueGray-600 mt-2">
+                                    {{$progetto->data_inizio}}
+                                </div>
+                                <div class="mb-2 text-blueGray-700 mt-2">
+                                    Data di fine
+                                </div>
+                                <div class="mb-2 text-blueGray-600 mt-2">
+                                    {{$progetto->data_fine}}
+                                </div>
+                            </div>
+                            <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
+                                <div class="text-center mt-12">
+                                    <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-700 font-bold uppercase">
+                                        In cosa consiste
                                     </div>
-                                    <!--- Ricercatori--->
-                                    <div class="card tabella">
-                                        <section class="container mx-fit p-6 font-semibold">
-                                            <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                                                <div class="w-full overflow-x-auto">
-                                                    <table class="w-full">
-                                                        <thead>
-                                                        <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                                            <th class="px-4 py-3 text-center">
-                                                                Nome
-                                                            </th>
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                                Cognome
-                                                            </th>
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                                Ambito ricerca
-                                                            </th>
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                                Università
-                                                            </th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody class="bg-white">
-                                                            @if($ricercatori==!null)
-                                                                @foreach($ricercatori as $ricercatore)
-                                                                    <tr class="text-gray-700">
-                                                                <th class="px-4 py-3">
-                                                                    <a href="{{route("pagina-personale.ricercatore.guest-index", $ricercatore)}}">{{$ricercatore->nome}}</a>
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$ricercatore->cognome}}
-                                                                </th>
-                                                                        <th class="px-4 py-3">
-                                                                            {{$ricercatore->ambito_ricerca}}
-                                                                        </th>
-                                                                        <th class="px-4 py-3">
-                                                                            {{$ricercatore->universita}}
-                                                                        </th>
-                                                                    </tr>
-                                                            @endforeach
-                                                            @endif
-
-
-                                                        </tbody>
-                                                    </table>
+                                    <div class="flex flex-wrap justify-center">
+                                        <div class="w-full lg:w-9/12 px-4">
+                                            <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
+                                                {{$progetto->descrizione}}
+                                            </p>
+                                            <div  class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
+                                                <div class="text-center mt-12 ">
+                                                    <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2" >Ricercatori</h3>
                                                 </div>
-                                            </div>  <!-- fine container -->
-                                        </section>
-                                    </div>
-                                    <!--- Fine ricercatori --->
-                                    <div  class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
-                                        <div class="text-center mt-12">
-                                            <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2" >Progetti affiliati</h3>
-                                        </div>
-                                    </div>
-                                    <!--- Progetti affiliati --->
-                                    <div class="card tabella">
-                                        <section class="container mx-fit p-6 font-semibold">
-                                            <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                                                <div class="w-full overflow-x-auto">
-                                                    <table class="w-full">
-                                                        <thead>
-                                                        <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                                            <th class="px-4 py-3 text-center">
-                                                                Titolo
-                                                            </th>
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                                Data di rilascio
-                                                            </th>
-
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody class="bg-white">
-
-                                                        @if($sotto_progetti==!null)
-                                                            @foreach($sotto_progetti as $sotto_progetto)
-                                                                <tr class="text-gray-700">
-                                                                    <th class="px-4 py-3">
-                                                                        {{$sotto_progetto->titolo}}
+                                            </div>
+                                            <!--- Ricercatori--->
+                                            <div class="card tabella">
+                                                <section class="container mx-fit p-6 font-semibold">
+                                                    <div class="w-full overflow-hidden rounded-lg shadow-lg">
+                                                        <div class="w-full overflow-x-auto">
+                                                            <table class="w-full">
+                                                                <thead>
+                                                                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                                                    <th class="px-4 py-3 text-center">
+                                                                        Nome
                                                                     </th>
-                                                                    <th class="px-4 py-3">
-                                                                        {{$sotto_progetto->data_rilascio}}
+                                                                    <th class="px-4 py-3 responsive text-center">
+                                                                        Cognome
+                                                                    </th>
+                                                                    <th class="px-4 py-3 responsive text-center">
+                                                                        Ambito ricerca
+                                                                    </th>
+                                                                    <th class="px-4 py-3 responsive text-center">
+                                                                        Università
                                                                     </th>
                                                                 </tr>
-                                                            @endforeach
-                                                        @endif
+                                                                </thead>
+                                                                <tbody class="bg-white">
+                                                                @if($ricercatori==!null)
+                                                                    @foreach($ricercatori as $ricercatore)
+                                                                        <tr class="text-gray-700">
+                                                                            <th class="px-4 py-3">
+                                                                                <a href="{{route("pagina-personale.ricercatore.guest-index", $ricercatore)}}">{{$ricercatore->nome}}</a>
+                                                                            </th>
+                                                                            <th class="px-4 py-3">
+                                                                                {{$ricercatore->cognome}}
+                                                                            </th>
+                                                                            <th class="px-4 py-3">
+                                                                                {{$ricercatore->ambito_ricerca}}
+                                                                            </th>
+                                                                            <th class="px-4 py-3">
+                                                                                {{$ricercatore->universita}}
+                                                                            </th>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @endif
 
-                                                        </tbody>
-                                                    </table>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>  <!-- fine container -->
+                                                </section>
+                                            </div>
+                                            <!--- Fine ricercatori --->
+                                            <div  class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
+                                                <div class="text-center mt-12">
+                                                    <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2" >Progetti affiliati</h3>
                                                 </div>
-                                            </div>  <!-- fine container -->
-                                        </section>
+                                            </div>
+                                            <!--- Progetti affiliati --->
+                                            <x-button class="mb-10">
+                                                <a href="{{route("sottoprogetti.create")}}">
+                                                    CREA SOTTOPROGETTO
+                                                </a>
+                                            </x-button>
+                                            <div class="card tabella">
+                                                <section class="container mx-fit p-6 font-semibold">
+                                                    <div class="w-full overflow-hidden rounded-lg shadow-lg">
+                                                        <div class="w-full overflow-x-auto">
+                                                            <table class="w-full">
+                                                                <thead>
+                                                                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                                                    <th class="px-4 py-3 text-center">
+                                                                        Titolo
+                                                                    </th>
+                                                                    <th class="px-4 py-3 responsive text-center">
+                                                                        Data di rilascio
+                                                                    </th>
+
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody class="bg-white">
+
+                                                                @if($sotto_progetti==!null)
+                                                                    @foreach($sotto_progetti as $sotto_progetto)
+                                                                        <tr class="text-gray-700">
+                                                                            <th class="px-4 py-3">
+                                                                                <a href="{{route("sottoprogetti.show", ["sottoprogetti"=>$sotto_progetto])}}"> {{$sotto_progetto->titolo}} </a>
+                                                                            </th>
+                                                                            <th class="px-4 py-3">
+                                                                                {{$sotto_progetto->data_rilascio}}
+                                                                            </th>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @endif
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>  <!-- fine container -->
+                                                </section>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
+
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-            </div>
-            </div>
             </div>
         </section>
 

@@ -18,12 +18,19 @@ class SottoProgettoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        if (Auth::user()->hasRuolo('manager')) {
-            $sottoProgetti = SottoProgetto::where("id", ">", 0)->paginate(10);
-        } else {
-            $sottoProgetti = SottoProgetto::where('responsabile_id', Auth::user()->id)->paginate(10);
+        if ($request->query('progetto')){
+            $sottoProgetti = SottoProgetto::where('progetto_id', $request->query('progetto'))->paginate(10);
+        }
+        else {
+            if (Auth::user()->hasRuolo('manager')) {
+                $sottoProgetti = SottoProgetto::where("id", ">", 0)->paginate(10);
+            } elseif (Auth::user()->hasRuolo('responsabile')) {
+                $sottoProgetti = Auth::user()->sotto_progetti()->paginate(10);
+            } elseif (Auth::user()->hasRuolo('ricercatore')) {
+                $sottoProgetti = Auth::user()->sotto_progetti()->paginate(10);
+            }
         }
         if ($sottoProgetti->isEmpty()) {
             return view('sottoprogetti.index', ['sottoProgetti' => $sottoProgetti])->with('error', 'Non ci sono sottoprogetti');

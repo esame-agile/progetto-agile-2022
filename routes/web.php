@@ -16,13 +16,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::resource('progetti', ProgettoController::class);
 
-/*
-        Route::get('manager/creazioneprogetti', [ProgettoController::class, 'index']);
-        Route::post('manager/creazioneprogetti',[ProgettoController::class, 'storeProgetto'])->name('creaprogetto');
-        Route::get('manager/tuttiprogetti', [ProgettoController::class, 'tuttiProgetti']);
-        Route::get('manager/modificaprogetto/{id}', [ProgettoController::class, 'edit']);
-        Route::post('manager/modificaprogetto/{id}', [ProgettoController::class, 'update']);*/
-
 
 Route::get('ricercatore/ricercatori', [RicercatoreController::class, 'index']);
 
@@ -69,7 +62,7 @@ Route::get('/ricercatori', [RicercatoreController::class, 'index'])->name('ricer
 /**
  * CRUD per i sottoprogetti.
  */
-Route::resource('sottoprogetti', SottoProgettoController::class)->middleware('auth')->middleware('ruolo:responsabile,manager,ricercatore');
+Route::resource('sottoprogetti', SottoProgettoController::class);
 Route::get('sottoprogetti/{sottoProgetto}/edit_ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sottoprogetti.edit_ricercatori')->middleware(['auth','ruolo:responsabile']);
 Route::delete('sottoprogetti/{sottoProgetto}/remove_ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sottoprogetti.remove_ricercatore")->middleware(['auth','ruolo:responsabile']);
 Route::get("sottoprogetti/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatoreView'])->name("sottoprogetti.add_ricercatore")->middleware(['auth','ruolo:responsabile']);

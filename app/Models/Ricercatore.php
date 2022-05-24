@@ -32,7 +32,7 @@ class Ricercatore extends Utente
         return $this->belongsToMany(Progetto::class);
     }
 
-    public function sotto_progetto(){
+    public function sotto_progetti(){
         return $this->belongsToMany(SottoProgetto::class);
     }
 }

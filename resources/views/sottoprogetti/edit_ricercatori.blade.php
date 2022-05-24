@@ -54,7 +54,27 @@
                 </x-slot>
             </x-table>
         @else
-            @yield('alert-message')
+            <div id="home" class="relative z-10 header-hero pt-40">
+                <div class="container">
+                    <div class="justify-center row">
+                        <div class="w-full lg:w-5/6 xl:w-2/3">
+                            <div style='background-color:rgb(255, 255, 255)'>
+                                <div class="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-4 pb-10" style="cursor: auto;">
+                                    <div
+                                        class="max-w-lg mx-auto overflow-hidden rounded-lg shadow-lg lg:max-w-none lg:flex">
+                                        <div class="flex-1 px-6 py-8 bg-white" style="cursor: auto;">
+                                            <h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl"
+                                                style="cursor: auto;">
+                                                <span class="">Nessun <strong>ricercatore</strong> assegnato</span>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endif
     </div>
 

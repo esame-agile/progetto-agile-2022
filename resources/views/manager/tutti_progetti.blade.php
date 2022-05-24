@@ -21,8 +21,8 @@
                     </div>
                 </div>
             </div>
-
 	@endif
+
 	<div class="pt-5 header-content">
 		@foreach($progetti as $progetto)
 			<div id="home" class="relative z-10 header-hero">
@@ -34,6 +34,17 @@
 									<div class="max-w-lg mx-auto overflow-hidden rounded-lg shadow-lg lg:max-w-none lg:flex">
 										<div class="flex-1 px-6 py-8 bg-white" style="cursor: auto;">
 											<h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl" style="cursor: auto;">
+                                                <a href="{{ route('progetti.edit', ["progetti" => $progetto]) }}"><i class="lni lni-pencil"></i></a>
+                                                <form method="POST"
+                                                      action="{{ route('progetti.destroy', ["progetti" => $progetto] ) }}"
+                                                      id="delete_progetto"
+                                                      name="delete_progetto"
+                                                      onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                                    @csrf
+                                                    @method("DELETE")
+                                                    <button type="submit" ><i class="lni lni-trash"></i></button>
+                                                </form>
+
 												{{$progetto->titolo}}</h3>
 											<p class="mt-6 text-base text-gray-500">{{$progetto->descrizione}}</p>
 											<div class="mt-8">
@@ -71,7 +82,7 @@
 														</div>
 
 														<p class="ml-3 text-sm text-gray-700">Responsabile in carica:</p>
-														<p class="ml-3 text-sm text-gray-700">{{--$responsabile_in_carica->nome--}}</p> -->
+														<p class="ml-3 text-sm text-gray-700">{{--$progetto->responsabile->nome--}}</p>-->
 													</li>
 												</ul>
 											</div>

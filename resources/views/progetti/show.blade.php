@@ -5,10 +5,8 @@
     <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 
     <main class="profile-page">
-        <section class="relative block h-500-px">
-            <div class="absolute top-0 w-full h-full bg-center bg-cover">
-                <span id="blackOverlay" class="w-full h-full absolute opacity-50"></span>
-            </div>
+        <section class="relative block h-350-px">
+
             <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px" style="transform: translateZ(0px)">
                 <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" version="1.1" viewBox="0 0 2560 100" x="0" y="0">
                     <polygon class="text-gray-500 fill-current" points="2560 0 2560 100 0 100"></polygon>
@@ -30,7 +28,7 @@
                                 <div class="flex justify-center py-4 lg:pt-4 pt-8">
                             </div>
                         </div>
-                        <div class="text-center mt-12">
+                        <div class="text-center mt-12 w-full">
                             <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                                {{$progetto->titolo}}
                             </h3>

@@ -28,7 +28,7 @@ class SottoProgetto extends Model
     ];
 
     public function responsabile(){
-        return $this->belongsTo(Responsabile::class, 'responsabile_id');
+        return $this->belongsTo(Ricercatore::class, 'responsabile_id');
     }
 
     public function progetto(){

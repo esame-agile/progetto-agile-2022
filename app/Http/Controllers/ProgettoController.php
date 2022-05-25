@@ -18,7 +18,7 @@ class ProgettoController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): Factory|View|Application
     {
         $progetti = Progetto::all();
 
@@ -31,7 +31,7 @@ class ProgettoController extends Controller
      * @param Progetto $progetto
      * @return Application|Factory|View
      */
-    public function show(Progetto $progetto)
+    public function show(Progetto $progetto): View|Factory|Application
     {
         $ricercatori = $progetto->ricercatori()->get();
         $sotto_progetti = $progetto->sotto_progetti()->get();
@@ -43,7 +43,7 @@ class ProgettoController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $ricercatori = Ricercatore::all();
         return view('manager.creazione-progetti', compact('ricercatori'));
@@ -55,7 +55,7 @@ class ProgettoController extends Controller
      * @param Progetto $progetto
      * @return Application|Factory|View
      */
-    public function edit(Progetto $progetto)
+    public function edit(Progetto $progetto): View|Factory|Application
     {
         $ricercatori = Ricercatore::all();
         return view('manager.modifica-progetti', compact('progetto', 'ricercatori'));
@@ -68,7 +68,7 @@ class ProgettoController extends Controller
      * @param Progetto $progetto
      * @return RedirectResponse
      */
-    public function update(Request $request, Progetto $progetto)
+    public function update(Request $request, Progetto $progetto): RedirectResponse
     {
         $this->setProjectParameters($request, $progetto);
         return redirect()->route('progetti.index');
@@ -80,7 +80,7 @@ class ProgettoController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $progetto = new Progetto;
         $this->setProjectParameters($request, $progetto);

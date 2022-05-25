@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Milestones;
 use App\Http\Controllers\Controller;
 use App\Models\Milestone;
 use App\Models\SottoProgetto;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

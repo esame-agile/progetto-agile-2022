@@ -8,7 +8,7 @@ use \App\Enum\SorgenteEnum;
 use Illuminate\Support\Arr;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Pubblicazione>
+ * @extends Factory
  */
 class PubblicazioneFactory extends Factory
 {

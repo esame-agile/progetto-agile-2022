@@ -24,12 +24,12 @@ class Report extends Model
         'titolo',
         'file_name',
         'data',
-        'autore_id',
+        'ricercatore_id',
 
     ];
 
     public function autore(){
-        return $this->belongsTo(Ricercatore::class, 'autore_id');
+        return $this->belongsTo(Ricercatore::class, 'ricercatore_id');
     }
 
     public function sotto_progetto(){

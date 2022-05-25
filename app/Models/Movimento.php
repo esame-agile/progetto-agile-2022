@@ -30,6 +30,4 @@ class Movimento extends Model
     public function budget(){
         return $this->belongsTo(Budget::class, "budget_id");
     }
-
-
 }

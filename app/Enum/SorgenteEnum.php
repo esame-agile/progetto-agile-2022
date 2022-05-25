@@ -2,8 +2,8 @@
 
 namespace App\Enum;
 
-enum SorgenteEnum:string
+class SorgenteEnum
 {
-    case API = 'API';
-    case MANUALE = 'MANUALE';
+    const API = 'API';
+    const MANUALE = 'MANUALE';
 }

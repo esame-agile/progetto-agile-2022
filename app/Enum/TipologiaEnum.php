@@ -2,11 +2,11 @@
 
 namespace App\Enum;
 
-enum TipologiaEnum:string
+class TipologiaEnum
 {
-    case ARTICOLO = 'ARTICOLO';
-    case RICERCA = 'RICERCA';
-    case LIBRO = 'LIBRO';
+    const ARTICOLO = 'ARTICOLO';
+    const RICERCA = 'RICERCA';
+    const LIBRO = 'LIBRO';
 
     static function getTipologiaEnum()
     {

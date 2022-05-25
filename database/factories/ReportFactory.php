@@ -16,8 +16,11 @@ class ReportFactory extends Factory
      */
     public function definition()
     {
+        //TODO: Implement pdf upload and download
         return [
-            //
+            'titolo' => $this->faker->sentence,
+            'filename' => $this->faker->sentence,
+            'data' => $this->faker->sentence,
         ];
     }
 }

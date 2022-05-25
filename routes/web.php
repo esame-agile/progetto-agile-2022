@@ -19,7 +19,7 @@ Route::resource('progetti', ProgettoController::class);
 
 Route::get('ricercatore/ricercatori', [RicercatoreController::class, 'index']);
 
-Route::get('ricercatore/mieiprogetti', [ProgettoController::class, 'mieiprogetti'])->name('progetti.mieiprogetti');
+Route::get('ricercatore/mieiprogetti', [ProgettoController::class, 'mieiProgetti'])->name('progetti.mieiprogetti');
 
 
 Route::prefix('pagina-personale/ricercatore')->group(function () {

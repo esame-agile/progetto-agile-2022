@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('scopo');
             $table->date('data_inizio');
             $table->date('data_fine');
+            $table->unsignedInteger('budget');
             $table->foreignId('responsabile_id')->constrained('utenti');
             $table->timestamps();
         });

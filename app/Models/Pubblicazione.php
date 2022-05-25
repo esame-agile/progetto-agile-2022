@@ -26,7 +26,6 @@ class Pubblicazione extends Model
         'sorgente',
         'ufficiale',
         'tipologia',
-        'sorgente',
         'autori_esterni'
     ];
 

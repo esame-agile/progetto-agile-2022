@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('pubblicazioni', function (Blueprint $table) {
             $table->id();
+            $table->string('doi')->unique();
+            $table->string('titolo');
+            $table->string('sorgente');
+            $table->boolean('ufficiale')->default(false);
+            $table->string('tipologia');
+            $table->string('autori_esterni')->nullable();
             $table->timestamps();
         });
     }

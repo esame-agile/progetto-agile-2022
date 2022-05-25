@@ -24,10 +24,10 @@ class Movimento extends Model
         'importo',
         'causale',
         'data',
-        'budget_id'
+        'progetto_id'
     ];
 
-    public function budget(){
-        return $this->belongsTo(Budget::class, "budget_id");
+    public function progetto(){
+        return $this->belongsTo(Progetto::class, "progetto_id");
     }
 }

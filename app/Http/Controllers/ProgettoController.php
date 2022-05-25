@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Progetto;
 use App\Models\Ricercatore;
-use App\Models\Utente;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,114 +16,86 @@ class ProgettoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function index()
     {
-
         $progetti = Progetto::all();
 
-        return view('progetti.index', compact( 'progetti'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function store(Request $request)
-    {
-
-        $progetto = new Progetto;
-        $progetto->titolo = $request->titolo;
-        $progetto->descrizione = $request->descrizione;
-        $progetto->scopo = $request->scopo;
-        $progetto->data_inizio = $request->datainizio;
-        $progetto->data_fine = $request->datafine;
-        $progetto->responsabile()->associate($request->responsabile_id);
-
-        $progetto->save();
-
-        return redirect()->route('progetti.index');
-
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $ricercatori = Utente::where('ruolo', '=', 'ricercatore')->get();
-
-        return view('manager.creazione-progetti', compact('ricercatori'));
+        return view('progetti.index', compact('progetti'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Progetto  $progetto
-     * @return \Illuminate\Http\Response
+     * @param Progetto $progetto
+     * @return Application|Factory|View
      */
-    public function show(Progetto $progetti)
+    public function show(Progetto $progetto)
     {
-        $ricercatori=$progetti->ricercatori()->get();
-        $sotto_progetti=$progetti->sotto_progetti()->get();
-        return view('progetti.show', [
-            'progetto'=>$progetti,
-            'ricercatori'=>$ricercatori,
-            'sotto_progetti'=>$sotto_progetti,
-        ]);
+        $ricercatori = $progetto->ricercatori()->get();
+        $sotto_progetti = $progetto->sotto_progetti()->get();
+        return view('progetti.show', compact('progetto', 'ricercatori', 'sotto_progetti'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Application|Factory|View
+     */
+    public function create()
+    {
+        $ricercatori = Ricercatore::all();
+        return view('manager.creazione-progetti', compact('ricercatori'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Progetto  $progetto
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param Progetto $progetto
+     * @return Application|Factory|View
      */
-    public function edit(Progetto $progetti)
+    public function edit(Progetto $progetto)
     {
-        $ricercatori = Utente::where('ruolo', '=', 'ricercatore')->get();
-        //$progetto = Progetto::find($id);
-        return view('manager.modifica-progetto', ["progetto"=>$progetti, "ricercatori"=>$ricercatori]) ;
+        $ricercatori = Ricercatore::all();
+        return view('manager.modifica-progetti', compact('progetto', 'ricercatori'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Progetto  $progetto
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Progetto $progetto
+     * @return RedirectResponse
      */
-    public function update(Request $request, Progetto $progetti)
+    public function update(Request $request, Progetto $progetto)
     {
-
-        $progetti->titolo = $request->titolo;
-        $progetti->descrizione = $request->descrizione;
-        $progetti->scopo = $request->scopo;
-        $progetti->data_inizio = $request->datainizio;
-        $progetti->data_fine = $request->datafine;
-        $progetti->responsabile()->associate($request->responsabile_id);
-
-        $progetti->save();
-
+        $this->setProjectParameters($request, $progetto);
         return redirect()->route('progetti.index');
+    }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function store(Request $request)
+    {
+        $progetto = new Progetto;
+        $this->setProjectParameters($request, $progetto);
+        return redirect()->route('progetti.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Progetto  $progetto
-     * @return \Illuminate\Http\Response
+     * @param Progetto $progetti
+     * @return RedirectResponse
      */
-    public function destroy(Progetto $progetti)
+    public function destroy(Progetto $progetti): RedirectResponse
     {
-        if(Auth::user()->hasRuolo('manager')) {
+        if (Auth::user()->hasRuolo('manager')) {
             $progetti->delete();
             return redirect()->route('progetti.index')->with('success', 'Progetto eliminato con successo');
         } else {
@@ -128,12 +103,33 @@ class ProgettoController extends Controller
         }
     }
 
-    public function mieiprogetti() {
+    /**
+     * @return Factory|View|Application
+     */
+    public function mieiProgetti(): Factory|View|Application
+    {
+        $progetti = Ricercatore::find(Auth::user()->id)->progetti()->get();
+        return view('progetti.index', compact('progetti'));
+    }
 
-        $utente = Ricercatore::find(Auth::user()->id);
-        $progetti = $utente->progetti()->get();
-        //$progetti = Progetto::all();
-        return view('progetti.index', compact( 'progetti'));
+    /**
+     * @param Request $request
+     * @param Progetto $progetto
+     * @return Progetto
+     */
+    public function setProjectParameters(Request $request, Progetto $progetto): Progetto
+    {
+        $progetto->titolo = $request->titolo;
+        $progetto->descrizione = $request->descrizione;
+        $progetto->scopo = $request->scopo;
+        $progetto->data_inizio = $request->datainizio;
+        $progetto->data_fine = $request->datafine;
+        $progetto->budget = $request->budget;
+        $progetto->responsabile()->associate($request->responsabile_id);
+
+        $progetto->save();
+
+        return $progetto;
     }
 
 }

@@ -53,6 +53,7 @@ class ProgettoTest extends TestCase
                 'scopo' => $project->scopo,
                 'datainizio' => $project->data_inizio,
                 'datafine' => $project->data_fine,
+                'budget' => $project->budget,
                 'responsabile_id' => $project->responsabile_id,
 
             ])
@@ -70,6 +71,7 @@ class ProgettoTest extends TestCase
                 'scopo' => $project->scopo,
                 'datainizio' => $project->data_inizio,
                 'datafine' => $project->data_fine,
+                'budget' => $project->budget,
                 'responsabile_id' => $project->responsabile_id,
 
             ])
@@ -81,9 +83,11 @@ class ProgettoTest extends TestCase
     {
         $user = Manager::factory()->create();
         $project = Progetto::factory()->create();
+
         $this->actingAs($user)
             ->delete('/progetti/' . $project->id)
             ->assertStatus(302);
+
         $this->assertCount(0, Progetto::all());
     }
 }

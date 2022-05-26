@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::resource('progetti', ProgettoController::class);
+Route::get('progetti/{progetto}/edit_ricercatori', [ProgettoController::class, 'editRicercatori'])->name('progetti.edit_ricercatori')->middleware(['auth']);
+Route::delete('progetti/{progetto}/remove_ricercatore/{ricercatore}', [ProgettoController::class, 'removeRicercatore'])->name("progetti.remove_ricercatore")->middleware(['auth']);
+Route::get("progetti/{progetto}/add_ricercatore", [ProgettoController::class, 'addRicercatoreView'])->name("progetti.add_ricercatore")->middleware(['auth']);
+Route::post("progetti/{progetto}/add_ricercatore", [ProgettoController::class, 'addRicercatore'])->name("progetti.add_ricercatore")->middleware(['auth']);
 
 
 Route::get('ricercatore/ricercatori', [RicercatoreController::class, 'index']);

@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 use App\Models\Manager;
 use App\Models\Progetto;
-use App\Models\Responsabile;
+use App\Models\Ricercatore;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Faker;
@@ -15,7 +15,7 @@ class ProgettoTest extends TestCase
     /**
      * Apertura vista home.
      *
-     * @return voids
+     * @return void
      */
    /* public function test_creazione_progetti_page_returns_a_successful_response()
     {
@@ -89,5 +89,57 @@ class ProgettoTest extends TestCase
             ->assertStatus(302);
 
         $this->assertCount(0, Progetto::all());
+    }
+
+    public function test_responsabile_puo_aggiungere_ricercatore()
+    {
+        $user = Ricercatore::factory()->create();
+        $project = Progetto::factory()->create([
+            'responsabile_id' => $user->id
+        ]);
+        $user2 = Ricercatore::factory()->create();
+        $this->actingAs($user)
+            ->post('/progetti/' . $project->id . '/add_ricercatore', [
+                'ricercatore_id' => $user2->id
+            ])
+            ->assertStatus(302);
+        $this->assertCount(1, $project->ricercatori);
+    }
+
+    public function test_responsabile_puo_eliminare_ricercatore()
+    {
+        $user = Ricercatore::factory()->create();
+        $project = Progetto::factory()->create([
+            'responsabile_id' => $user->id
+        ]);
+        $user2 = Ricercatore::factory()->create();
+        $project->ricercatori()->attach($user2->id);
+        $this->actingAs($user)
+            ->delete('/progetti/' . $project->id . '/remove_ricercatore/' . $user2->id)
+            ->assertStatus(302);
+        $this->assertCount(0, $project->ricercatori);
+    }
+
+    public function test_responsabile_non_puo_eliminare_ricercatore_se_non_autorizzato()
+    {
+        $user = Ricercatore::factory()->create();
+        $project = Progetto::factory()->create();
+        $user2 = Ricercatore::factory()->create();
+        $project->ricercatori()->attach($user2->id);
+        $this->actingAs($user)
+            ->delete('/progetti/' . $project->id . '/remove_ricercatore/' . $user2->id)
+            ->assertStatus(302);
+        $this->assertCount(1, $project->ricercatori);
+    }
+    public function test_utente_non_responsabile_non_puo_eliminare_ricercatore()
+    {
+        $user = Ricercatore::factory()->create();
+        $project = Progetto::factory()->create();
+        $user2 = Ricercatore::factory()->create();
+        $project->ricercatori()->attach($user2->id);
+        $this->actingAs($user)
+            ->delete('/progetti/' . $project->id . '/remove_ricercatore/' . $user2->id)
+            ->assertStatus(302);
+        $this->assertCount(1, $project->ricercatori);
     }
 }

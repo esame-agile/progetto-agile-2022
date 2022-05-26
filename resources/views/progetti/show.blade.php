@@ -1,6 +1,5 @@
 @extends('layouts.main')
 @section('content')
-
     <!-- <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"> -->
     <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 
@@ -63,7 +62,17 @@
                                                     <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2" >Ricercatori</h3>
                                                 </div>
                                             </div>
+
                                             <!--- Ricercatori--->
+                                            @auth
+                                                @if(Auth::user()->id == $progetto->responsabile_id)
+                                                    <x-button class="mb-10">
+                                                        <a href="{{route("progetti.edit_ricercatori", compact("progetto"))}}">
+                                                            MODIFICA RICERCATORI
+                                                        </a>
+                                                    </x-button>
+                                                @endif
+                                            @endauth
                                             <div class="card tabella">
                                                 <section class="container mx-fit p-6 font-semibold">
                                                     <div class="w-full overflow-hidden rounded-lg shadow-lg">
@@ -119,11 +128,15 @@
                                                 </div>
                                             </div>
                                             <!--- Progetti affiliati --->
-                                            <x-button class="mb-10">
-                                                <a href="{{route("sottoprogetti.create")}}">
-                                                    CREA SOTTOPROGETTO
-                                                </a>
-                                            </x-button>
+                                            @auth
+                                                @if(Auth::user()->hasRuolo("manager"))
+                                                    <x-button class="mb-10">
+                                                        <a href="{{route("sottoprogetti.create")}}">
+                                                            CREA SOTTOPROGETTO
+                                                        </a>
+                                                    </x-button>
+                                                @endif
+                                            @endauth
                                             <div class="card tabella">
                                                 <section class="container mx-fit p-6 font-semibold">
                                                     <div class="w-full overflow-hidden rounded-lg shadow-lg">

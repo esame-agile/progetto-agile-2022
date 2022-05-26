@@ -146,7 +146,7 @@ class SottoProgettoController extends Controller
     public function addRicercatoreView(SottoProgetto $sottoProgetto): Factory|View|RedirectResponse|Application
     {
         if (Auth::user()->id == $sottoProgetto->responsabile_id) {
-            $ricercatori = Ricercatore::all();
+            $ricercatori = Ricercatore::all()->except($sottoProgetto->ricercatori()->pluck('utenti.id')->toArray());
             return view('sottoprogetti.add_ricercatore', compact('sottoProgetto', 'ricercatori'));
         }
         return redirect()->route('sottoprogetti.edit_ricercatori', compact("sottoProgetto"))->with('error', 'Non hai i permessi per modificare i ricercatori');

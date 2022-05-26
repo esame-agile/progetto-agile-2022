@@ -13,15 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('progetti', function (Blueprint $table) {
+        Schema::create('movimenti', function (Blueprint $table) {
             $table->id();
-            $table->string('titolo');
-            $table->string('descrizione');
-            $table->string('scopo');
-            $table->date('data_inizio');
-            $table->date('data_fine');
-            $table->unsignedInteger('budget');
-            $table->foreignId('responsabile_id')->constrained('utenti');
+            $table->float('importo');
+            $table->string('causale');
+            $table->date('data');
+            $table->foreignId('progetto_id')->constrained('progetti');
             $table->timestamps();
         });
     }
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('progetti');
+        Schema::dropIfExists('movimenti');
     }
 };

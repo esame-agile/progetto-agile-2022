@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Manager;
-use App\Models\Progetto;
-use App\Models\Responsabile;
 use App\Models\Ricercatore;
 use App\Models\SottoProgetto;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,7 +13,7 @@ class SottoProgettoTest extends TestCase
     use RefreshDatabase;
     public function test_caricamento_views_sottoprogetti_responsabile()
     {
-        $user = Responsabile::factory()->create();
+        $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->create([
             'responsabile_id' => $user->id
         ]);
@@ -147,7 +145,7 @@ class SottoProgettoTest extends TestCase
 
     public function test_responsabile_puo_aggiungere_ricercatore()
     {
-        $user = Responsabile::factory()->create();
+        $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->create([
             'responsabile_id' => $user->id
         ]);
@@ -162,7 +160,7 @@ class SottoProgettoTest extends TestCase
 
     public function test_responsabile_puo_eliminare_ricercatore()
     {
-        $user = Responsabile::factory()->create();
+        $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->create([
             'responsabile_id' => $user->id
         ]);
@@ -176,7 +174,7 @@ class SottoProgettoTest extends TestCase
 
     public function test_responsabile_non_puo_eliminare_ricercatore_se_non_autorizzato()
     {
-        $user = Responsabile::factory()->create();
+        $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->create();
         $user2 = Ricercatore::factory()->create();
         $project->ricercatori()->attach($user2->id);

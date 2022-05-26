@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 use App\Models\Milestone;
-use App\Models\Progetto;
-use App\Models\Responsabile;
+use App\Models\Ricercatore;
 use App\Models\SottoProgetto;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -13,7 +12,7 @@ class MilestoneTest extends TestCase
     use RefreshDatabase;
     public function test_responsabile_puo_creare_una_milestone()
     {
-        $user = Responsabile::factory()->create();
+        $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->create([
             'responsabile_id' => $user->id
         ]);
@@ -35,7 +34,7 @@ class MilestoneTest extends TestCase
     *
     * public function test_responsabile_non_puo_creare_una_milestone_se_non_ha_il_permesso()
     {
-    $user = Responsabile::factory()->create();
+    $user = Ricercatore::factory()->create();
     $project = SottoProgetto::factory()->create();
     $milestone = Milestone::factory()->make([
     'progetto_id' => $project->id
@@ -52,7 +51,7 @@ class MilestoneTest extends TestCase
     }
     public function test_responsabile_non_puo_eliminare_una_milestone_se_non_ha_il_permesso()
     {
-    $user = Responsabile::factory()->create();
+    $user = Ricercatore::factory()->create();
     $project = SottoProgetto::factory()->create();
     $milestone = Milestone::factory()->create([
     'sotto_progetto_id' => $project->id,
@@ -66,7 +65,7 @@ class MilestoneTest extends TestCase
 
     public function test_responsabile_puo_modificare_una_milestone()
     {
-        $user = Responsabile::factory()->create();
+        $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->create([
             'responsabile_id' => $user->id
         ]);
@@ -90,7 +89,7 @@ class MilestoneTest extends TestCase
 
     public function test_responsabile_puo_eliminare_una_milestone()
     {
-        $user = Responsabile::factory()->create();
+        $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->create([
             'responsabile_id' => $user->id
         ]);
@@ -105,7 +104,7 @@ class MilestoneTest extends TestCase
 
     public function test_caricamento_views_milestones()
     {
-        $user = Responsabile::factory()->create();
+        $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->create([
             'responsabile_id' => $user->id
         ]);

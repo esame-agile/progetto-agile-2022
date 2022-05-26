@@ -15,8 +15,8 @@
                     @elseif(Auth::user()->hasRuolo("manager"))
                         <x-button class="float-right"> <a href="{{ route('sottoprogetti.create') }}"><i class="lni lni-plus"></i> Aggiungi Sottoprogetto</a></x-button>
                         <h2 class=" testo titolo grande">Elenco di tutti i sottoprogetti</h2>
-                    @elseif(Auth::user()->hasRuolo("responsabile"))
-                        <h2 class=" testo titolo grande">Elenco dei sottoprogetti di cui sei responsabile</h2>
+                    {{--@elseif(Auth::user()->hasRuolo("responsabile"))
+                        <h2 class=" testo titolo grande">Elenco dei sottoprogetti di cui sei responsabile</h2>--}}
                     @elseif(Auth::user()->hasRuolo("ricercatore"))
                         <h2 class=" testo titolo grande">Elenco dei sottoprogetti a cui sei assegnato</h2>
                     @else

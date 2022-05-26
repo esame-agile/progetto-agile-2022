@@ -23,7 +23,7 @@ Route::post("progetti/{progetto}/add_ricercatore", [ProgettoController::class, '
 
 Route::get('ricercatore/ricercatori', [RicercatoreController::class, 'index']);
 
-Route::get('ricercatore/mieiprogetti', [ProgettoController::class, 'mieiprogetti'])->name('progetti.mieiprogetti');
+Route::get('ricercatore/mieiprogetti', [ProgettoController::class, 'mieiProgetti'])->name('progetti.mieiprogetti');
 
 
 Route::prefix('pagina-personale/ricercatore')->group(function () {
@@ -67,14 +67,14 @@ Route::get('/ricercatori', [RicercatoreController::class, 'index'])->name('ricer
  * CRUD per i sottoprogetti.
  */
 Route::resource('sottoprogetti', SottoProgettoController::class);
-Route::get('sottoprogetti/{sottoProgetto}/edit_ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sottoprogetti.edit_ricercatori')->middleware(['auth','ruolo:responsabile']);
-Route::delete('sottoprogetti/{sottoProgetto}/remove_ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sottoprogetti.remove_ricercatore")->middleware(['auth','ruolo:responsabile']);
-Route::get("sottoprogetti/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatoreView'])->name("sottoprogetti.add_ricercatore")->middleware(['auth','ruolo:responsabile']);
-Route::post("sottoprogetti/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatore'])->name("sottoprogetti.add_ricercatore")->middleware(['auth','ruolo:responsabile']);
+Route::get('sottoprogetti/{sottoProgetto}/edit_ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sottoprogetti.edit_ricercatori')->middleware(['auth','ruolo:ricercatore']);
+Route::delete('sottoprogetti/{sottoProgetto}/remove_ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sottoprogetti.remove_ricercatore")->middleware(['auth','ruolo:ricercatore']);
+Route::get("sottoprogetti/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatoreView'])->name("sottoprogetti.add_ricercatore")->middleware(['auth','ruolo:ricercatore']);
+Route::post("sottoprogetti/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatore'])->name("sottoprogetti.add_ricercatore")->middleware(['auth','ruolo:ricercatore']);
 
 /**
  * CRUD per le milestones.
  */
-Route::resource('sottoprogetti.milestones', MilestoneController::class)->middleware('auth')->middleware('ruolo:responsabile,manager');
+Route::resource('sottoprogetti.milestones', MilestoneController::class)->middleware('auth')->middleware('ruolo:ricercatore,manager');
 
 require __DIR__ . '/auth.php';

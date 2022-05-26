@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Finanziatore;
 use App\Models\Manager;
-use App\Models\Progetto;
-use App\Models\Responsabile;
 use App\Models\Ricercatore;
 use App\Models\Utente;
 use Illuminate\Support\Facades\Auth;
@@ -16,17 +14,17 @@ class PaginaPersonaleController extends Controller
     public function index()
     {
         $utente = Auth::user();
-        $ricercatore=Ricercatore::find($utente->id);
-        $progetti=$ricercatore->progetti()->get();
+        $ricercatore = Ricercatore::find($utente->id);
+        $progetti = $ricercatore->progetti()->get();
 
-        return view('pagina-personale.ricercatore.index', compact('utente',  'progetti'));
+        return view('pagina-personale.ricercatore.index', compact('utente', 'progetti'));
     }
 
     public function guest_index(Ricercatore $utente)
     {
-        $progetti=$utente->progetti()->get();
+        $progetti = $utente->progetti()->get();
 
-        return view('pagina-personale.ricercatore.guest-index', compact ('utente', 'progetti'));
+        return view('pagina-personale.ricercatore.guest-index', compact('utente', 'progetti'));
     }
 
     public function edit_info(Utente $utente)
@@ -41,18 +39,8 @@ class PaginaPersonaleController extends Controller
         switch ($utente->ruolo) {
             case 'ricercatore':
                 $utente = Ricercatore::find($utente->id);
-                $this->validateRicercatoreOrResponsabile();
-                if($request->password != null) {
-                    $this->validatePassword();
-                    $utente->update($request->all(['nome', 'cognome', 'email', 'password', 'data_nascita', 'universita', 'ambito_ricerca']));
-                } else {
-                    $utente->update($request->all(['nome', 'cognome', 'email', 'data_nascita', 'universita', 'ambito_ricerca']));
-                }
-                break;
-            case 'responsabile':
-                $utente = Responsabile::find($utente->id);
-                $this->validateRicercatoreOrResponsabile();
-                if($request->password != null) {
+                $this->validateRicercatore();
+                if ($request->password != null) {
                     $this->validatePassword();
                     $utente->update($request->all(['nome', 'cognome', 'email', 'password', 'data_nascita', 'universita', 'ambito_ricerca']));
                 } else {
@@ -62,7 +50,7 @@ class PaginaPersonaleController extends Controller
             case 'finanziatore':
                 $utente = Finanziatore::find($utente->id);
                 $this->validateFinanziatore();
-                if($request->password != null) {
+                if ($request->password != null) {
                     $this->validatePassword();
                     $utente->update($request->all(['nome', 'cognome', 'email', 'password', 'nome_azienda']));
                 } else {
@@ -71,7 +59,7 @@ class PaginaPersonaleController extends Controller
                 break;
             case 'manager':
                 $utente = Manager::find($utente->id);
-                if($request->password != null) {
+                if ($request->password != null) {
                     $this->validatePassword();
                     $utente->update($request->all(['nome', 'cognome', 'email', 'password']));
                 } else {
@@ -106,7 +94,7 @@ class PaginaPersonaleController extends Controller
         ]);
     }
 
-    protected function validateRicercatoreOrResponsabile()
+    protected function validateRicercatore()
     {
         return request()->validate([
             'data_nascita' => 'required',

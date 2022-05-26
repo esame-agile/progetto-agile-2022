@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Progetto;
 use App\Models\Responsabile;
+use App\Models\Ricercatore;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +24,7 @@ class SottoProgettoFactory extends Factory
             'descrizione' => $this->faker->sentence(true),
             'data_rilascio' => $this->faker->dateTimeBetween(now(), '+1 month')->format('Y-m-d'),
             'responsabile_id' => function () {
-                return Responsabile::factory()->create()->id;
+                return Ricercatore::factory()->create()->id;
             },
             'progetto_id' => function () {
                 return Progetto::factory()->create()->id;

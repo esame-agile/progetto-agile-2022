@@ -15,30 +15,32 @@ class   MilestoneController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return View|RedirectResponse
+     * @param int $sottoProgetto
+     * @return View
      */
-    public function index(int $sottoProgetto): View|RedirectResponse
+    public function index(int $sottoProgetto): View
     {
         $sp = SottoProgetto::where("id",$sottoProgetto)->firstOrFail();
         if ($sp->milestones && ($sp->responsabile_id == Auth::user()->id || Auth::user()->hasRuolo("manager"))) {
             $milestones = Milestone::where('sotto_progetto_id', $sottoProgetto)->paginate(10);
-            return view('milestones.index', ['sottoProgetto' => $sottoProgetto, 'milestones'=> $milestones]);
+            return view('milestones.index', compact('sottoProgetto', 'milestones'));
         } else {
-            return redirect()->route('sottoprogetti.index');
+            return view('sottoprogetti.index');
         }
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param int $sottoProgetto
      * @return View
      */
     public function create(int $sottoProgetto ): View
     {
         if (SottoProgetto::find($sottoProgetto)->responsabile_id == Auth::user()->id) {
-            return view('milestones.create', ['sottoProgetto' => $sottoProgetto]);
+            return view('milestones.create', compact('sottoProgetto'));
         } else {
-            return redirect()->route('sottoprogetti.index');
+            return view('sottoprogetti.index');
         }
     }
 
@@ -61,30 +63,32 @@ class   MilestoneController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param $id
-     * @return View|RedirectResponse
+     * @param $sotto_progetto_id
+     * @param Milestone $milestone
+     * @return View
      */
-    public function show($sotto_progetto_id, Milestone $milestone)
+    public function show($sotto_progetto_id, Milestone $milestone): View
     {
         if (($milestone->sotto_progetto->responsabile_id == Auth::user()->id || Auth::user()->hasRuolo("manager")) && $milestone->sotto_progetto->id == $sotto_progetto_id) {
             return view('milestones.show', compact('sotto_progetto_id','milestone'));
         } else {
-            return redirect()->route('sottoprogetti.index');
+            return view('sottoprogetti.index');
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param $id
-     * @return View|RedirectResponse
+     * @param int $sottoProgetto
+     * @param Milestone $milestone
+     * @return View
      */
-    public function edit(int $sottoProgetto, Milestone $milestone)
+    public function edit(int $sottoProgetto, Milestone $milestone): View
     {
         if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id && $milestone->sotto_progetto->id == $sottoProgetto) {
             return view('milestones.edit', compact('sottoProgetto','milestone'));
         } else {
-            return redirect()->route('sottoprogetti.index');
+            return view('sottoprogetti.index');
         }
     }
 

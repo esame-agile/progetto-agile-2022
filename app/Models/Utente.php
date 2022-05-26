@@ -70,14 +70,6 @@ class Utente extends Authenticatable
     }
 
     /**
-     * restituisce l'utente se responsabile
-     */
-    public function scopeIsResponsabile($query)
-    {
-        return $query->where('ruolo', '=', 'responsabile');
-    }
-
-    /**
      * restituisce l'utente se è finanziatore
      */
     public function scopeIsFinanziatore($query)

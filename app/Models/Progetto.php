@@ -26,11 +26,13 @@ class Progetto extends Model
         'scopo',
         'data_inizio',
         'data_fine',
+        'budget',
         'responsabile_id',
+
     ];
 
     public function responsabile(){
-        return $this->belongsTo(Responsabile::class, 'responsabile_id');
+        return $this->belongsTo(Ricercatore::class, 'responsabile_id');
     }
 
     public function finanziatori(){

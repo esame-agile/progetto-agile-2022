@@ -36,9 +36,9 @@
                                 <label for="responsabile_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Responsabile</label>
                                 <x-select name="responsabile_id" id="responsabile_id" form="informazioni">
                                     <x-slot name="body">
-                                        @foreach($responsabili as $responsabile)
-                                            <option value="{{$responsabile->id}}">
-                                                {{$responsabile->nome}} {{$responsabile->cognome}}
+                                        @foreach($ricercatori as $ricercatore)
+                                            <option value="{{$ricercatore->id}}">
+                                                {{$ricercatore->nome}} {{$ricercatore->cognome}}
                                             </option>
                                         @endforeach
                                     </x-slot>

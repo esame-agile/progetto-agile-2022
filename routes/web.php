@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Milestones\MilestoneController;
-use App\Http\Controllers\PaginaPersonaleController;
+use App\Http\Controllers\PaginaPersonaleFinanziatoreController;
+use App\Http\Controllers\PaginaPersonaleManagerController;
+use App\Http\Controllers\PaginaPersonaleRicercatoreController;
 use App\Http\Controllers\ProgettoController;
 use App\Http\Controllers\RicercatoreController;
 use App\Http\Controllers\SottoProgettoController;
@@ -32,27 +34,68 @@ Route::prefix('pagina-personale/ricercatore')->group(function () {
      * Vista pagina personale di un ricercatore per i non autenticati.
      *
      */
-    Route::get('/index/{utente}', [PaginaPersonaleController::class, 'guest_index'])->name('pagina-personale.ricercatore.guest-index');
+    Route::get('/index/{utente}', [PaginaPersonaleRicercatoreController::class, 'guest_index'])->name('pagina-personale.ricercatore.guest-index');
 
     /**
      * Vista pagina personale di un ricercatore.
      *
      */
-    Route::get('/index', [PaginaPersonaleController::class, 'index'])->name('pagina-personale.ricercatore.index')->middleware('auth');
+    Route::get('/index', [PaginaPersonaleRicercatoreController::class, 'index'])->name('pagina-personale.ricercatore.index')->middleware('auth');
 
     /**
      * Vista per editare le informazioni di un ricercatore.
      *
      */
-    Route::get('/edit-info/{utente}', [PaginaPersonaleController::class, 'edit_info'])->name('pagina-personale.ricercatore.edit-info')->middleware('auth');
+    Route::get('/edit-info/{utente}', [PaginaPersonaleRicercatoreController::class, 'edit_info'])->name('pagina-personale.ricercatore.edit-info')->middleware('auth');
 
     /**
      * Aggiorna le informazioni di un utente.
      *
      */
-    Route::put('/update-info/{utente}', [PaginaPersonaleController::class, 'update_info'])->name('pagina-personale.ricercatore.update-info')->middleware('auth');
+    Route::put('/update-info/{utente}', [PaginaPersonaleRicercatoreController::class, 'update_info'])->name('pagina-personale.ricercatore.update-info')->middleware('auth');
 });
 
+Route::prefix('pagina-personale/manager')->group(function () {
+
+    /**
+     * Vista pagina personale di un manager.
+     *
+     */
+    Route::get('/index', [PaginaPersonaleManagerController::class, 'index'])->name('pagina-personale.manager.index')->middleware('auth');
+
+    /**
+     * Vista per editare le informazioni di un manager.
+     *
+     */
+    Route::get('/edit-info/{utente}', [PaginaPersonaleManagerController::class, 'edit_info'])->name('pagina-personale.manager.edit-info')->middleware('auth');
+
+    /**
+     * Aggiorna le informazioni di un manager.
+     *
+     */
+    Route::put('/update-info/{utente}', [PaginaPersonaleManagerController::class, 'update_info'])->name('pagina-personale.manager.update-info')->middleware('auth');
+});
+
+Route::prefix('pagina-personale/finanziatore')->group(function () {
+
+    /**
+     * Vista pagina personale di un finanziatore.
+     *
+     */
+    Route::get('/index', [PaginaPersonaleFinanziatoreController::class, 'index'])->name('pagina-personale.finanziatore.index')->middleware('auth');
+
+    /**
+     * Vista per editare le informazioni di un finanziatore.
+     *
+     */
+    Route::get('/edit-info/{utente}', [PaginaPersonaleFinanziatoreController::class, 'edit_info'])->name('pagina-personale.finanziatore.edit-info')->middleware('auth');
+
+    /**
+     * Aggiorna le informazioni di un finanziatore.
+     *
+     */
+    Route::put('/update-info/{utente}', [PaginaPersonaleFinanziatoreController::class, 'update_info'])->name('pagina-personale.finanziatore.update-info')->middleware('auth');
+});
 /**
  * Elenco ricercatori per un guest.
  *

@@ -29,24 +29,42 @@
                                             <a class="nav-link" href="{{route('progetti.create')}}">CREA PROGETTO</a>
                                         </li>
                                     @endif
-                                        @if(Auth::user()->ruolo == 'ricercatore')
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="{{url('ricercatore/ricercatori')}}">TUTTI I RICERCATORI</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="{{route('progetti.mieiprogetti')}}">I MIEI PROGETTI</a>
-                                            </li>
-                                            <li class="">
-                                                <a class="material-symbols-rounded nav-icon"
-                                                   href="{{route('pagina-personale.ricercatore.index')}}">person</a>
-                                            </li>
-                                        @endif
+                                    @if(Auth::user()->ruolo == 'ricercatore')
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{url('ricercatore/ricercatori')}}">TUTTI I
+                                                RICERCATORI</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{route('progetti.mieiprogetti')}}">I MIEI
+                                                PROGETTI</a>
+                                        </li>
+                                        <li class="">
+                                            <a class="material-symbols-rounded nav-icon"
+                                               href="{{route('pagina-personale.ricercatore.index')}}">person</a>
+                                        </li>
+                                    @endif
                                     <li class="nav-item">
                                         <form method="POST" action="{{ route('logout') }}" id="logout">
                                             @csrf
                                             <button class="nav-btn" type="submit">LOGOUT</button>
                                         </form>
                                     </li>
+                                    @if(Auth::user()->ruolo == 'manager')
+                                        <li class="">
+                                            <a class="material-symbols-rounded nav-icon"
+                                               href="{{route('pagina-personale.manager.index')}}">person</a>
+                                        </li>
+                                    @elseif (Auth::user()->ruolo == 'ricercatore')
+                                        <li class="">
+                                            <a class="material-symbols-rounded nav-icon"
+                                               href="{{route('pagina-personale.ricercatore.index')}}">person</a>
+                                        </li>
+                                    @elseif(Auth::user()->ruolo == 'finanziatore')
+                                        <li class="">
+                                            <a class="material-symbols-rounded nav-icon"
+                                               href="{{route('pagina-personale.finanziatore.index')}}">person</a>
+                                        </li>
+                                    @endif
                                 @endauth
                                 @guest()
                                     <li class="">
@@ -56,19 +74,13 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{route('ricercatori')}}">TUTTI I RICERCATORI</a>
                                     </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{route('progetti.index')}}">TUTTI I PROGETTI</a>
-                                        </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{route('progetti.index')}}">TUTTI I PROGETTI</a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{route('login')}}">LOGIN</a>
                                     </li>
                                 @endguest
-                                @auth()
-                                   <!-- <li class="">
-                                        <a class="material-symbols-rounded nav-icon"
-                                           href="{{--route('pagina-personale.ricercatore.index')--}}">person</a>
-                                    </li>-->
-                                @endauth
                             </ul>
                         </div>
                     </nav> <!-- navbar -->

@@ -7,7 +7,7 @@
             <div class="card-body">
                 <div class="form-container">
                     <form class="informazioni" method="POST"
-                          action="{{ route('sottoprogetti.milestones.store', ["sottoprogetti" => $sottoProgetto]) }}">
+                          action="{{ route('milestone.store', ["sotto-progetto" => $sottoProgetto]) }}">
                         @csrf
                         <div class="mb-6">
                             <div class="form-control float-left inline-block">

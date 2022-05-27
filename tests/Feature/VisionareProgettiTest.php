@@ -15,7 +15,7 @@ class VisionareProgettiTest extends TestCase
     public function test_tutti_i_progetti_navbarButton_returns_a_successful_response()
     {
 
-        $response = $this->get('/progetti');
+        $response = $this->get('/progetto/index');
 
         $response->assertStatus(200);
     }
@@ -24,7 +24,7 @@ class VisionareProgettiTest extends TestCase
     {
         $progetto = Progetto::factory()->create();
 
-        $response = $this->get('/progetti/' . $progetto->id);
+        $response = $this->get('/progetto/show/' . $progetto->id);
 
         $response->assertStatus(200);
     }

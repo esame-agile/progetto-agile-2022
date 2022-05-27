@@ -7,7 +7,7 @@
     @yield('head')
     <body class="flex-wrapper">
     @yield('navbar')
-    <div class="mt-40">
+    <div>
         @yield('content')
     </div>
     @yield('footer')

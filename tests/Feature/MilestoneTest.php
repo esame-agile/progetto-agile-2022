@@ -20,7 +20,7 @@ class MilestoneTest extends TestCase
             'sotto_progetto_id' => $project->id,
         ]);
         $this->actingAs($user)
-            ->post('/sottoprogetti/' . $project->id . '/milestones', [
+            ->post('/sotto-progetto/milestone/'. $project . '/create', [
                 'descrizione' => $milestone->descrizione,
                 'data_evento' => $milestone->data_evento,
                 'responsabile_id' => $milestone->responsabile_id,
@@ -30,7 +30,7 @@ class MilestoneTest extends TestCase
         $this->assertCount(1, $project->fresh()->milestones);
     }
 
-    /* Da decommentare quando si aggiunge la gestione dei sottoprogetti
+    /* Da decommentare quando si aggiunge la gestione dei sotto-progetto
     *
     * public function test_responsabile_non_puo_creare_una_milestone_se_non_ha_il_permesso()
     {
@@ -40,7 +40,7 @@ class MilestoneTest extends TestCase
     'progetto_id' => $project->id
     ]);
     $this->actingAs($user)
-    ->post('/sottoprogetti/' . $project->id . '/milestones', [
+    ->post('/sotto-progetto/' . $project->id . '/milestone', [
     'descrizione' => $milestone->descrizione,
     'data_evento' => $milestone->data_evento,
     'responsabile_id' => $milestone->responsabile_id,
@@ -57,7 +57,7 @@ class MilestoneTest extends TestCase
     'sotto_progetto_id' => $project->id,
     ]);
     $this->actingAs($user)
-    ->delete('/sottoprogetti/' . $project->id . '/milestones/' . $milestone->id)
+    ->delete('/sotto-progetto/' . $project->id . '/milestone/' . $milestone->id)
     ->assertStatus(302);
     $this->assertCount(1, $project->fresh()->milestones);
     }
@@ -76,7 +76,7 @@ class MilestoneTest extends TestCase
         $descrizione = $faker->sentence;
         $data_evento = $faker->date;
         $this->actingAs($user)
-            ->put('/sottoprogetti/' . $project->id . '/milestones/' . $milestone->id, [
+            ->put('/sotto-progetto/milestone/edit/' . $milestone->id, [
                 'descrizione' => $descrizione,
                 'data_evento' => $data_evento,
                 'responsabile_id' => $milestone->responsabile_id,
@@ -97,7 +97,7 @@ class MilestoneTest extends TestCase
             'sotto_progetto_id' => $project->id,
         ]);
         $this->actingAs($user)
-            ->delete('/sottoprogetti/' . $project->id . '/milestones/' . $milestone->id)
+            ->delete('/sotto-progetto/milestone/destroy/' . $milestone->id)
             ->assertStatus(302);
         $this->assertCount(0, $project->fresh()->milestones);
     }
@@ -111,14 +111,15 @@ class MilestoneTest extends TestCase
         $milestone = Milestone::factory()->create([
             'sotto_progetto_id' => $project->id,
         ]);
+
         $this->actingAs($user)
-            ->get('/sottoprogetti/' . $project->id . '/milestones/')
+            ->get('/sotto-progetto/milestone/show/' . $milestone->id)
             ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/sottoprogetti/' . $project->id . '/milestones/' . $milestone->id)
+            ->get('/sotto-progetto/milestone/edit/' . $milestone->id)
             ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/sottoprogetti/' . $project->id . '/milestones/' . $milestone->id . '/edit')
+            ->get('/sotto-progetto/milestone/index/' . $project->id )
             ->assertStatus(200);
     }
 

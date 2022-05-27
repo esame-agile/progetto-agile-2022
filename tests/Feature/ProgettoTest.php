@@ -25,7 +25,7 @@ class ProgettoTest extends TestCase
 
     public function test_lista_progetti_page_returns_a_successful_response()
     {
-        $response = $this->get('/progetti');
+        $response = $this->get('/progetto');
         $response->assertStatus(200);
     }
     */
@@ -35,10 +35,16 @@ class ProgettoTest extends TestCase
         $progetto= Progetto::factory()->create();
 
         $this->actingAs($user)
-            ->get('/progetti')
+            ->get('/progetto/index')
             ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/progetti/create')
+            ->get('/progetto/show/' . $progetto->id)
+            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/progetto/edit/' . $progetto->id)
+            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/progetto/create')
             ->assertStatus(200);
     }
 
@@ -47,7 +53,7 @@ class ProgettoTest extends TestCase
         $user = Manager::factory()->create();
         $project = Progetto::factory()->make();
         $this->actingAs($user)
-            ->post('/progetti', [
+            ->post('/progetto/store', [
                 'titolo' => $project->titolo,
                 'descrizione' => $project->descrizione,
                 'scopo' => $project->scopo,
@@ -65,7 +71,7 @@ class ProgettoTest extends TestCase
         $user = Manager::factory()->create();
         $project = Progetto::factory()->create();
         $this->actingAs($user)
-            ->put('/progetti/' . $project->id,  [
+            ->put('/progetto/update/' . $project->id,  [
                 'titolo' => $project->titolo,
                 'descrizione' => $project->descrizione,
                 'scopo' => $project->scopo,
@@ -85,7 +91,7 @@ class ProgettoTest extends TestCase
         $project = Progetto::factory()->create();
 
         $this->actingAs($user)
-            ->delete('/progetti/' . $project->id)
+            ->delete('/progetto/destroy/' . $project->id)
             ->assertStatus(302);
 
         $this->assertCount(0, Progetto::all());
@@ -99,7 +105,7 @@ class ProgettoTest extends TestCase
         ]);
         $user2 = Ricercatore::factory()->create();
         $this->actingAs($user)
-            ->post('/progetti/' . $project->id . '/add_ricercatore', [
+            ->post('/progetto/' . $project->id . '/store-ricercatore', [
                 'ricercatore_id' => $user2->id
             ])
             ->assertStatus(302);
@@ -115,7 +121,7 @@ class ProgettoTest extends TestCase
         $user2 = Ricercatore::factory()->create();
         $project->ricercatori()->attach($user2->id);
         $this->actingAs($user)
-            ->delete('/progetti/' . $project->id . '/remove_ricercatore/' . $user2->id)
+            ->delete('/progetto/' . $project->id . '/remove-ricercatore/' . $user2->id)
             ->assertStatus(302);
         $this->assertCount(0, $project->ricercatori);
     }
@@ -127,7 +133,7 @@ class ProgettoTest extends TestCase
         $user2 = Ricercatore::factory()->create();
         $project->ricercatori()->attach($user2->id);
         $this->actingAs($user)
-            ->delete('/progetti/' . $project->id . '/remove_ricercatore/' . $user2->id)
+            ->delete('/progetto/' . $project->id . '/remove-ricercatore/' . $user2->id)
             ->assertStatus(302);
         $this->assertCount(1, $project->ricercatori);
     }
@@ -138,7 +144,7 @@ class ProgettoTest extends TestCase
         $user2 = Ricercatore::factory()->create();
         $project->ricercatori()->attach($user2->id);
         $this->actingAs($user)
-            ->delete('/progetti/' . $project->id . '/remove_ricercatore/' . $user2->id)
+            ->delete('/progetto/' . $project->id . '/remove-ricercatore/' . $user2->id)
             ->assertStatus(302);
         $this->assertCount(1, $project->ricercatori);
     }

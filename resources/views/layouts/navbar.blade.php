@@ -20,65 +20,46 @@
                             class="absolute left-0 z-30 hidden w-full px-5 py-3 duration-300 bg-white shadow md:opacity-100 md:w-auto collapse navbar-collapse md:block top-100 mt-full md:static md:bg-transparent md:shadow-none"
                             id="navbarOne">
                             <ul class="items-center content-start mr-auto lg:justify-center md:justify-end navbar-nav md:flex">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('ricercatore.index')}}">RICERCATORI</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('progetto.index')}}">PROGETTI</a>
+                                </li>
                                 @auth()
                                     @if(Auth::user()->ruolo == 'manager')
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{route('progetti.index')}}">TUTTI I PROGETTI</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{route('progetti.create')}}">CREA PROGETTO</a>
+                                            <a class="nav-link" href="{{route('progetto.create')}}">CREA PROGETTO</a>
                                         </li>
                                     @endif
                                     @if(Auth::user()->ruolo == 'ricercatore')
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{url('ricercatore/ricercatori')}}">TUTTI I
-                                                RICERCATORI</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{route('progetti.mieiprogetti')}}">I MIEI
+                                            <a class="nav-link" href="{{route('ricercatore.progetti')}}">I MIEI
                                                 PROGETTI</a>
-                                        </li>
-                                        <li class="">
-                                            <a class="material-symbols-rounded nav-icon"
-                                               href="{{route('pagina-personale.ricercatore.index')}}">person</a>
                                         </li>
                                     @endif
                                     <li class="nav-item">
-                                        <form method="POST" action="{{ route('logout') }}" id="logout">
+                                        <form method="POST" action="{{route('logout')}}" id="logout">
                                             @csrf
                                             <button class="nav-btn" type="submit">LOGOUT</button>
                                         </form>
                                     </li>
-                                    @if(Auth::user()->ruolo == 'manager')
-                                        <li class="">
-                                            <a class="material-symbols-rounded nav-icon"
-                                               href="{{route('pagina-personale.manager.index')}}">person</a>
-                                        </li>
-                                    @elseif (Auth::user()->ruolo == 'ricercatore')
-                                        <li class="">
-                                            <a class="material-symbols-rounded nav-icon"
-                                               href="{{route('pagina-personale.ricercatore.index')}}">person</a>
-                                        </li>
-                                    @elseif(Auth::user()->ruolo == 'finanziatore')
-                                        <li class="">
-                                            <a class="material-symbols-rounded nav-icon"
-                                               href="{{route('pagina-personale.finanziatore.index')}}">person</a>
-                                        </li>
-                                    @endif
-                                @endauth
-                                @guest()
                                     <li class="">
                                         <a class="material-symbols-rounded nav-icon"
                                            href="{{route('home')}}">home</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{route('ricercatori')}}">TUTTI I RICERCATORI</a>
+                                    <li class="">
+                                        <a class="material-symbols-rounded nav-icon"
+                                           href="{{route(Auth::user()->ruolo . '.show')}}">person</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{route('progetti.index')}}">TUTTI I PROGETTI</a>
-                                    </li>
+                                @endauth
+                                @guest()
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{route('login')}}">LOGIN</a>
+                                    </li>
+                                    <li class="">
+                                        <a class="material-symbols-rounded nav-icon"
+                                           href="{{route('home')}}">home</a>
                                     </li>
                                 @endguest
                             </ul>

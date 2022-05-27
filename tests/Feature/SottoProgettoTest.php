@@ -17,11 +17,23 @@ class SottoProgettoTest extends TestCase
         $project = SottoProgetto::factory()->create([
             'responsabile_id' => $user->id
         ]);
+//        $this->actingAs($user)
+//            ->get('/sotto-progetto/index')
+//            ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/sottoprogetti/' . $project->id)
+            ->get('/sotto-progetto/show/' . $project->id)
             ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/sottoprogetti')
+            ->get('/sotto-progetto/edit/' . $project->id)
+            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/sotto-progetto/create')
+            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/sotto-progetto/'. $project->id .'/edit-ricercatori')
+            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/sotto-progetto/'. $project->id .'/add-ricercatore')
             ->assertStatus(200);
     }
 
@@ -30,16 +42,10 @@ class SottoProgettoTest extends TestCase
         $user = Manager::factory()->create();
         $project = SottoProgetto::factory()->create();
         $this->actingAs($user)
-            ->get('/sottoprogetti/' . $project->id)
+            ->get('/sotto-progetto/index')
             ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/sottoprogetti/' . $project->id . '/edit')
-            ->assertStatus(200);
-        $this->actingAs($user)
-            ->get('/sottoprogetti/create')
-            ->assertStatus(200);
-        $this->actingAs($user)
-            ->get('/sottoprogetti')
+            ->get('/sotto-progetto/show/' . $project->id)
             ->assertStatus(200);
     }
 
@@ -48,10 +54,10 @@ class SottoProgettoTest extends TestCase
         $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->create();
         $this->actingAs($user)
-            ->get('/sottoprogetti/' . $project->id)
+            ->get('/sotto-progetto/index')
             ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/sottoprogetti')
+            ->get('/sotto-progetto/show/' . $project->id)
             ->assertStatus(200);
     }
 
@@ -60,7 +66,7 @@ class SottoProgettoTest extends TestCase
         $user = Manager::factory()->create();
         $project = SottoProgetto::factory()->make();
         $this->actingAs($user)
-            ->post('/sottoprogetti', [
+            ->post('/sotto-progetto/create', [
                 'titolo' => $project->titolo,
                 'descrizione' => $project->descrizione,
                 'data_rilascio' => $project->data_rilascio,
@@ -76,7 +82,7 @@ class SottoProgettoTest extends TestCase
         $user = Manager::factory()->create();
         $project = SottoProgetto::factory()->create();
         $this->actingAs($user)
-            ->put('/sottoprogetti/' . $project->id, [
+            ->put('/sotto-progetto/edit/' . $project->id, [
                 'titolo' => $project->titolo,
                 'descrizione' => $project->descrizione,
                 'data_rilascio' => $project->data_rilascio,
@@ -92,7 +98,7 @@ class SottoProgettoTest extends TestCase
         $user = Manager::factory()->create();
         $project = SottoProgetto::factory()->create();
         $this->actingAs($user)
-            ->delete('/sottoprogetti/' . $project->id)
+            ->delete('/sotto-progetto/destroy/' . $project->id)
                 ->assertStatus(302);
         $this->assertCount(0, SottoProgetto::all());
     }
@@ -102,7 +108,7 @@ class SottoProgettoTest extends TestCase
         $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->make();
         $this->actingAs($user)
-            ->post('/sottoprogetti', [
+            ->post('/sotto-progetto/create/', [
                 'titolo' => $project->titolo,
                 'descrizione' => $project->descrizione,
                 'data_rilascio' => $project->data_rilascio,
@@ -119,7 +125,7 @@ class SottoProgettoTest extends TestCase
         $project = SottoProgetto::factory()->create();
         $project2 = SottoProgetto::factory()->make();
         $this->actingAs($user)
-            ->put('/sottoprogetti/' . $project->id, [
+            ->put('/sotto-progetto/edit/' . $project->id, [
                 'titolo' => $project2->titolo,
                 'descrizione' => $project2->descrizione,
                 'data_rilascio' => $project2->data_rilascio,
@@ -136,12 +142,10 @@ class SottoProgettoTest extends TestCase
         $user = Ricercatore::factory()->create();
         $project = SottoProgetto::factory()->create();
         $this->actingAs($user)
-            ->delete('/sottoprogetti/' . $project->id)
+            ->delete('/sotto-progetto/destroy/' . $project->id)
                 ->assertStatus(302);
         $this->assertCount(1, SottoProgetto::all());
     }
-
-
 
     public function test_responsabile_puo_aggiungere_ricercatore()
     {
@@ -151,7 +155,7 @@ class SottoProgettoTest extends TestCase
         ]);
         $user2 = Ricercatore::factory()->create();
         $this->actingAs($user)
-            ->post('/sottoprogetti/' . $project->id . '/add_ricercatore', [
+            ->post('/sotto-progetto/' . $project->id . '/store-ricercatore', [
                 'ricercatore_id' => $user2->id
             ])
             ->assertStatus(302);
@@ -167,7 +171,7 @@ class SottoProgettoTest extends TestCase
         $user2 = Ricercatore::factory()->create();
         $project->ricercatori()->attach($user2->id);
         $this->actingAs($user)
-            ->delete('/sottoprogetti/' . $project->id . '/remove_ricercatore/' . $user2->id)
+            ->delete('/sotto-progetto/' . $project->id . '/remove-ricercatore/' . $user2->id)
             ->assertStatus(302);
         $this->assertCount(0, $project->ricercatori);
     }
@@ -179,7 +183,7 @@ class SottoProgettoTest extends TestCase
         $user2 = Ricercatore::factory()->create();
         $project->ricercatori()->attach($user2->id);
         $this->actingAs($user)
-            ->delete('/sottoprogetti/' . $project->id . '/remove_ricercatore/' . $user2->id)
+            ->delete('/sotto-progetto/' . $project->id . '/remove-ricercatore/' . $user2->id)
             ->assertStatus(302);
         $this->assertCount(1, $project->ricercatori);
     }
@@ -190,7 +194,7 @@ class SottoProgettoTest extends TestCase
         $user2 = Ricercatore::factory()->create();
         $project->ricercatori()->attach($user2->id);
         $this->actingAs($user)
-            ->delete('/sottoprogetti/' . $project->id . '/remove_ricercatore/' . $user2->id)
+            ->delete('/sotto-progetto/' . $project->id . '/remove-ricercatore/' . $user2->id)
             ->assertStatus(302);
         $this->assertCount(1, $project->ricercatori);
     }

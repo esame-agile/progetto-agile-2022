@@ -1,123 +1,292 @@
 <?php
 
+use App\Http\Controllers\FinanziatoreController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Milestones\MilestoneController;
-use App\Http\Controllers\PaginaPersonaleFinanziatoreController;
-use App\Http\Controllers\PaginaPersonaleManagerController;
-use App\Http\Controllers\PaginaPersonaleRicercatoreController;
+use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\ProgettoController;
 use App\Http\Controllers\RicercatoreController;
 use App\Http\Controllers\SottoProgettoController;
 use Illuminate\Support\Facades\Route;
 
 /**
- * Vista home.
- *
+ * Vista home
  */
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::resource('progetti', ProgettoController::class);
-Route::get('progetti/{progetto}/edit_ricercatori', [ProgettoController::class, 'editRicercatori'])->name('progetti.edit_ricercatori')->middleware(['auth']);
-Route::delete('progetti/{progetto}/remove_ricercatore/{ricercatore}', [ProgettoController::class, 'removeRicercatore'])->name("progetti.remove_ricercatore")->middleware(['auth']);
-Route::get("progetti/{progetto}/add_ricercatore", [ProgettoController::class, 'addRicercatoreView'])->name("progetti.add_ricercatore")->middleware(['auth']);
-Route::post("progetti/{progetto}/add_ricercatore", [ProgettoController::class, 'addRicercatore'])->name("progetti.add_ricercatore")->middleware(['auth']);
-
-
-Route::get('ricercatore/ricercatori', [RicercatoreController::class, 'index']);
-
-Route::get('ricercatore/mieiprogetti', [ProgettoController::class, 'mieiProgetti'])->name('progetti.mieiprogetti');
-
-
-Route::prefix('pagina-personale/ricercatore')->group(function () {
+/**
+ * CRUD per il ricercatore
+ */
+Route::prefix('ricercatore')->group(function () {
 
     /**
-     * Vista pagina personale di un ricercatore per i non autenticati.
+     * Vista elenco dei ricercatori per un guest.
      *
      */
-    Route::get('/index/{utente}', [PaginaPersonaleRicercatoreController::class, 'guest_index'])->name('pagina-personale.ricercatore.guest-index');
+    Route::get('/index', [RicercatoreController::class, 'index'])->name('ricercatore.index');
+
+    /**
+     * Vista pagina personale di un ricercatore per un guest.
+     *
+     */
+    Route::get('/show/{ricercatore}', [RicercatoreController::class, 'guest_show'])->name('ricercatore.guest-show');
 
     /**
      * Vista pagina personale di un ricercatore.
      *
      */
-    Route::get('/index', [PaginaPersonaleRicercatoreController::class, 'index'])->name('pagina-personale.ricercatore.index')->middleware('auth');
+    Route::get('/show', [RicercatoreController::class, 'show'])->name('ricercatore.show')->middleware('auth');
 
     /**
      * Vista per editare le informazioni di un ricercatore.
      *
      */
-    Route::get('/edit-info/{utente}', [PaginaPersonaleRicercatoreController::class, 'edit_info'])->name('pagina-personale.ricercatore.edit-info')->middleware('auth');
+    Route::get('/edit/{ricercatore}', [RicercatoreController::class, 'edit'])->name('ricercatore.edit')->middleware('auth');
 
     /**
-     * Aggiorna le informazioni di un utente.
+     * Aggiorna le informazioni di un ricercatore.
      *
      */
-    Route::put('/update-info/{utente}', [PaginaPersonaleRicercatoreController::class, 'update_info'])->name('pagina-personale.ricercatore.update-info')->middleware('auth');
-});
+    Route::put('/update/{ricercatore}', [RicercatoreController::class, 'update'])->name('ricercatore.update')->middleware('auth');
 
-Route::prefix('pagina-personale/manager')->group(function () {
+    /**
+     * Vista per l'elenco dei progetto del ricercatore.
+     *
+     */
+    Route::get('/progetti', [RicercatoreController::class, 'progetti'])->name('ricercatore.progetti')->middleware('auth');
+});
+/**
+ * CRUD per il manager
+ */
+Route::prefix('manager')->group(function () {
 
     /**
      * Vista pagina personale di un manager.
      *
      */
-    Route::get('/index', [PaginaPersonaleManagerController::class, 'index'])->name('pagina-personale.manager.index')->middleware('auth');
+    Route::get('/show', [ManagerController::class, 'show'])->name('manager.show')->middleware('auth');
 
     /**
      * Vista per editare le informazioni di un manager.
      *
      */
-    Route::get('/edit-info/{utente}', [PaginaPersonaleManagerController::class, 'edit_info'])->name('pagina-personale.manager.edit-info')->middleware('auth');
+    Route::get('/edit/{manager}', [ManagerController::class, 'edit'])->name('manager.edit')->middleware('auth');
 
     /**
      * Aggiorna le informazioni di un manager.
      *
      */
-    Route::put('/update-info/{utente}', [PaginaPersonaleManagerController::class, 'update_info'])->name('pagina-personale.manager.update-info')->middleware('auth');
+    Route::put('/update/{manager}', [ManagerController::class, 'update'])->name('manager.update')->middleware('auth');
 });
-
-Route::prefix('pagina-personale/finanziatore')->group(function () {
+/**
+ * CRUD per il finanziatore
+ */
+Route::prefix('finanziatore')->group(function () {
 
     /**
      * Vista pagina personale di un finanziatore.
      *
      */
-    Route::get('/index', [PaginaPersonaleFinanziatoreController::class, 'index'])->name('pagina-personale.finanziatore.index')->middleware('auth');
+    Route::get('/show', [FinanziatoreController::class, 'show'])->name('finanziatore.show')->middleware('auth');
 
     /**
      * Vista per editare le informazioni di un finanziatore.
      *
      */
-    Route::get('/edit-info/{utente}', [PaginaPersonaleFinanziatoreController::class, 'edit_info'])->name('pagina-personale.finanziatore.edit-info')->middleware('auth');
+    Route::get('/edit/{finanziatore}', [FinanziatoreController::class, 'edit'])->name('finanziatore.edit')->middleware('auth');
 
     /**
      * Aggiorna le informazioni di un finanziatore.
      *
      */
-    Route::put('/update-info/{utente}', [PaginaPersonaleFinanziatoreController::class, 'update_info'])->name('pagina-personale.finanziatore.update-info')->middleware('auth');
+    Route::put('/update/{finanziatore}', [FinanziatoreController::class, 'update'])->name('finanziatore.update')->middleware('auth');
 });
 /**
- * Elenco ricercatori per un guest.
- *
+ * CRUD per il progetto
  */
-Route::get('/ricercatori', [RicercatoreController::class, 'index'])->name('ricercatori');
+Route::prefix('progetto')->group(function () {
 
+    /**
+     * Vista elenco dei perogetti
+     *
+     */
+    Route::get('/index', [ProgettoController::class, 'index'])->name('progetto.index');
+
+    /**
+     * Vista info di un progetto.
+     *
+     */
+    Route::get('/show/{progetto}', [ProgettoController::class, 'show'])->name('progetto.show');
+
+    /**
+     * Vista per editare le informazioni di un progetto.
+     *
+     */
+    Route::get('/create', [ProgettoController::class, 'create'])->name('progetto.create')->middleware('auth');
+
+    /**
+     * Vista per editare le informazioni di un progetto.
+     *
+     */
+    Route::get('/edit/{progetto}', [ProgettoController::class, 'edit'])->name('progetto.edit')->middleware('auth');
+
+    /**
+     * Aggiorna le informazioni di un progetto.
+     *
+     */
+    Route::put('/update/{progetto}', [ProgettoController::class, 'update'])->name('progetto.update')->middleware('auth');
+
+    /**
+     * Aggiorna le informazioni di un progetto.
+     *
+     */
+    Route::post('/store', [ProgettoController::class, 'store'])->name('progetto.store')->middleware('auth');
+
+    /**
+     * Elimina un progetto.
+     *
+     */
+    Route::delete('/destroy/{progetto}', [ProgettoController::class, 'destroy'])->name('progetto.destroy')->middleware('auth');
+
+    /**
+     * Modifica i ricercatori di un progetto.
+     *
+     */
+    Route::get('/{progetto}/edit-ricercatori', [ProgettoController::class, 'editRicercatori'])->name('progetto.edit-ricercatori')->middleware(['auth']);
+
+    /**
+     * Rimuove un ricercatore da un progetto.
+     *
+     */
+    Route::delete('/{progetto}/remove-ricercatore/{ricercatore}', [ProgettoController::class, 'removeRicercatore'])->name("progetto.remove-ricercatore")->middleware(['auth']);
+
+    /**
+     * Aggiunge un ricercatore a un progetto.
+     *
+     */
+    Route::get("/{progetto}/add-ricercatore", [ProgettoController::class, 'addRicercatore'])->name("progetto.add-ricercatore")->middleware(['auth']);
+
+    /**
+     * Salva le modifiche sui ricercatori
+     *
+     */
+    Route::post("/{progetto}/store-ricercatore", [ProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth']);
+});
 /**
- * CRUD per i progetti.
+ * CRUD per il sottoprogetto.
  */
+Route::prefix('sotto-progetto')->group(function () {
 
-/**
- * CRUD per i sottoprogetti.
- */
-Route::resource('sottoprogetti', SottoProgettoController::class);
-Route::get('sottoprogetti/{sottoProgetto}/edit_ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sottoprogetti.edit_ricercatori')->middleware(['auth','ruolo:ricercatore']);
-Route::delete('sottoprogetti/{sottoProgetto}/remove_ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sottoprogetti.remove_ricercatore")->middleware(['auth','ruolo:ricercatore']);
-Route::get("sottoprogetti/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatoreView'])->name("sottoprogetti.add_ricercatore")->middleware(['auth','ruolo:ricercatore']);
-Route::post("sottoprogetti/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatore'])->name("sottoprogetti.add_ricercatore")->middleware(['auth','ruolo:ricercatore']);
+    /**
+     * Vista elenco dei sotto progetti.
+     *
+     */
+    Route::get('/index', [SottoProgettoController::class, 'index'])->name('sotto-progetto.index');
 
+    /**
+     * Vista info di un sotto progetto.
+     *
+     */
+    Route::get('/show/{sottoProgetto}', [SottoProgettoController::class, 'show'])->name('sotto-progetto.show');
+
+    /**
+     * Vista per editare le informazioni di un sotto-progetto.
+     *
+     */
+    Route::get('/create', [SottoProgettoController::class, 'create'])->name('sotto-progetto.create')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Vista per editare le informazioni di una sottoProgetto.
+     *
+     */
+    Route::get('/edit/{sottoProgetto}', [SottoProgettoController::class, 'edit'])->name('sotto-progetto.edit')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Aggiorna le informazioni di una sottoProgetto.
+     *
+     */
+    Route::put('/update/{sottoProgetto}', [SottoProgettoController::class, 'update'])->name('sotto-progetto.update')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Aggiorna le informazioni di una sottoProgetto.
+     *
+     */
+    Route::post('/store', [SottoProgettoController::class, 'store'])->name('sotto-progetto.store')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Elimina una sottoProgetto.
+     *
+     */
+    Route::delete('/destroy/{sottoProgetto}', [SottoProgettoController::class, 'destroy'])->name('sotto-progetto.destroy')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Modifica i ricercatori di una sottoProgetto.
+     *
+     */
+    Route::get('/{sottoProgetto}/edit-ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sotto-progetto.edit-ricercatori')->middleware(['auth', 'ruolo:ricercatore']);
+
+    /**
+     * Rimuove un ricercatore da un sotto-progetto.
+     *
+     */
+    Route::delete('/{sottoProgetto}/remove-ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sotto-progetto.remove-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
+
+    /**
+     * Aggiunge un ricercatore a un sotto-progetto.
+     *
+     */
+    Route::get("/{sottoProgetto}/add-ricercatore", [SottoProgettoController::class, 'addRicercatore'])->name("sotto-progetto.add-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
+
+    /**
+     * Salva le modifiche sui ricercatori
+     *
+     */
+    Route::post("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
+});
 /**
  * CRUD per le milestones.
  */
-Route::resource('sottoprogetti.milestones', MilestoneController::class)->middleware('auth')->middleware('ruolo:ricercatore,manager');
+Route::prefix('sotto-progetto/milestone')->group(function () {
 
+    /**
+     * Vista elenco delle milestone
+     *
+     */
+    Route::get('/index/{sottoProgetto}', [MilestoneController::class, 'index'])->name('milestone.index');
+
+    /**
+     * Vista info di un progetto.
+     *
+     */
+    Route::get('/show/{milestone}', [MilestoneController::class, 'show'])->name('milestone.show');
+
+    /**
+     * Vista per editare le informazioni di un milestone.
+     *
+     */
+    Route::get('/{sottoProgetto}/create', [MilestoneController::class, 'create'])->name('milestone.create')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Vista per editare le informazioni di un milestone.
+     *
+     */
+    Route::get('/edit/{milestone}', [MilestoneController::class, 'edit'])->name('milestone.edit')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Aggiorna le informazioni di un progetto.
+     *
+     */
+    Route::put('/update/{milestone}', [MilestoneController::class, 'update'])->name('milestone.update')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Aggiorna le informazioni di una milestone.
+     *
+     */
+    Route::post('/store', [MilestoneController::class, 'store'])->name('milestone.store')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Elimina un milestone.
+     *
+     */
+    Route::delete('/destroy/{milestone}', [MilestoneController::class, 'destroy'])->name('milestone.destroy')->middleware('auth', 'ruolo:ricercatore');
+});
 require __DIR__ . '/auth.php';

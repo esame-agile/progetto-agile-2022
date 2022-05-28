@@ -6,7 +6,7 @@
                 <x-button class="float-right"><a href="{{ route('milestone.create', $sottoProgetto) }}"><i
                             class="lni lni-plus"></i> Aggiungi Milestone</a></x-button>
                 <h2 class=" testo titolo grande">Elenco delle milestones del
-                    progetto {{ \App\Models\SottoProgetto::find($sottoProgetto)->titolo}}</h2>
+                    progetto {{ $sottoProgetto->titolo}}</h2>
             </x-slot>
             <x-slot name="colonne">
                 <th class="px-4 py-3 ">Descrizione</th>

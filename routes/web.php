@@ -172,22 +172,9 @@ Route::prefix('progetto')->group(function () {
      */
     Route::post("/{progetto}/store-ricercatore", [ProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth']);
 });
-
-
-
-//Route::resource('sotto-progetto', SottoProgettoController::class);
-//Route::get('sotto-progetto/{sottoProgetto}/edit_ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sotto-progetto.edit_ricercatori')->middleware(['auth','ruolo:ricercatore']);
-//Route::delete('sotto-progetto/{sottoProgetto}/remove_ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sotto-progetto.remove_ricercatore")->middleware(['auth','ruolo:ricercatore']);
-//Route::get("sotto-progetto/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatoreView'])->name("sotto-progetto.add_ricercatore")->middleware(['auth','ruolo:ricercatore']);
-//Route::post("sotto-progetto/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatore'])->name("sotto-progetto.add_ricercatore")->middleware(['auth','ruolo:ricercatore']);
-
-
-
 /**
  * CRUD per il sottoprogetto.
  */
-
-
 Route::prefix('sotto-progetto')->group(function () {
 
     /**
@@ -256,7 +243,6 @@ Route::prefix('sotto-progetto')->group(function () {
      */
     Route::post("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
 });
-
 /**
  * CRUD per le milestones.
  */

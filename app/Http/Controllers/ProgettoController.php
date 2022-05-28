@@ -35,7 +35,8 @@ class ProgettoController extends Controller
     {
         $ricercatori = $progetto->ricercatori()->get();
         $sotto_progetti = $progetto->sotto_progetti()->get();
-        return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti'));
+        $reports = $progetto->reports()->get();
+        return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti', 'reports'));
     }
 
     /**
@@ -90,7 +91,7 @@ class ProgettoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Progetto $progetto
+     * @param Progetto $progettof
      * @return RedirectResponse
      */
     public function destroy(Progetto $progetto): RedirectResponse

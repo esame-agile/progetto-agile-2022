@@ -13,9 +13,9 @@
                                     <h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl" style="cursor: auto;">
                                         @auth
                                             @if(Auth::user()->ruolo == "manager")
-                                                <a href="{{ route('sotto-progetto.edit', ["sotto-progetto" => $sottoprogetti]) }}"><i class="lni lni-pencil"></i></a>
+                                                <a href="{{ route('sotto-progetto.edit', ["sottoProgetto" => $sottoProgetto]) }}"><i class="lni lni-pencil"></i></a>
                                                 <form method="POST"
-                                                      action="{{ route('sotto-progetto.destroy', ["sotto-progetto" => $sottoprogetti] ) }}"
+                                                      action="{{ route('sotto-progetto.destroy', ["sottoProgetto" => $sottoProgetto] ) }}"
                                                       id="delete_progetto"
                                                       name="delete_progetto"
                                                       onsubmit="confirm('Sei sicuro di voler cancellare?')">
@@ -25,8 +25,8 @@
                                                 </form>
                                             @endif
                                         @endauth
-                                        {{$sottoprogetti->titolo}}</h3>
-                                    <p class="mt-6 text-base text-gray-500">{{$sottoprogetti->descrizione}}</p>
+                                        {{$sottoProgetto->titolo}}</h3>
+                                    <p class="mt-6 text-base text-gray-500">{{$sottoProgetto->descrizione}}</p>
                                     <div class="mt-8">
                                         <div class="flex items-center">
                                             <h4 class="flex-shrink-0 pr-4 text-sm font-semibold tracking-wider text-indigo-600 uppercase bg-white"> Info aggiuntive </h4>
@@ -41,7 +41,7 @@
                                                 </div>
 
                                                 <p class="ml-3 text-sm text-gray-700"> <strong> Data Rilascio: </strong> </p>
-                                                <p class="ml-3 text-sm text-gray-700">{{$sottoprogetti->data_rilascio}}</p>
+                                                <p class="ml-3 text-sm text-gray-700">{{$sottoProgetto->data_rilascio}}</p>
                                             </li>
                                             <li class="flex items-start lg:col-span-1">
                                                 <div class="flex-shrink-0">
@@ -51,7 +51,7 @@
                                                 </div>
 
                                                 <p class="ml-3 text-sm text-gray-700">Responsabile in carica:</p>
-                                                <p class="ml-3 text-sm text-gray-700">{{$sottoprogetti->responsabile->nome . " " . $sottoprogetti->responsabile->cognome}}</p>
+                                                <p class="ml-3 text-sm text-gray-700">{{$sottoProgetto->responsabile->nome . " " . $sottoProgetto->responsabile->cognome}}</p>
                                             </li>
                                         </ul>
                                     </div>

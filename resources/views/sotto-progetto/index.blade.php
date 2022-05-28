@@ -37,53 +37,55 @@
                     @endauth
                 </x-slot>
                 <x-slot name="righe">
-                    {{ $sottoProgetti->links() }}
-                    @foreach ($sottoProgetti as $sottoProgetto)
-                        <x-tr class="@if($loop->index%2==0) bg-gray @else bg-white @endif">
-                            <x-slot name="body">
-                                <x-td>
-                                    <x-slot name="body">
-                                        <a href="{{route("sotto-progetto.show", $sottoProgetto)}}">{{$sottoProgetto->titolo}}</a>
-                                    </x-slot>
-                                </x-td>
-                                <x-td>
-                                    <x-slot name="body"> {{ $sottoProgetto->descrizione }}</x-slot>
-                                </x-td>
-                                <x-td class="responsive">
-                                    <x-slot
-                                        name="body"> {{ date('d/m/Y', strtotime($sottoProgetto->data_rilascio )) }}</x-slot>
-                                </x-td>
-                                @auth
-                                    @if(Auth::user()->hasRuolo("manager") || Auth::user()->hasRuolo("ricercatore") && Auth::user()->id == $sottoProgetti[0]->progetto->responsabile_id)
-                                        <x-td>
-                                            <x-slot name="body">
-                                                @if(Auth::user()->hasRuolo("manager"))
-                                                    <a href="{{ route('sotto-progetto.edit', ["sotto-progetto" => $sottoProgetto]) }}"><i
-                                                            class="lni lni-pencil"></i></a>
-                                                    <form method="POST"
-                                                          action="{{ route('sotto-progetto.destroy', ["sotto-progetto" => $sottoProgetto] ) }}"
-                                                          id="delete_sottoProgetto"
-                                                          name="delete_sottoProgetto"
-                                                          onsubmit="confirm('Sei sicuro di voler cancellare?')">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                        <button type="submit"><i class="lni lni-trash"></i></button>
-                                                    </form>
-                                                @elseif(Auth::user()->hasRuolo("ricercatore") && $sottoProgetto->responsabile_id == Auth::user()->id)
-                                                    <a href="{{ route('sotto-progetto.edit-ricercatori', ["sottoProgetto" => $sottoProgetto]) }}">
-                                                        <x-button>
-                                                            <i class="lni lni-pencil"></i>
-                                                            <p class="text-gray-200 ml-2"> Ricercatori </p>
-                                                        </x-button>
-                                                    </a>
-                                                @endif
-                                            </x-slot>
-                                        </x-td>
-                                    @endif
-                                @endauth
-                            </x-slot>
-                        </x-tr>
-                    @endforeach
+                    @if($sottoProgetti != null)
+                        {{ $sottoProgetti->links() }}
+                        @foreach ($sottoProgetti as $sottoProgetto)
+                            <x-tr class="@if($loop->index%2==0) bg-gray @else bg-white @endif">
+                                <x-slot name="body">
+                                    <x-td>
+                                        <x-slot name="body">
+                                            <a href="{{route("sotto-progetto.show", $sottoProgetto)}}">{{$sottoProgetto->titolo}}</a>
+                                        </x-slot>
+                                    </x-td>
+                                    <x-td>
+                                        <x-slot name="body"> {{ $sottoProgetto->descrizione }}</x-slot>
+                                    </x-td>
+                                    <x-td class="responsive">
+                                        <x-slot
+                                            name="body"> {{ date('d/m/Y', strtotime($sottoProgetto->data_rilascio )) }}</x-slot>
+                                    </x-td>
+                                    @auth
+                                        @if(Auth::user()->hasRuolo("manager") || Auth::user()->hasRuolo("ricercatore") && Auth::user()->id == $sottoProgetti[0]->progetto->responsabile_id)
+                                            <x-td>
+                                                <x-slot name="body">
+                                                    @if(Auth::user()->hasRuolo("manager"))
+                                                        <a href="{{ route('sotto-progetto.edit', ["sotto-progetto" => $sottoProgetto]) }}"><i
+                                                                class="lni lni-pencil"></i></a>
+                                                        <form method="POST"
+                                                              action="{{ route('sotto-progetto.destroy', ["sotto-progetto" => $sottoProgetto] ) }}"
+                                                              id="delete_sottoProgetto"
+                                                              name="delete_sottoProgetto"
+                                                              onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                                            @csrf
+                                                            @method("DELETE")
+                                                            <button type="submit"><i class="lni lni-trash"></i></button>
+                                                        </form>
+                                                    @elseif(Auth::user()->hasRuolo("ricercatore") && $sottoProgetto->responsabile_id == Auth::user()->id)
+                                                        <a href="{{ route('sotto-progetto.edit-ricercatori', ["sottoProgetto" => $sottoProgetto]) }}">
+                                                            <x-button>
+                                                                <i class="lni lni-pencil"></i>
+                                                                <p class="text-gray-200 ml-2"> Ricercatori </p>
+                                                            </x-button>
+                                                        </a>
+                                                    @endif
+                                                </x-slot>
+                                            </x-td>
+                                        @endif
+                                    @endauth
+                                </x-slot>
+                            </x-tr>
+                        @endforeach
+                    @endif
                 </x-slot>
             </x-table>
         @else

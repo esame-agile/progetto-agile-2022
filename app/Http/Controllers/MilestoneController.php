@@ -115,7 +115,7 @@ class MilestoneController extends Controller
      * @param Milestone $milestone
      * @return RedirectResponse
      */
-    public function destroy(Milestone $milestone): RedirectResponse
+    public function destroy(SottoProgetto $sottoProgetto, Milestone $milestone): RedirectResponse
     {
         if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id) {
             $sottoProgetto = $milestone->sotto_progetto;

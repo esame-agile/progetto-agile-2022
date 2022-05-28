@@ -27,7 +27,7 @@ class FinanziatoreFactory extends UtenteFactory
     public function definition()
     {
         return array_merge(Parent::definition(),
-            ['ruolo' => 'Finanziatore',
+            ['ruolo' => 'finanziatore',
                 'nome_azienda' => $this->faker->company(),
             ]);
 

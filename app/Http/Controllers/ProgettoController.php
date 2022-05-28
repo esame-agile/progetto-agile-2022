@@ -22,8 +22,7 @@ class ProgettoController extends Controller
     public function index(): Factory|View|Application
     {
         $progetti = Progetto::all();
-
-        return view('progetti.index', compact('progetti'));
+        return view('progetto.index', compact('progetti'));
     }
 
     /**
@@ -36,7 +35,7 @@ class ProgettoController extends Controller
     {
         $ricercatori = $progetto->ricercatori()->get();
         $sotto_progetti = $progetto->sotto_progetti()->get();
-        return view('progetti.show', compact('progetto', 'ricercatori', 'sotto_progetti'));
+        return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti'));
     }
 
     /**
@@ -47,7 +46,7 @@ class ProgettoController extends Controller
     public function create(): View|Factory|Application
     {
         $ricercatori = Ricercatore::all();
-        return view('manager.creazione-progetti', compact('ricercatori'));
+        return view('progetto.create', compact('ricercatori'));
     }
 
     /**
@@ -59,7 +58,7 @@ class ProgettoController extends Controller
     public function edit(Progetto $progetto): View|Factory|Application
     {
         $ricercatori = Ricercatore::all();
-        return view('manager.modifica-progetti', compact('progetto', 'ricercatori'));
+        return view('progetto.edit', compact('progetto', 'ricercatori'));
     }
 
     /**
@@ -72,7 +71,7 @@ class ProgettoController extends Controller
     public function update(Request $request, Progetto $progetto): RedirectResponse
     {
         $this->setProjectParameters($request, $progetto);
-        return redirect()->route('progetti.index');
+        return redirect()->route('progetto.index');
     }
 
     /**
@@ -85,32 +84,23 @@ class ProgettoController extends Controller
     {
         $progetto = new Progetto;
         $this->setProjectParameters($request, $progetto);
-        return redirect()->route('progetti.index');
+        return redirect()->route('progetto.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Progetto $progetti
+     * @param Progetto $progetto
      * @return RedirectResponse
      */
-    public function destroy(Progetto $progetti): RedirectResponse
+    public function destroy(Progetto $progetto): RedirectResponse
     {
         if (Auth::user()->hasRuolo('manager')) {
-            $progetti->delete();
-            return redirect()->route('progetti.index')->with('success', 'Progetto eliminato con successo');
+            $progetto->delete();
+            return redirect()->route('progetto.index')->with('success', 'Progetto eliminato con successo');
         } else {
-            return redirect()->route('progetti.index')->with('error', 'Non hai i permessi per eliminare un progetto');
+            return redirect()->route('progetto.index')->with('error', 'Non hai i permessi per eliminare un progetto');
         }
-    }
-
-    /**
-     * @return Factory|View|Application
-     */
-    public function mieiProgetti(): Factory|View|Application
-    {
-        $progetti = Ricercatore::find(Auth::user()->id)->progetti()->get();
-        return view('progetti.index', compact('progetti'));
     }
 
     /**
@@ -136,31 +126,31 @@ class ProgettoController extends Controller
     /**
      * Modifica dei ricercatori associati al sottoprogetto
      * @param Progetto $progetto
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|RedirectResponse
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function editRicercatori(Progetto $progetto)
+    public function editRicercatori(Progetto $progetto): View|Factory|RedirectResponse|Application
     {
-        if (Auth::user()->hasRuolo('responsabile') && Auth::user()->id == $progetto->responsabile_id )
+        if (Auth::user()->id == $progetto->responsabile_id )
         {
             $ricercatori = $progetto->ricercatori()->paginate(10);
-            return view('progetti.edit_ricercatori', compact('progetto', 'ricercatori'));
+            return view('progetto.edit-ricercatori', compact('progetto', 'ricercatori'));
         }
-        return redirect()->route('progetti.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
+        return redirect()->route('progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
     /**
      * Ritorno la vista se si possiede la giusta autenticazione
      * @param Progetto $progetto
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|RedirectResponse
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function addRicercatoreView(Progetto $progetto)
+    public function addRicercatore(Progetto $progetto): View|Factory|RedirectResponse|Application
     {
         if (Auth::user()->id == $progetto->responsabile_id )
         {
             $ricercatori = Ricercatore::all()->except($progetto->ricercatori()->pluck('utenti.id')->toArray());
-            return view('progetti.add_ricercatore', compact('progetto', 'ricercatori'));
+            return view('progetto.add-ricercatore', compact('progetto', 'ricercatori'));
         }
-        return redirect()->route('progetti.edit_ricercatori', compact("progetto"))->with('error', 'Non hai i permessi per modificare i ricercatori');
+        return redirect()->route('progetto.edit-ricercatori', compact("progetto"))->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
     /**
@@ -169,38 +159,39 @@ class ProgettoController extends Controller
      * @param Progetto $progetto
      * @return RedirectResponse
      */
-    public function addRicercatore(Request $request, Progetto $progetto)
+    public function storeRicercatore(Request $request, Progetto $progetto): RedirectResponse
     {
         if (Auth::user()->id == $progetto->responsabile_id )
         {
             $ricercatore = Ricercatore::find($request->ricercatore_id);
             if($ricercatore == null){
-                return redirect()->route('progetti.edit_ricercatori', $progetto)->with('error', 'Ricercatore non trovato');
+                return redirect()->route('progetto.edit-ricercatori', $progetto)->with('error', 'Ricercatore non trovato');
             }
             if($progetto->ricercatori()->where('ricercatore_id', $ricercatore->id)->first() != null){
-                return redirect()->route('progetti.edit_ricercatori', $progetto)->with('error', 'Ricercatore già associato');
+                return redirect()->route('progetto.edit-ricercatori', $progetto)->with('error', 'Ricercatore già associato');
             }
             $progetto->ricercatori()->attach($ricercatore);
-            return redirect()->route('progetti.edit_ricercatori', $progetto)->with('success', 'Ricercatore aggiunto con successo');
+            return redirect()->route('progetto.edit-ricercatori', $progetto)->with('success', 'Ricercatore aggiunto con successo');
         }
-        return redirect()->route('progetti.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
+        return redirect()->route('progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
     /**
      * Rimozione dei ricercatori associati al sottoprogetto
      * @param Progetto $progetto
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|RedirectResponse
+     * @param Ricercatore $ricercatore
+     * @return RedirectResponse
      */
-    public function removeRicercatore(Progetto $progetto, Ricercatore $ricercatore)
+    public function removeRicercatore(Progetto $progetto, Ricercatore $ricercatore): RedirectResponse
     {
         if (Auth::user()->id == $progetto->responsabile_id ) {
             if ($progetto->ricercatori()->where('ricercatore_id', $ricercatore->id)->first() == null) {
-                return redirect()->route('progetti.edit_ricercatori', $progetto)->with('error', 'Ricercatore non associato');
+                return redirect()->route('progetto.edit-ricercatori', $progetto)->with('error', 'Ricercatore non associato');
             }
             $progetto->ricercatori()->detach($ricercatore);
-            return redirect()->route('progetti.edit_ricercatori', $progetto->id)->with('success', 'Ricercatore rimosso con successo');
+            return redirect()->route('progetto.edit-ricercatori', $progetto->id)->with('success', 'Ricercatore rimosso con successo');
         }
-        return redirect()->route('progetti.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
+        return redirect()->route('progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
 

@@ -33,7 +33,7 @@ class HomeTest extends TestCase
 
     public function test_ricercatori_button_returns_a_successful_response()
     {
-        $response = $this->get('/ricercatori');
+        $response = $this->get('/ricercatore/index');
 
         $response->assertStatus(200);
     }

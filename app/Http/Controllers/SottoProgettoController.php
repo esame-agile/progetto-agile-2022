@@ -22,17 +22,20 @@ class SottoProgettoController extends Controller
      */
     public function index(Request $request): View|Factory|RedirectResponse|Application
     {
+        $sottoProgetti = null;
         if ($request->query('progetto')) {
             $sottoProgetti = SottoProgetto::where('progetto_id', $request->query('progetto'))->paginate(10);
-        } elseif (Auth::user()->hasRuolo('manager')) {
-            $sottoProgetti = SottoProgetto::paginate(10);
-        } else {
-            $sottoProgetti = Auth::user()->sotto_progetti()->paginate(10);
+        } elseif (Auth::user() != null) {
+            if (Auth::user()->hasRuolo('manager')) {
+                $sottoProgetti = SottoProgetto::paginate(10);
+            } else {
+                $sottoProgetti = Auth::user()->sotto_progetti()->paginate(10);
+            }
         }
-        if ($sottoProgetti->isEmpty()) {
-            return view('sottoprogetti.index', compact('sottoProgetti'))->with('error', 'Non ci sono sottoprogetti');
+        if ( $sottoProgetti == null || $sottoProgetti->isEmpty()) {
+            return view('sotto-progetto.index', compact('sottoProgetti'))->with('error', 'Non ci sono sotto-progetto');
         }
-        return view('sottoprogetti.index', compact('sottoProgetti'));
+        return view('sotto-progetto.index', compact('sottoProgetti'));
     }
 
     /**
@@ -46,9 +49,9 @@ class SottoProgettoController extends Controller
         $progetti = Progetto::all();
 
         if (Auth::user()->hasRuolo('manager')) {
-            return view('sottoprogetti.create', compact('ricercatori', 'progetti'));
+            return view('sotto-progetto.create', compact('ricercatori', 'progetti'));
         }
-        return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per creare un sottoprogetto');
+        return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per creare un sottoprogetto');
     }
 
     /**
@@ -60,37 +63,38 @@ class SottoProgettoController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if (!Auth::user()->hasRuolo("manager")) {
-            return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per creare un sottoprogetto');
+            return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per creare un sottoprogetto');
         }
         $sottoProgetto = new SottoProgetto();
+
         return $this->sottoProgettoFill($request, $sottoProgetto);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param SottoProgetto $sottoprogetti
+     * @param SottoProgetto $sottoProgetto
      * @return Application|Factory|View
      */
-    public function show(SottoProgetto $sottoprogetti): View|Factory|Application
+    public function show(SottoProgetto $sottoProgetto): View|Factory|Application
     {
-        return view('sottoprogetti.show', compact('sottoprogetti'));
+        return view('sotto-progetto.show', compact('sottoProgetto'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param SottoProgetto $sottoprogetti
+     * @param SottoProgetto $sottoProgetto
      * @return View|Factory|RedirectResponse
      */
-    public function edit(SottoProgetto $sottoprogetti): View|Factory|RedirectResponse
+    public function edit(SottoProgetto $sottoProgetto): View|Factory|RedirectResponse
     {
         $ricercatori = Ricercatore::all();
 
         if (Auth::user()->hasRuolo('manager')) {
-            return view('sottoprogetti.edit', compact('ricercatori','sottoprogetti'));
+            return view('sotto-progetto.edit', compact('ricercatori','sottoProgetto'));
         }
-        return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per modificare un sottoprogetto');
+        return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare un sotto progetto');
     }
 
     /**
@@ -105,22 +109,22 @@ class SottoProgettoController extends Controller
         if (Auth::user()->hasRuolo('manager')) {
             return $this->sottoProgettoFill($request, $sottoprogetti);
         }
-        return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per modificare un sottoprogetto');
+        return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare un sottoprogetto');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param SottoProgetto $sottoprogetti
+     * @param SottoProgetto $sottoProgetto
      * @return RedirectResponse
      */
-    public function destroy(SottoProgetto $sottoprogetti): RedirectResponse
+    public function destroy(SottoProgetto $sottoProgetto): RedirectResponse
     {
         if (Auth::user()->hasRuolo('manager')) {
-            $sottoprogetti->delete();
-            return redirect()->route('sottoprogetti.index')->with('success', 'Sottoprogetto eliminato con successo');
+            $sottoProgetto->delete();
+            return redirect()->route('sotto-progetto.index')->with('success', 'Sotto progetto eliminato con successo');
         } else {
-            return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per eliminare un sottoprogetto');
+            return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per eliminare un sottoprogetto');
         }
     }
 
@@ -133,9 +137,9 @@ class SottoProgettoController extends Controller
     {
         if (Auth::user()->id == $sottoProgetto->responsabile_id) {
             $ricercatori = $sottoProgetto->ricercatori()->paginate(10);
-            return view('sottoprogetti.edit_ricercatori', compact('sottoProgetto', 'ricercatori'));
+            return view('sotto-progetto.edit-ricercatori', compact('sottoProgetto', 'ricercatori'));
         }
-        return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
+        return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
     /**
@@ -143,13 +147,13 @@ class SottoProgettoController extends Controller
      * @param SottoProgetto $sottoProgetto
      * @return Application|Factory|View|RedirectResponse
      */
-    public function addRicercatoreView(SottoProgetto $sottoProgetto): Factory|View|RedirectResponse|Application
+    public function addRicercatore(SottoProgetto $sottoProgetto): Factory|View|RedirectResponse|Application
     {
         if (Auth::user()->id == $sottoProgetto->responsabile_id) {
             $ricercatori = Ricercatore::all()->except($sottoProgetto->ricercatori()->pluck('utenti.id')->toArray());
-            return view('sottoprogetti.add_ricercatore', compact('sottoProgetto', 'ricercatori'));
+            return view('sotto-progetto.add-ricercatore', compact('sottoProgetto', 'ricercatori'));
         }
-        return redirect()->route('sottoprogetti.edit_ricercatori', compact("sottoProgetto"))->with('error', 'Non hai i permessi per modificare i ricercatori');
+        return redirect()->route('sotto-progetto.edit-ricercatori', compact("sottoProgetto"))->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
     /**
@@ -158,20 +162,20 @@ class SottoProgettoController extends Controller
      * @param SottoProgetto $sottoProgetto
      * @return RedirectResponse
      */
-    public function addRicercatore(Request $request, SottoProgetto $sottoProgetto): RedirectResponse
+    public function storeRicercatore(Request $request, SottoProgetto $sottoProgetto): RedirectResponse
     {
         if (Auth::user()->id == $sottoProgetto->responsabile_id) {
             $ricercatore = Ricercatore::find($request->ricercatore_id);
             if ($ricercatore == null) {
-                return redirect()->route('sottoprogetti.edit_ricercatori', $sottoProgetto)->with('error', 'Ricercatore non trovato');
+                return redirect()->route('sotto-progetto.edit-ricercatori', $sottoProgetto)->with('error', 'Ricercatore non trovato');
             }
             if ($sottoProgetto->ricercatori()->where('ricercatore_id', $ricercatore->id)->first() != null) {
-                return redirect()->route('sottoprogetti.edit_ricercatori', $sottoProgetto)->with('error', 'Ricercatore già associato');
+                return redirect()->route('sotto-progetto.edit-ricercatori', $sottoProgetto)->with('error', 'Ricercatore già associato');
             }
             $sottoProgetto->ricercatori()->attach($ricercatore);
-            return redirect()->route('sottoprogetti.edit_ricercatori', $sottoProgetto)->with('success', 'Ricercatore aggiunto con successo');
+            return redirect()->route('sotto-progetto.edit-ricercatori', $sottoProgetto)->with('success', 'Ricercatore aggiunto con successo');
         }
-        return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
+        return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
     /**
@@ -184,12 +188,12 @@ class SottoProgettoController extends Controller
     {
         if (Auth::user()->id == $sottoProgetto->responsabile_id) {
             if ($sottoProgetto->ricercatori()->where('ricercatore_id', $ricercatore->id)->first() == null) {
-                return redirect()->route('sottoprogetti.edit_ricercatori', $sottoProgetto)->with('error', 'Ricercatore non associato');
+                return redirect()->route('sotto-progetto.edit-ricercatori', $sottoProgetto)->with('error', 'Ricercatore non associato');
             }
             $sottoProgetto->ricercatori()->detach($ricercatore);
-            return redirect()->route('sottoprogetti.edit_ricercatori', $sottoProgetto->id)->with('success', 'Ricercatore rimosso con successo');
+            return redirect()->route('sotto-progetto.edit-ricercatori', $sottoProgetto->id)->with('success', 'Ricercatore rimosso con successo');
         }
-        return redirect()->route('sottoprogetti.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
+        return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
     /**
@@ -214,6 +218,7 @@ class SottoProgettoController extends Controller
         $sottoProgetto->progetto()->associate($request->progetto_id);
         $sottoProgetto->responsabile()->associate($request->responsabile_id);
         $sottoProgetto->save();
-        return redirect()->route('sottoprogetti.index');
+
+        return redirect()->route('sotto-progetto.index');
     }
 }

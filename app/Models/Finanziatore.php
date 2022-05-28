@@ -28,6 +28,6 @@ class Finanziatore extends Utente
     }
 
     public function progetti(){
-        return $this->hasMany(Progetto::class);
+        return $this->belongsToMany(Progetto::class);
     }
 }

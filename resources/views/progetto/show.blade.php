@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
     <div class="container mx-auto">
-        <div class="card top">
+        <div class="card-grey">
             <div class="flex flex-wrap justify-center">
                 <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                 </div>

@@ -29,7 +29,8 @@ class SottoProgettoController extends Controller
             if (Auth::user()->hasRuolo('manager')) {
                 $sottoProgetti = SottoProgetto::paginate(10);
             } else {
-                $sottoProgetti = Auth::user()->sotto_progetti()->paginate(10);
+                $user = Ricercatore::where('id', Auth::user()->id)->first();
+                $sottoProgetti = $user->sotto_progetti()->paginate(10);
             }
         }
         if ( $sottoProgetti == null || $sottoProgetti->isEmpty()) {

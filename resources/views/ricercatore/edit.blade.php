@@ -7,7 +7,7 @@
 
     <div class="container mx-auto">
         <!--- Copertina del profilo --->
-        <div class="card copertina-profilo">
+        <div class="card-grey copertina-profilo">
             @yield('alert-message')
             <div class="card-body">
                 <div class="profile-background">
@@ -21,7 +21,7 @@
         <!--- Fine copertina del profilo --->
 
         <h2 class="testo titolo grande">Le tue informazioni</h2>
-        <div class="card">
+        <div class="card-grey mb-10">
             <div class="card-body">
                 <div class="form-container">
                     <form class="informazioni" method="POST"

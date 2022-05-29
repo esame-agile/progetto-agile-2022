@@ -173,7 +173,7 @@ Route::prefix('progetto')->group(function () {
     Route::post("/{progetto}/store-ricercatore", [ProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth']);
 });
 /**
- * CRUD per il sottoprogetto.
+ * CRUD per il sotto progetto.
  */
 Route::prefix('sotto-progetto')->group(function () {
 
@@ -294,7 +294,6 @@ Route::prefix('{sottoProgetto}/milestone')->group(function () {
  * CRUD per le pubblicazioni.
  */
 Route::prefix('pubblicazioni')->group(function () {
-
 
     /**
      * Vista per far creare una pubblicazione a un ricercatore.

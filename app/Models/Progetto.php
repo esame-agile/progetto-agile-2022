@@ -47,8 +47,10 @@ class Progetto extends Model
         return $this->hasMany(SottoProgetto::class);
     }
 
-    public function reports(){
+    public function reports()
+    {
         return $this->hasMany(Report::class);
+    }
 
     public function pubblicazioni(){
         return $this->hasMany(Pubblicazione::class);

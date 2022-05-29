@@ -26,13 +26,14 @@ class Pubblicazione extends Model
         'sorgente',
         'ufficiale',
         'tipologia',
-        'autori_esterni'
+        'autori_esterni',
+        'progetto_id'
     ];
 
     public function ricercatore(){
         return $this->belongsToMany(Ricercatore::class);
     }
     public function progetto(){
-        return $this->belongsTo(Progetto::class);
+        return $this->belongsTo(Progetto::class,'progetto_id');
     }
 }

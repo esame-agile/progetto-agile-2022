@@ -35,4 +35,9 @@ class Ricercatore extends Utente
     public function sotto_progetti(){
         return $this->belongsToMany(SottoProgetto::class);
     }
+
+    public function pubblicazioni(){
+        return $this->belongsToMany(Pubblicazione::class);
+    }
+
 }

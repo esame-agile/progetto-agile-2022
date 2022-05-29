@@ -24,6 +24,8 @@
 
         <!--====== Line Icons css ======-->
         <link rel="stylesheet" href="{{ asset('css/LineIcons.css') }}">
+        <!--====== Fontawesome css ======-->
+        <script src="https://kit.fontawesome.com/bf2b874371.js" crossorigin="anonymous"></script>
 
         <!--====== Google icons ======-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">

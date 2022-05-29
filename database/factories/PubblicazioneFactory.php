@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Progetto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use \App\Enum\TipologiaEnum;
 use \App\Enum\SorgenteEnum;
@@ -26,6 +27,9 @@ class PubblicazioneFactory extends Factory
             'ufficiale' => $this->faker->boolean,
             'tipologia' => Arr::random(TipologiaEnum::getTipologiaEnum()),
             'autori_esterni' => $this->faker->name.', '.$this->faker->name,
+            'progetto_id' => function () {
+                return Progetto::factory()->create()->id;
+            },
         ];
     }
 }

@@ -12,23 +12,7 @@ class ProgettoTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Apertura vista home.
-     *
-     * @return void
-     */
-   /* public function test_creazione_progetti_page_returns_a_successful_response()
-    {
-        $response = $this->get('/manager/creazioneprogetti');
-        $response->assertStatus(200);
-    }
 
-    public function test_lista_progetti_page_returns_a_successful_response()
-    {
-        $response = $this->get('/progetto');
-        $response->assertStatus(200);
-    }
-    */
     public function test_caricamento_views_progetti_manager()
     {
         $user = Manager::factory()->create();

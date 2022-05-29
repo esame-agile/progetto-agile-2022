@@ -6,6 +6,7 @@ use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\ProgettoController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\PubblicazioneController;
 use App\Http\Controllers\RicercatoreController;
 use App\Http\Controllers\SottoProgettoController;
 use Illuminate\Support\Facades\Route;
@@ -294,6 +295,7 @@ Route::prefix('{sottoProgetto}/milestone')->group(function () {
 
 
 
+
 Route::prefix('/report')->group(function () {
 
     /**
@@ -322,3 +324,42 @@ Route::prefix('/report')->group(function () {
 
 
     require __DIR__ . '/auth.php';
+
+/**
+ * CRUD per le pubblicazioni.
+ */
+Route::prefix('pubblicazioni')->group(function () {
+
+
+    /**
+     * Vista per far creare una pubblicazione a un ricercatore.
+     *
+     */
+    Route::get('/create/{ricercatore}', [PubblicazioneController::class, 'create'])->name('pubblicazioni.create')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Vista per editare la visibilità delle pubblicazioni.
+     */
+
+    Route::get('/edit/{ricercatore}', [PubblicazioneController::class, 'edit'])->name('pubblicazioni.edit')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Aggiorna le informazioni sulle pubblicazioni.
+     */
+
+    Route::put('/update', [PubblicazioneController::class, 'update'])->name('pubblicazioni.update')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Aggiorna le informazioni di una pubblicazione.
+     *
+     */
+    Route::post('/store', [PubblicazioneController::class, 'store'])->name('pubblicazioni.store');
+
+    /**
+     * Elimina una pubblicazione.
+     */
+
+    Route::delete('/destroy/{pubblicazione}', [PubblicazioneController::class, 'destroy'])->name('pubblicazioni.destroy')->middleware('auth', 'ruolo:ricercatore');
+
+});
+require __DIR__ . '/auth.php';

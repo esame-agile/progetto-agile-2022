@@ -161,6 +161,54 @@
                                             </div>
                                         </div>  <!-- fine container -->
                                     </section>
+                                    <!--- Pubblicazioni del progetto--->
+                                    <div class="text-center mt-12">
+                                        <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+                                            Pubblicazioni relative al progetto</h3>
+                                    </div>
+                                    <div class="card tabella">
+                                        <section class="container mx-fit p-6 font-semibold">
+                                            <div class="w-full overflow-hidden rounded-lg shadow-lg">
+                                                <div class="w-full overflow-x-auto">
+                                                    <table class="w-full">
+                                                        <thead>
+                                                        <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                                            <th class="px-4 py-3 text-center">
+                                                                DOI
+                                                            </th>
+                                                            <th class="px-4 py-3 responsive text-center">
+                                                                Titolo
+                                                            </th>
+                                                            <th class="px-4 py-3 responsive text-center">
+                                                                Tipologia
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody class="bg-white">
+                                                        @if($pubblicazioni==!null)
+                                                            @foreach($pubblicazioni as $pubblicazione)
+                                                                <tr class="text-gray-700">
+                                                                    <th class="px-4 py-3">
+                                                                        {{$pubblicazione->doi}}
+                                                                    </th>
+                                                                    <th class="px-4 py-3">
+                                                                        {{$pubblicazione->titolo}}
+                                                                    </th>
+                                                                    <th class="px-4 py-3">
+                                                                        {{$pubblicazione->tipologia}}
+                                                                    </th>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endif
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>  <!-- fine container -->
+                                        </section>
+                                    </div>
+                                    <!--- Fine pubblicazioni --->
                                 </div>
                                 <!-- REPORT -->
                                 @auth

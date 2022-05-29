@@ -1,6 +1,7 @@
 @extends('layouts.main')
 @include('layouts.alert-message')
 @section('content')
+
     <div class="container mx-auto">
         <!--- Copertina del profilo --->
         <div class="card top copertina-profilo">
@@ -41,8 +42,8 @@
         </div>
         <!--- Fine copertina del profilo --->
 
-        <!--  <h2 class="testo titolo grande">Elenco pubblicazioni</h2>
-         Pubblicazioni
+        <h2 class="testo titolo grande">Pubblicazioni</h2>
+
         <div class="card tabella">
             <section class="container mx-auto p-6 font-mono">
                 <div class="w-full overflow-hidden rounded-lg shadow-lg">
@@ -50,61 +51,88 @@
                         <table class="w-full">
                             <thead>
                             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                <th class="px-4 py-3">
-                                    Pubblicazione
-                                </th>
-                                <th class="px-4 py-3 responsive">
-                                    Nome attributo
-                                </th>
-                                <th class="px-4 py-3 responsive">
-                                    Nome attributo
-                                </th>
-                                <th class="px-4 py-3 responsive">
-                                    Nome attributo
+                                <th class="px-4 py-3 text-center">
+                                    DOI
                                 </th>
                                 <th class="px-4 py-3 text-center">
-                                    Edita
+                                  Titolo
                                 </th>
-                            </tr>
+                                <th class="px-4 py-3 text-center">
+                                    Tipologia
+                                </th>
+                                <th class="px-4 py-3 text-center">
+                                    Progetto
+                                </th>
+                                <th class="px-4 py-3 text-center">
+                                    Visibile
+                                </th>
+                                <th class="px-4 py-3 text-center">
+                                    Elimina
+                                </th>
+
                             </thead>
                             <tbody class="bg-white">
                             <tr class="text-gray-700">
-                                {{--@foreach($pubblicazioni as $pubblicazione)
-                                    <th class="px-4 py-3">
-                                        Pubblicazione {{$pubblicazione->titolo}}
+                                @foreach($pubblicazioni as $pubblicazione)
+                                <tr class="text-gray-700">
+                                    <th class="px-4 py-3 text-ms font-semibold border responsive">
+                                         {{$pubblicazione->doi}}
                                     </th>
-                                    <th class="px-4 py-3">
-                                        Pubblicazione {{$pubblicazione->titolo}}
+                                    <th class="px-4 py-3 text-ms font-semibold border responsive">
+                                         {{$pubblicazione->titolo}}
                                     </th>
+                                    <th class="px-4 py-3 text-ms font-semibold border responsive">
+                                        {{$pubblicazione->tipologia}}
+                                    </th>
+                                    <th class="px-4 py-3 text-ms font-semibold border responsive">
+                                        {{\App\Models\Progetto::find($pubblicazione->progetto_id)->titolo}}
+                                    </th>
+
                                     <td class="px-4 py-3 text-ms font-semibold border">
-                                        <a href="#"><i class="lni lni-pencil float-left"></i></a>
-                                        <a href="#"><i class="lni lni-trash float-right"></i></a>
+                                        @if($pubblicazione->ufficiale==false)
+                                        <i class="fa-solid fa-xmark responsive"></i>
+                                        @else
+                                         <i class="fa-solid fa-check responsive"></i>
+                                        @endif
+
                                     </td>
-                                @endforeach--}}
-        <td class="px-4 py-3 text-ms font-semibold border">
-            Apple MacBook Pro 17"
-        </td>
-        <td class="px-4 py-3 text-ms font-semibold border responsive">
-            Sliver
-        </td>
-        <td class="px-4 py-3 text-ms font-semibold border responsive">
-            Laptop
-        </td>
-        <td class="px-4 py-3 text-ms font-semibold border responsive">
-            $2999
-        </td>
-        <td class="px-4 py-3 text-ms font-semibold border">
-            <a href="#"><i class="lni lni-pencil float-left"></i></a>
-            <a href="#"><i class="lni lni-trash float-right"></i></a>
-        </td>
-    </tr>
+                                    <td class="px-4 py-3 text-sm font-semibold border">
+                                        <form method="POST"
+                                              class="float-right"
+                                              action="{{ route('pubblicazioni.destroy', $pubblicazione) }}"
+                                              id="delete_progetto"
+                                              name="delete_progetto"
+                                              onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button type="submit"><i class="lni lni-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+
+                                </tr>
+                                @endforeach
+
+
     </tbody>
 </table>
 </div>
-</div>   fine container
+</div>
 </section>
 </div>
-Fine pubblicazioni --->
+<!--Fine pubblicazioni --->
+        <div>
+        <x-button class="mb-10">
+            <a href="{{route('pubblicazioni.create',$ricercatore)}}">
+                AGGIUNGI PUBBLICAZIONE
+            </a>
+        </x-button>
+            <x-button class="mb-10">
+                <a href="{{route('pubblicazioni.edit',$ricercatore)}}">
+                    RENDI VISIBILI O NASCONDI LE PUBBLICAZIONI
+                </a>
+        </x-button>
+    </div>
         @if(!count($progetti))
             <div id="home" class="relative z-10 header-hero pt-10">
                 <div class="container mx-auto">
@@ -182,4 +210,6 @@ Fine pubblicazioni --->
             </div>
         @endif
     </div>
+
+
 @endsection

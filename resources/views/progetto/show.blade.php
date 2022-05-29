@@ -182,10 +182,16 @@
                                                             <th class="px-4 py-3 responsive text-center">
                                                                 Tipologia
                                                             </th>
+                                                            @if(Auth::user()->id==$progetto->responsabile_id)
+                                                            <th class="px-4 py-3 text-center">
+                                                                Visibile
+                                                            </th>
+                                                            @endif
                                                         </tr>
                                                         </thead>
                                                         <tbody class="bg-white">
                                                         @if($pubblicazioni==!null)
+                                                            @if(Auth::user()->id==$progetto->responsabile_id)
                                                             @foreach($pubblicazioni as $pubblicazione)
                                                                 <tr class="text-gray-700">
                                                                     <th class="px-4 py-3">
@@ -197,9 +203,34 @@
                                                                     <th class="px-4 py-3">
                                                                         {{$pubblicazione->tipologia}}
                                                                     </th>
+                                                                    <td class="px-4 py-3 text-ms font-semibold border">
+                                                                        @if($pubblicazione->ufficiale==false)
+                                                                            <i class="fa-solid fa-xmark responsive"></i>
+                                                                        @else
+                                                                            <i class="fa-solid fa-check responsive"></i>
+                                                                    @endif
                                                                 </tr>
                                                             @endforeach
+                                                            @else
+                                                                @foreach($pubblicazioni as $pubblicazione)
+                                                                    @if($pubblicazione->ufficiale==true)
+                                                                    <tr class="text-gray-700">
+                                                                        <th class="px-4 py-3">
+                                                                            {{$pubblicazione->doi}}
+                                                                        </th>
+                                                                        <th class="px-4 py-3">
+                                                                            {{$pubblicazione->titolo}}
+                                                                        </th>
+                                                                        <th class="px-4 py-3">
+                                                                            {{$pubblicazione->tipologia}}
+                                                                        </th>
+
+                                                                    </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                                    @endif
                                                         @endif
+
 
 
                                                         </tbody>
@@ -209,6 +240,11 @@
                                         </section>
                                     </div>
                                     <!--- Fine pubblicazioni --->
+
+                                    <x-button class="mb-10">
+                                        <a href="{{route('pubblicazioni.edit',$ricercatore)}}">
+                                            RENDI VISIBILI O NASCONDI LE PUBBLICAZIONI
+                                        </a>
                                 </div>
                             </div>
                         </div>

@@ -321,10 +321,10 @@ Route::prefix('pubblicazioni')->group(function () {
     Route::post('/store', [PubblicazioneController::class, 'store'])->name('pubblicazioni.store');
 
     /**
-     * Elimina una sottoProgetto.
-     *
+     * Elimina una pubblicazione.
+     */
 
-    Route::delete('/destroy/{sottoProgetto}', [SottoProgettoController::class, 'destroy'])->name('sotto-progetto.destroy')->middleware('auth', 'ruolo:ricercatore');
-    */
+    Route::delete('/destroy/{pubblicazione}', [PubblicazioneController::class, 'destroy'])->name('pubblicazioni.destroy')->middleware('auth', 'ruolo:ricercatore');
+
 });
 require __DIR__ . '/auth.php';

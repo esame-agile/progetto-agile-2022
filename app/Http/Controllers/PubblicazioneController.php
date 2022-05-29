@@ -21,13 +21,6 @@ class PubblicazioneController extends Controller
      * @return Application|Factory|View
      */
 
-   /* public function show(Progetto $progetto): View|Factory|Application
-    {
-        $ricercatori = $progetto->ricercatori()->get();
-        $sotto_progetti = $progetto->sotto_progetti()->get();
-        return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti'));
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -43,8 +36,7 @@ class PubblicazioneController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Progetto $progetto
-     * @return Application|Factory|View
+     *
      */
     public function edit(Ricercatore $ricercatore): View|Factory|Application
     {
@@ -56,9 +48,7 @@ class PubblicazioneController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param Progetto $progetto
-     * @return RedirectResponse
+
      */
     public function update(Request $request): RedirectResponse
     {
@@ -79,26 +69,12 @@ class PubblicazioneController extends Controller
         return redirect()->route('ricercatore.show');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Progetto $progetto
-     * @return RedirectResponse
-     */
-    public function destroy(Progetto $progetto): RedirectResponse
-    {
-        if (Auth::user()->hasRuolo('manager')) {
-            $progetto->delete();
-            return redirect()->route('progetto.index')->with('success', 'Progetto eliminato con successo');
-        } else {
-            return redirect()->route('progetto.index')->with('error', 'Non hai i permessi per eliminare un progetto');
-        }
-    }
+
 
     /**
      * @param Request $request
-     * @param Progetto $progetto
-     * @return Progetto
+     * @param Pubblicazione $pubblicazione
+     * @return Pubblicazione
      */
     public function setProjectParameters(Request $request, Pubblicazione $pubblicazione): Pubblicazione
     {
@@ -135,7 +111,21 @@ class PubblicazioneController extends Controller
 
     }
 
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Pubblicazione $pubblicazione
+     * @return RedirectResponse
+     */
+    public function destroy(Pubblicazione $pubblicazione): RedirectResponse
+    {
+        if (Auth::user()->hasRuolo('ricercatore')) {
+            $pubblicazione->delete();
+            return redirect()->route('ricercatore.show')->with('success', 'Pubblicazione eliminata con successo');
+        } else {
+            return redirect()->route('ricercatore.show')->with('error', 'Non hai i permessi per eliminare questa pubblicazione');
+        }
+    }
 
 
 

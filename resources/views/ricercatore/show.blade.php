@@ -66,6 +66,9 @@
                                 <th class="px-4 py-3 text-center">
                                     Visibile
                                 </th>
+                                <th class="px-4 py-3 text-center">
+                                    Elimina
+                                </th>
 
                             </thead>
                             <tbody class="bg-white">
@@ -93,7 +96,19 @@
                                         @endif
 
                                     </td>
-
+                                    <td class="px-4 py-3 text-sm font-semibold border">
+                                        <form method="POST"
+                                              class="float-right"
+                                              action="{{ route('pubblicazioni.destroy', $pubblicazione) }}"
+                                              id="delete_progetto"
+                                              name="delete_progetto"
+                                              onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button type="submit"><i class="lni lni-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
 
                                 </tr>
                                 @endforeach

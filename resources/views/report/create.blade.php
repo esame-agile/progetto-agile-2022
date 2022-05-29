@@ -1,7 +1,7 @@
 @extends("layouts.main")
 @section("content")
     <div class="container mx-auto">
-        <form class="informazioni" method="POST" id="informazioni"
+        <form class="informazioni" method="POST" id="informazioni" enctype="multipart/form-data"
               action="{{ route('report.store', $progetto) }}">
             <h2 class="testo titolo grande">Nuovo report</h2>
             <div class="card">
@@ -16,7 +16,7 @@
                             </div>
                             <div class="form-control float-right inline-block">
                                 <label for="descrizione" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">File</label>
-                                <x-input name="file" type="file" id="descrizione" value="{{-- old('descrizione') --}}"
+                                <x-input name="file_name" type="file" id="file_name"
 
                                          required></x-input>
                             </div>

@@ -196,12 +196,9 @@
                                                         <th class="px-4 py-3 responsive text-center">
                                                             Ricercatore
                                                         </th>
-
-
                                                         <th class="px-4 py-3 responsive text-center">
                                                             Azioni
                                                         </th>
-
 
 
                                                     </tr>
@@ -215,8 +212,7 @@
                                                                     {{$report->titolo}}
                                                                 </th>
                                                                 <th class="px-4 py-3">
-                                                                    <a href="" download="Report">{{$report->file_name}}</a>
-
+                                                                    <a href="{{route('report.download', $report->file_name)}}" >{{$report->file_name}}</a>
 
                                                                 </th>
                                                                 <th class="px-4 py-3">
@@ -225,24 +221,25 @@
                                                                 <th class="px-4 py-3">
                                                                     {{$report->autore->nome}}
                                                                 </th>
+                                                                <x-td>
+                                                                    <x-slot name="body">
+                                                                        @if(Auth::user()->hasRuolo('ricercatore') && $report->ricercatore_id==Auth::user()->id)
+                                                                            <form method="POST"
+                                                                                  action="{{ route('report.destroy', ["report" => $report, "progetto" => $progetto] ) }}"
+                                                                                  id="delete_report"
+                                                                                  name="delete_report"
+                                                                                  onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                                                                @csrf
+                                                                                @method("DELETE")
+                                                                                <button type="submit"><i class="lni lni-trash"></i></button>
+                                                                            </form>
+                                                                        @else
+                                                                            <p>/</p>
+                                                                        @endif
+                                                                    </x-slot>
+                                                                </x-td>
 
-                                                            <x-td>
-                                                                <x-slot name="body">
-                                                                    @if(Auth::user()->hasRuolo('ricercatore') && $report->ricercatore_id==Auth::user()->id)
-                                                                        <form method="POST"
-                                                                              action="{{ route('report.destroy', ["report" => $report, "progetto" => $progetto] ) }}"
-                                                                              id="delete_report"
-                                                                              name="delete_report"
-                                                                              onsubmit="confirm('Sei sicuro di voler cancellare?')">
-                                                                            @csrf
-                                                                            @method("DELETE")
-                                                                            <button type="submit"><i class="lni lni-trash"></i></button>
-                                                                        </form>
-                                                                    @else
-                                                                        <p>/</p>
-                                                                    @endif
-                                                                </x-slot>
-                                                            </x-td>
+
                                                             </tr>
                                                         @endforeach
                                                     @endif

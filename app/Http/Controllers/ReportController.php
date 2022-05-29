@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Progetto;
 use App\Models\Report;
-use App\Models\Ricercatore;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Console\Input\Input;
 
 class ReportController extends Controller
 {
@@ -33,7 +30,13 @@ class ReportController extends Controller
         //TODO: upload e download file
         $report = new Report;
         $report->titolo = $request->titolo;
-        $report->file_name = $request->file;
+
+        //upload del file
+        $file=$request->file_name;
+        $filename=time().'.'.$file->extension();
+        $request->file_name->move('assets', $filename);
+        $report->file_name=$filename;
+
         $report->data = $request->data_rilascio;
         $report->ricercatore_id = Auth::user()->id;
         $report->progetto_id = $progetto->id;
@@ -47,9 +50,13 @@ class ReportController extends Controller
 
     }
 
+    public function download(Request $request, $file_name) {
+
+        return response()->download(public_path('assets/'.$file_name));
+    }
+
     public function show()
     {
-
     }
 
     public function destroy(Report $report, Progetto $progetto)
@@ -63,6 +70,5 @@ class ReportController extends Controller
 
         return redirect()->route('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti', 'reports'));
     }
-
 
 }

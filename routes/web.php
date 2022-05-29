@@ -306,6 +306,13 @@ Route::prefix('/report')->group(function () {
      *
      */
     Route::post('/create/{progetto}', [ReportController::class, 'store'])->name('report.store')->middleware('auth', 'ruolo:ricercatore');
+
+
+
+    Route::get('/download{file_name}', [ReportController::class, 'download'])->name('report.download');
+
+
+
     /**
      * Eliminazione report da chi l'ha caricato.
      *

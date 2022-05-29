@@ -46,7 +46,7 @@ class Progetto extends Model
     public function sotto_progetti(){
         return $this->hasMany(SottoProgetto::class);
     }
-    public function pubbicazioni(){
+    public function pubblicazioni(){
         return $this->hasMany(Pubblicazione::class);
     }
 }

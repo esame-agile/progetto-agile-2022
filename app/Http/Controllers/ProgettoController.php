@@ -35,7 +35,7 @@ class ProgettoController extends Controller
     {
         $ricercatori = $progetto->ricercatori()->get();
         $sotto_progetti = $progetto->sotto_progetti()->get();
-        $pubblicazioni=$progetto->pubbicazioni()->where('ufficiale','=','1')->get();
+        $pubblicazioni=$progetto->pubblicazioni();
         return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti','pubblicazioni'));
     }
 

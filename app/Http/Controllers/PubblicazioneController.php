@@ -65,7 +65,7 @@ class PubblicazioneController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $pubblicazione = new Pubblicazione();
-        $this->setProjectParameters($request, $pubblicazione);
+        $this->pubblicazioneFill($request, $pubblicazione);
         return redirect()->route('ricercatore.show');
     }
 
@@ -76,8 +76,15 @@ class PubblicazioneController extends Controller
      * @param Pubblicazione $pubblicazione
      * @return Pubblicazione
      */
-    public function setProjectParameters(Request $request, Pubblicazione $pubblicazione): Pubblicazione
+    public function pubblicazioneFill(Request $request, Pubblicazione $pubblicazione): Pubblicazione
     {
+        $request->validate([
+            'doi' => 'required|max:255|min:3',
+            'titolo' => 'required|max:255|min:3',
+            'autori_esterni' => 'required|max:255|min:3',
+            'tipologia' => 'required|max:255|min:3',
+            'progetto_id' => 'required|integer',
+        ]);
         $pubblicazione->doi = $request->doi;
         $pubblicazione->titolo = $request->titolo;
         $pubblicazione->autori_esterni = $request->autori_esterni;
@@ -89,6 +96,7 @@ class PubblicazioneController extends Controller
             $ricercatore=Ricercatore::find($ricercatore_id);
             $pubblicazione->ricercatore()->attach($ricercatore);
         }
+
         return $pubblicazione;
     }
     public function setVisibilitaPubblicazioni(Request $request)

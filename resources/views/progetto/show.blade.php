@@ -208,7 +208,7 @@
                                             </div>  <!-- fine container -->
                                         </section>
                                     </div>
-                                    <!--- Fine ricercatori --->
+                                    <!--- Fine pubblicazioni --->
                                 </div>
                             </div>
                         </div>

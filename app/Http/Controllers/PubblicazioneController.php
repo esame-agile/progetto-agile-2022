@@ -38,10 +38,11 @@ class PubblicazioneController extends Controller
      *
      *
      */
-    public function edit(Ricercatore $ricercatore): View|Factory|Application
+    public function edit(Progetto $progetto): View|Factory|Application
     {
-        $pubblicazioniF = $ricercatore->pubblicazioni()->where('ufficiale', '=','0')->get();
-        $pubblicazioniT = $ricercatore->pubblicazioni()->where('ufficiale', '=','1')->get();
+        dd($progetto);
+        $pubblicazioniF = $progetto->pubblicazioni()->where('ufficiale', '=','0')->get();
+        $pubblicazioniT = $progetto->pubblicazioni()->where('ufficiale', '=','1')->get();
         return view('pubblicazioni.edit', compact('pubblicazioniF','pubblicazioniT'));
     }
 

@@ -320,7 +320,7 @@ Route::prefix('pubblicazioni')->group(function () {
      * Vista per editare la visibilità delle pubblicazioni.
      */
 
-    Route::get('/edit/{ricercatore}', [PubblicazioneController::class, 'edit'])->name('pubblicazioni.edit')->middleware('auth', 'ruolo:ricercatore');
+    Route::get('/edit/{progetto}', [PubblicazioneController::class, 'edit'])->name('pubblicazioni.edit')->middleware('auth', 'ruolo:ricercatore');
 
     /**
      * Aggiorna le informazioni sulle pubblicazioni.

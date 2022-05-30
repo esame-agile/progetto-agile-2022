@@ -203,7 +203,7 @@
                                                                     <th class="px-4 py-3">
                                                                         {{$pubblicazione->tipologia}}
                                                                     </th>
-                                                                    <td class="px-4 py-3 text-ms font-semibold border">
+                                                                    <td class="px-4 py-3 text-ms font-semibold ">
                                                                         @if($pubblicazione->ufficiale==false)
                                                                             <i class="fa-solid fa-xmark responsive"></i>
                                                                         @else
@@ -240,9 +240,8 @@
                                         </section>
                                     </div>
                                     <!--- Fine pubblicazioni --->
-                                    @if(Auth::user()->id==$progetto->responsabile_id)
                                     <x-button class="mb-10">
-                                        <a href="{{route('pubblicazioni.edit',$ricercatore)}}">
+                                        <a href="{{route('pubblicazioni.edit',$progetto)}}">
                                             RENDI VISIBILI O NASCONDI LE PUBBLICAZIONI
                                         </a>
                                     </x-button>

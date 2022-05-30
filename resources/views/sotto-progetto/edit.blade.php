@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="form-container">
                     <form class="informazioni" method="POST" id="informazioni"
-                          action="{{ route('sotto-progetto.update', ["sotto-progetto" => $sottoprogetti]) }}">
+                          action="{{ route('sotto-progetto.update', $sottoprogetti) }}">
                         @csrf
                         @method('PUT')
                         <div class="mb-6">

@@ -147,7 +147,7 @@
                                                         @foreach($sotto_progetti as $sotto_progetto)
                                                             <tr class="text-gray-700">
                                                                 <th class="px-4 py-3">
-                                                                    <a href="{{route("sotto-progetto.show", ["sotto-progetto"=>$sotto_progetto])}}"> {{$sotto_progetto->titolo}} </a>
+                                                                    <a href="{{route("sotto-progetto.show", $sotto_progetto)}}"> {{$sotto_progetto->titolo}} </a>
                                                                 </th>
                                                                 <th class="px-4 py-3">
                                                                     {{$sotto_progetto->data_rilascio}}
@@ -240,11 +240,13 @@
                                         </section>
                                     </div>
                                     <!--- Fine pubblicazioni --->
-
+                                    @if(Auth::user()->id==$progetto->responsabile_id)
                                     <x-button class="mb-10">
                                         <a href="{{route('pubblicazioni.edit',$ricercatore)}}">
                                             RENDI VISIBILI O NASCONDI LE PUBBLICAZIONI
                                         </a>
+                                    </x-button>
+                                    @endif
                                 </div>
                             </div>
                         </div>

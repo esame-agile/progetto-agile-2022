@@ -59,10 +59,10 @@
                                             <x-td>
                                                 <x-slot name="body">
                                                     @if(Auth::user()->hasRuolo("manager"))
-                                                        <a href="{{ route('sotto-progetto.edit', ["sotto-progetto" => $sottoProgetto]) }}"><i
+                                                        <a href="{{ route('sotto-progetto.edit', $sottoProgetto) }}"><i
                                                                 class="lni lni-pencil"></i></a>
                                                         <form method="POST"
-                                                              action="{{ route('sotto-progetto.destroy', ["sotto-progetto" => $sottoProgetto] ) }}"
+                                                              action="{{ route('sotto-progetto.destroy', $sottoProgetto ) }}"
                                                               id="delete_sottoProgetto"
                                                               name="delete_sottoProgetto"
                                                               onsubmit="confirm('Sei sicuro di voler cancellare?')">

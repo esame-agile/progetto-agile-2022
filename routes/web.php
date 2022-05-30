@@ -247,7 +247,7 @@ Route::prefix('sotto-progetto')->group(function () {
 /**
  * CRUD per le milestones.
  */
-Route::prefix('{sottoProgetto}/milestone')->group(function () {
+Route::prefix('sotto-progetto/{sottoProgetto}/milestone')->group(function () {
 
     /**
      * Vista elenco delle milestone
@@ -321,9 +321,6 @@ Route::prefix('/report')->group(function () {
      */
     Route::delete('/destroy/{report}/{progetto}', [ReportController::class, 'destroy'])->name('report.destroy')->middleware('auth', 'ruolo:ricercatore');
 });
-
-
-    require __DIR__ . '/auth.php';
 
 /**
  * CRUD per le pubblicazioni.

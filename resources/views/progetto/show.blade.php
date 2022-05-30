@@ -147,7 +147,7 @@
                                                         @foreach($sotto_progetti as $sotto_progetto)
                                                             <tr class="text-gray-700">
                                                                 <th class="px-4 py-3">
-                                                                    <a href="{{route("sotto-progetto.show", ["sotto-progetto"=>$sotto_progetto])}}"> {{$sotto_progetto->titolo}} </a>
+                                                                    <a href="{{route("sotto-progetto.show", ["sottoProgetto"=>$sotto_progetto])}}"> {{$sotto_progetto->titolo}} </a>
                                                                 </th>
                                                                 <th class="px-4 py-3">
                                                                     {{$sotto_progetto->data_rilascio}}

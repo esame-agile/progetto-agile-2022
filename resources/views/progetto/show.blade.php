@@ -33,7 +33,7 @@
                         {{$progetto->data_fine}}
                     </div>
                 </div>
-                <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
+                <div class="mt-2 py-10 border-t border-blueGray-200 text-center w-full">
                     <div class="text-center mt-12">
                         <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-700 font-bold uppercase">
                             In cosa consiste
@@ -43,7 +43,7 @@
                                 <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
                                     {{$progetto->descrizione}}
                                 </p>
-                                <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
+                                <div class="mt-2 py-10 border-t border-blueGray-200 text-center w-full">
                                     <div class="text-center mt-12 ">
                                         <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                                             Ricercatori</h3>
@@ -109,7 +109,7 @@
                                     </section>
                                 </div>
                                 <!--- Fine ricercatori --->
-                                <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
+                                <div class="mt-2 py-10 border-t border-blueGray-200 text-center w-full">
                                     <div class="text-center mt-12">
                                         <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                                             Progetti affiliati</h3>
@@ -247,6 +247,95 @@
                                     </x-button>
                                     @endif
                                 </div>
+                                <!-- REPORT -->
+                                @auth
+                                <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
+                                    <div class="text-center mt-12">
+                                        <h3 class=" text-xl font-semibold leading-normal text-blueGray-700 mb-2">
+                                            Report</h3>
+                                    </div>
+                                </div>
+                                    @if(Auth::user()->hasRuolo("ricercatore"))
+                                        <x-button class="mb-5">
+                                            <a href="{{route("report.create", $progetto)}}">
+                                                AGGIUNGI REPORT
+                                            </a>
+                                        </x-button>
+                                    @endif
+                                <div class="card tabella">
+                                    <section class="container mx-fit p-6 font-semibold">
+                                        <div class="w-full overflow-hidden rounded-lg shadow-lg">
+                                            <div class="w-full overflow-x-auto">
+                                                <table class="w-full">
+                                                    <thead>
+                                                    <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                                        <th class="px-4 py-3 text-center">
+                                                            Titolo
+                                                        </th>
+                                                        <th class="px-4 py-3 responsive text-center">
+                                                            File
+                                                        </th>
+                                                        <th class="px-4 py-3 responsive text-center">
+                                                            Data
+                                                        </th>
+                                                        <th class="px-4 py-3 responsive text-center">
+                                                            Ricercatore
+                                                        </th>
+                                                        <th class="px-4 py-3 responsive text-center">
+                                                            Azioni
+                                                        </th>
+
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white">
+
+                                                    @if($reports==!null)
+                                                        @foreach($reports as $report)
+                                                            <tr class="text-gray-700">
+                                                                <th class="px-4 py-3">
+                                                                    {{$report->titolo}}
+                                                                </th>
+                                                                <th class="px-4 py-3">
+                                                                    <a href="{{route('report.download', $report->file_name)}}" >{{$report->file_name}}</a>
+
+                                                                </th>
+                                                                <th class="px-4 py-3">
+                                                                    {{$report->data}}
+                                                                </th>
+                                                                <th class="px-4 py-3">
+                                                                    {{$report->autore->nome}}
+                                                                </th>
+                                                                <x-td>
+                                                                    <x-slot name="body">
+                                                                        @if(Auth::user()->hasRuolo('ricercatore') && $report->ricercatore_id==Auth::user()->id)
+                                                                            <form method="POST"
+                                                                                  action="{{ route('report.destroy', ["report" => $report, "progetto" => $progetto] ) }}"
+                                                                                  id="delete_report"
+                                                                                  name="delete_report"
+                                                                                  onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                                                                @csrf
+                                                                                @method("DELETE")
+                                                                                <button type="submit"><i class="lni lni-trash"></i></button>
+                                                                            </form>
+                                                                        @else
+                                                                            <p>/</p>
+                                                                        @endif
+                                                                    </x-slot>
+                                                                </x-td>
+
+
+                                                            </tr>
+                                                        @endforeach
+                                                    @endif
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>  <!-- fine container -->
+                                    </section>
+                                </div>
+                                @endauth
                             </div>
                         </div>
                     </div>

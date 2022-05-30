@@ -25,6 +25,7 @@ class Report extends Model
         'file_name',
         'data',
         'ricercatore_id',
+        'progetto_id'
 
     ];
 
@@ -36,6 +37,6 @@ class Report extends Model
         return $this->belongsTo(SottoProgetto::class);
     }
     public function progetto(){
-        return $this->belongsTo(Progetto::class);
+        return $this->belongsTo(Progetto::class, 'progetto_id');
     }
 }

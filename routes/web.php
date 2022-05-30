@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\ProgettoController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PubblicazioneController;
 use App\Http\Controllers\RicercatoreController;
 use App\Http\Controllers\SottoProgettoController;
@@ -304,6 +305,40 @@ Route::prefix('{sottoProgetto}/milestone')->group(function () {
      */
     Route::delete('/destroy/{milestone}', [MilestoneController::class, 'destroy'])->name('milestone.destroy')->middleware('auth', 'ruolo:ricercatore');
 });
+
+
+
+
+
+Route::prefix('/report')->group(function () {
+
+    /**
+     * Vista creazione dei report da un ricercatore.
+     *
+     */
+    Route::get('/create/{progetto}', [ReportController::class, 'create'])->name('report.create')->middleware('auth', 'ruolo:ricercatore');
+    /**
+     * Creazione dei report da un ricercatore.
+     *
+     */
+    Route::post('/create/{progetto}', [ReportController::class, 'store'])->name('report.store')->middleware('auth', 'ruolo:ricercatore');
+
+
+
+    Route::get('/download{file_name}', [ReportController::class, 'download'])->name('report.download');
+
+
+
+    /**
+     * Eliminazione report da chi l'ha caricato.
+     *
+     */
+    Route::delete('/destroy/{report}/{progetto}', [ReportController::class, 'destroy'])->name('report.destroy')->middleware('auth', 'ruolo:ricercatore');
+});
+
+
+    require __DIR__ . '/auth.php';
+
 /**
  * CRUD per le pubblicazioni.
  */

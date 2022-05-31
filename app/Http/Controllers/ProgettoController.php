@@ -114,8 +114,8 @@ class ProgettoController extends Controller
         $progetto->titolo = $request->titolo;
         $progetto->descrizione = $request->descrizione;
         $progetto->scopo = $request->scopo;
-        $progetto->data_inizio = $request->datainizio;
-        $progetto->data_fine = $request->datafine;
+        $progetto->data_inizio = $request->data_inizio;
+        $progetto->data_fine = $request->data_fine;
         $progetto->budget = $request->budget;
         $progetto->responsabile()->associate($request->responsabile_id);
 

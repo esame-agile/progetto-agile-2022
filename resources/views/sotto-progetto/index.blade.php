@@ -63,7 +63,7 @@
                                     <a href="{{route("sotto-progetto.show", $sottoProgetto)}}">
                                         {{$sottoProgetto->titolo}}
                                         @if(Auth::user()->id == $sottoProgetto->responsabile_id)
-                                            <x-td><i class="lni lni-crown flex justify-center"></i></x-td>
+                                            <i class="lni lni-crown float-right"></i>
                                         @endif
                                     </a>
                                 </x-td>

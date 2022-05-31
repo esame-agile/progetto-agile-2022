@@ -48,7 +48,7 @@
                                          href="{{route("progetto.show", $progetto)}}">{{$progetto->titolo}}
                                     </a>
                                     @if(Auth::user()->id == $progetto->responsabile_id)
-                                        <x-td><i class="lni lni-crown flex justify-center"></i></x-td>
+                                        <i class="lni lni-crown float-right"></i>
                                     @endif
                                 </x-td>
                                 <x-td class="resp640">{{$progetto->scopo}}</x-td>

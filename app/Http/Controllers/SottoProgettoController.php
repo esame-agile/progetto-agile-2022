@@ -99,10 +99,10 @@ class SottoProgettoController extends Controller
      * @param SottoProgetto $sottoprogetti
      * @return RedirectResponse
      */
-    public function update(Request $request, SottoProgetto $sottoprogetti): RedirectResponse
+    public function update(Request $request, SottoProgetto $sottoProgetto): RedirectResponse
     {
         if (Auth::user()->hasRuolo('manager')) {
-            return $this->sottoProgettoFill($request, $sottoprogetti);
+            return $this->sottoProgettoFill($request, $sottoProgetto);
         }
         return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare un sottoprogetto');
     }

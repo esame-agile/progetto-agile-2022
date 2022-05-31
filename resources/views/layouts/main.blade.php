@@ -1,15 +1,16 @@
 @include('/layouts/head')
 @include('/layouts/footer')
 @include('/layouts/navbar')
+@include('/layouts/alert-message')
 
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    @yield('head')
-    <body class="flex-wrapper">
-    @yield('navbar')
-    <div>
-        @yield('content')
-    </div>
-    @yield('footer')
-    </body>
+@yield('head')
+<body class="flex-wrapper">
+@yield('navbar')
+<div>
+    @yield('content')
+</div>
+@yield('footer')
+</body>
 </html>

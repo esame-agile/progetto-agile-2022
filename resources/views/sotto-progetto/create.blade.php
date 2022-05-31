@@ -1,68 +1,69 @@
 @extends("layouts.main")
 @section("content")
     <div class="container mx-auto">
+        <h2 class="text-3xl font-bold leading-normal text-blueGray-700 mb-2 ml-5 uppercase">Crea sotto progetto</h2>
         @yield('alert-message')
-        <form class="informazioni" method="POST" id="informazioni"
-              action="{{ route('sotto-progetto.store') }}">
-            <h2 class="testo titolo grande">Nuovo Sottoprogetto</h2>
-            <div class="card">
-                <div class="card-body">
-                    <div class="form-container">
-                        @csrf
-                        <div class="mb-6">
-                            <div class="form-control float-left inline-block">
-                                <label for="descrizione" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Titolo</label>
-                                <x-input name="titolo" type="text" id="titolo" value="{{ old('titolo') }}"
-                                         class="@error('titolo') is-invalid @enderror "
-                                         required></x-input>
-                            </div>
-                            <div class="form-control float-right inline-block">
-                                <label for="descrizione" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Descrizione</label>
-                                <x-input name="descrizione" type="text" id="descrizione" value="{{ old('descrizione') }}"
-                                         class="@error('descrizione') is-invalid @enderror "
-                                         required></x-input>
-                            </div>
-                            <div class="form-control float-left inline-block">
-                                <label for="data_rilascio"
-                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Data Rilascio</label>
-                                <x-input type="date" id="data_rilascio"
-                                         name="data_rilascio"
-                                         value="{{ old('data_rilascio') }}"
-                                         required
-                                         class="@error('data_rilascio') is-invalid @enderror">
-                                </x-input>
-                            </div>
-                            <div class="form-control float-right inline-block">
-                                <label for="responsabile_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Responsabile</label>
-                                <x-select name="responsabile_id" id="responsabile_id" form="informazioni">
-                                    <x-slot name="body">
-                                        @foreach($ricercatori as $ricercatore)
-                                            <option value="{{$ricercatore->id}}">
-                                                {{$ricercatore->nome}} {{$ricercatore->cognome}}
-                                            </option>
-                                        @endforeach
-                                    </x-slot>
-                                </x-select>
-                            </div>
-                            <div class="form-control float-right inline-block">
-                                <label for="progetto_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Progetto</label>
-                                <x-select name="progetto_id" id="progetto_id" form="informazioni">
-                                    <x-slot name="body">
-                                        @foreach($progetti as $progetto)
-                                            <option value="{{$progetto->id}}">
-                                                {{$progetto->titolo}}
-                                            </option>
-                                        @endforeach
-                                    </x-slot>
-                                </x-select>
-                            </div>
-                        </div>
+        <div class="card-grey mb-10">
+            <form method="POST"
+                  action="{{ route('sotto-progetto.store') }}">
+                @csrf
+                <div class="mb-6 flex flex-wrap justify-between">
+                    <div class="w-1/3 pr-3">
+                        <label for="titolo"
+                               class="block text-sm font-medium text-gray-900 dark:text-gray-300">
+                            Titolo
+                        </label>
+                        <x-input name="titolo" type="text" id="titolo" value="{{ old('titolo') }}" required></x-input>
+                    </div>
+                    <div class="w-1/3">
+                        <label for="descrizione"
+                               class="block text-sm font-medium text-gray-900 dark:text-gray-300">
+                            Descrizione
+                        </label>
+                        <x-input name="descrizione" type="text" id="descrizione" value="{{ old('descrizione') }}"
+                                 required></x-input>
+                    </div>
+                    <div class="w-1/3 pl-3">
+                        <label for="data_rilascio"
+                               class="block text-sm font-medium text-gray-900 dark:text-gray-300">
+                            Data di rilascio
+                        </label>
+                        <x-input name="data_rilascio" type="date" id="data_rilascio" value="{{ old('data_rilascio') }}"
+                                 required></x-input>
                     </div>
                 </div>
-            </div>
-            <x-button type="submit" >
-                Crea Progetto
-            </x-button>
-        </form>
+                <div class="flex flex-wrap justify-between">
+                    <div class="w-1/2 pr-3">
+                        <label for="responsabile_id"
+                               class="block  text-sm font-medium text-gray-900 dark:text-gray-300">Responsabile</label>
+                        <x-select name="responsabile_id" id="responsabile_id">
+                            <x-slot name="body">
+                                @foreach($ricercatori as $ricercatore)
+                                    <option value="{{$ricercatore->id}}">
+                                        {{$ricercatore->nome}} {{$ricercatore->cognome}}
+                                    </option>
+                                @endforeach
+                            </x-slot>
+                        </x-select>
+                    </div>
+                    <div class="w-1/2">
+                        <label for="progetto_id"
+                               class="block  text-sm font-medium text-gray-900 dark:text-gray-300">Progetto</label>
+                        <x-select name="progetto_id" id="progetto_id">
+                            <x-slot name="body">
+                                @foreach($progetti as $progetto)
+                                    <option value="{{$progetto->id}}">
+                                        {{$progetto->titolo}}
+                                    </option>
+                                @endforeach
+                            </x-slot>
+                        </x-select>
+                    </div>
+                </div>
+                <x-button type="submit" class="mt-6">
+                    Crea sotto progetto
+                </x-button>
+            </form>
+        </div>
     </div>
 @endsection

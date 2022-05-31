@@ -1,7 +1,9 @@
 <div class="flex flex-wrap justify-between">
-    <h2 class="text-3xl font-bold leading-normal text-blueGray-700 mb-2 ml-5 uppercase">
-        {{ $titolo }}
-    </h2>
+    @if(isset($titolo))
+        <h2 class="text-3xl font-bold leading-normal text-blueGray-700 mb-2 ml-5 uppercase">
+            {{ $titolo }}
+        </h2>
+    @endif
     @yield('alert-message')
     @if(isset($pulsanti_up))
         <div class="pr-5 pb-5">
@@ -9,7 +11,17 @@
         </div>
     @endif
 </div>
-<div class="card-grey mb-10">
+<div class="card-grey mb-10 h-full">
+    @if(isset($titolo_interno))
+        <h2 class="text-3xl font-bold leading-normal text-blueGray-700 mb-2 ml-5 uppercase">
+            {{ $titolo_interno }}
+        </h2>
+    @endif
+    @if(isset($pulsanti_up_interno))
+        <div class="pr-5 pb-5">
+            {{$pulsanti_up_interno}}
+        </div>
+    @endif
     {{$link}}
     <div class="overflow-hidden rounded-lg shadow-lg">
         <table class="w-full">

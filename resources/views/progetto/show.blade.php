@@ -1,221 +1,188 @@
 @extends('layouts.main')
 @section('content')
     <div class="container mx-auto">
-        <div class="card-grey">
-            <div class="flex flex-wrap justify-center">
-                <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                </div>
-                <div class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                    <div class="py-6 px-3 mt-32 sm:mt-0">
-                    </div>
-                </div>
-                <div class="w-full lg:w-4/12 px-4 lg:order-1">
-                    <div class="flex justify-center py-4 lg:pt-4 pt-8">
-                    </div>
-                </div>
-                <div class="text-center mt-12 w-full">
-                    <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+        <div class="flex flex-wrap justify-between mb-10">
+            <div class="card-grey lg:w-5/12 h-full">
+                <div class="card-white px-5 py-5">
+                    <h3 class="text-4xl font-semibold leading-normal text-blueGray-700 uppercase">
                         {{$progetto->titolo}}
                     </h3>
-                    <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-700 font-bold uppercase">
+                </div>
+                <div class="card-white mt-5 px-5 py-5">
+                    <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                        SCOPO:
+                    </div>
+                    <div class="text-blueGray-700">
                         {{$progetto->scopo}}
                     </div>
-                    <div class="mb-2 text-blueGray-700 mt-5">
-                        Data di inizio
+                    <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                        DATA D'INIZIO:
                     </div>
-                    <div class="mb-2 text-blueGray-600 mt-2">
+                    <div class="text-blueGray-700">
                         {{$progetto->data_inizio}}
                     </div>
-                    <div class="mb-2 text-blueGray-700 mt-2">
-                        Data di fine
+                    <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                        DATA DI FINE:
                     </div>
-                    <div class="mb-2 text-blueGray-600 mt-2">
+                    <div class="text-blueGray-700">
                         {{$progetto->data_fine}}
                     </div>
                 </div>
-                <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
-                    <div class="text-center mt-12">
-                        <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-700 font-bold uppercase">
-                            In cosa consiste
-                        </div>
-                        <div class="flex flex-wrap justify-center">
-                            <div class="w-full lg:w-9/12 px-4">
-                                <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
-                                    {{$progetto->descrizione}}
-                                </p>
-                                <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
-                                    <div class="text-center mt-12 ">
-                                        <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                                            Ricercatori</h3>
-                                    </div>
-                                </div>
-
-                                <!--- Ricercatori--->
-                                @auth
-                                    @if(Auth::user()->id == $progetto->responsabile_id)
-                                        <x-button class="mb-10">
-                                            <a href="{{route("progetto.edit-ricercatori", compact("progetto"))}}">
-                                                MODIFICA RICERCATORI
-                                            </a>
-                                        </x-button>
-                                    @endif
-                                @endauth
-                                <div class="card tabella">
-                                    <section class="container mx-fit p-6 font-semibold">
-                                        <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                                            <div class="w-full overflow-x-auto">
-                                                <table class="w-full">
-                                                    <thead>
-                                                    <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                                        <th class="px-4 py-3 text-center">
-                                                            Nome
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Cognome
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Ambito ricerca
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Università
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody class="bg-white">
-                                                    @if($ricercatori==!null)
-                                                        @foreach($ricercatori as $ricercatore)
-                                                            <tr class="text-gray-700">
-                                                                <th class="px-4 py-3">
-                                                                    <a href="{{route("ricercatore.guest-show", $ricercatore)}}">{{$ricercatore->nome}}</a>
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$ricercatore->cognome}}
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$ricercatore->ambito_ricerca}}
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$ricercatore->universita}}
-                                                                </th>
-                                                            </tr>
-                                                        @endforeach
-                                                    @endif
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>  <!-- fine container -->
-                                    </section>
-                                </div>
-                                <!--- Fine ricercatori --->
-                                <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
-                                    <div class="text-center mt-12">
-                                        <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                                            Progetti affiliati</h3>
-                                    </div>
-                                </div>
-                                <!--- Progetti affiliati --->
-                                @auth
-                                    @if(Auth::user()->hasRuolo("manager"))
-                                        <x-button class="mb-10">
-                                            <a href="{{route("sotto-progetto.create")}}">
-                                                CREA SOTTOPROGETTO
-                                            </a>
-                                        </x-button>
-                                    @endif
-                                @endauth
-                                <div class="card tabella">
-                                    <section class="container mx-fit p-6 font-semibold">
-                                        <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                                            <div class="w-full overflow-x-auto">
-                                                <table class="w-full">
-                                                    <thead>
-                                                    <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                                        <th class="px-4 py-3 text-center">
-                                                            Titolo
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Data di rilascio
-                                                        </th>
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody class="bg-white">
-
-                                                    @if($sottoProgetti==!null)
-                                                        @foreach($sottoProgetti as $sottoProgetto)
-                                                            <tr class="text-gray-700">
-                                                                <th class="px-4 py-3">
-                                                                    <a href="{{route("sotto-progetto.show", compact('sottoProgetto'))}}"> {{$sottoProgetto->titolo}} </a>
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$sottoProgetto->data_rilascio}}
-                                                                </th>
-                                                            </tr>
-                                                        @endforeach
-                                                    @endif
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>  <!-- fine container -->
-                                    </section>
-                                    <!--- Pubblicazioni del progetto--->
-                                    <div class="text-center mt-12">
-                                        <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                                            Pubblicazioni relative al progetto</h3>
-                                    </div>
-                                    <div class="card tabella">
-                                        <section class="container mx-fit p-6 font-semibold">
-                                            <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                                                <div class="w-full overflow-x-auto">
-                                                    <table class="w-full">
-                                                        <thead>
-                                                        <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                                            <th class="px-4 py-3 text-center">
-                                                                DOI
-                                                            </th>
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                                Titolo
-                                                            </th>
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                                Tipologia
-                                                            </th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody class="bg-white">
-                                                        @if($pubblicazioni==!null)
-                                                            @foreach($pubblicazioni as $pubblicazione)
-                                                                <tr class="text-gray-700">
-                                                                    <th class="px-4 py-3">
-                                                                        {{$pubblicazione->doi}}
-                                                                    </th>
-                                                                    <th class="px-4 py-3">
-                                                                        {{$pubblicazione->titolo}}
-                                                                    </th>
-                                                                    <th class="px-4 py-3">
-                                                                        {{$pubblicazione->tipologia}}
-                                                                    </th>
-                                                                </tr>
-                                                            @endforeach
-                                                        @endif
-
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>  <!-- fine container -->
-                                        </section>
-                                    </div>
-                                    <!--- Fine ricercatori --->
-                                </div>
+            </div>
+            <div class="lg:w-6/12">
+                <x-table>
+                    <x-slot name="titolo_interno">
+                        ELENCO RICERCATORI
+                    </x-slot>
+                    <x-slot name="pulsanti_up_interno">
+                        @auth
+                            @if(Auth::user()->id == $progetto->responsabile_id)
+                                <x-button class="mb-10">
+                                    <a href="{{route("progetto.edit-ricercatori", compact("progetto"))}}">
+                                        MODIFICA RICERCATORI
+                                    </a>
+                                </x-button>
+                            @endif
+                        @endauth
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($ricercatori))
+                            <div class="px-5 pb-5">
+                                {{$ricercatori->links()}}
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        @endif
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>Nome</x-th>
+                        <x-th>Ambito ricerca</x-th>
+                        <x-th class="resp640">Università</x-th>
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($ricercatori))
+                            @if($ricercatori->isEmpty())
+                                <x-tr>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left resp640">-</x-td>
+                                </x-tr>
+                            @else
+                                @foreach($ricercatori as $ricercatore)
+                                    <x-tr>
+                                        <x-td>
+                                            <a class="underline"
+                                               href="{{route("ricercatore.guest-show", $ricercatore)}}">
+                                                {{$ricercatore->nome . ' ' . $ricercatore->cognome}}
+                                            </a>
+                                        </x-td>
+                                        <x-td>{{$ricercatore->ambito_ricerca}}</x-td>
+                                        <x-td class="resp640">{{$ricercatore->universita}}</x-td>
+                                    </x-tr>
+                                @endforeach
+                            @endif
+                        @endif
+                    </x-slot>
+                </x-table>
+            </div>
+        </div>
+        <div class="flex flex-wrap justify-between">
+            <div class="lg:w-5/12">
+                <x-table>
+                    <x-slot name="titolo_interno">
+                        ELENCO PUBBLICAZIONI
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($pubblicazioni))
+                            <div class="px-5 pb-5">
+                                {{$pubblicazioni->links()}}
+                            </div>
+                        @endif
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>Titolo</x-th>
+                        @if(Auth::user()->ruolo =='ricercatore')
+                            <x-th>Visibile</x-th>
+                        @endif
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($pubblicazioni))
+                            @if($pubblicazioni->isEmpty())
+                                <x-tr>
+                                    <x-td class="text-left">-</x-td>
+                                    @if(Auth::user()->ruolo == 'ricercatore')
+                                        <x-td class="text-left">-</x-td>
+                                    @endif
+                                </x-tr>
+                            @else
+                                @foreach($pubblicazioni as $pubblicazione)
+                                    <x-tr>
+                                        <x-td>
+                                            <a class="underline"
+                                               href="{{route("pubblicazione.show", $pubblicazione)}}">
+                                                {{$pubblicazione->titolo}}
+                                            </a>
+                                        </x-td>
+                                        @if(Auth::user()->ruolo == 'ricercatore')
+                                            <x-td>{{$pubblicazione->visibile}}</x-td>
+                                        @endif
+                                    </x-tr>
+                                @endforeach
+                            @endif
+                        @endif
+                    </x-slot>
+                </x-table>
+            </div>
+            <div class="lg:w-6/12">
+                <x-table>
+                    <x-slot name="titolo_interno">
+                        ELENCO SOTTO PROGETTI
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($sottoProgetti))
+                            <div class="px-5 pb-5">
+                                {{$sottoProgetti->links()}}
+                            </div>
+                        @endif
+                    </x-slot>
+                    <x-slot name="pulsanti_up_interno">
+                        @auth
+                            @if(Auth::user()->hasRuolo("manager"))
+                                <x-button class="mb-10">
+                                    <a href="{{route("sotto-progetto.create")}}">
+                                        CREA SOTTOPROGETTO
+                                    </a>
+                                </x-button>
+                            @endif
+                        @endauth
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>Titolo</x-th>
+                        <x-th>Data rilascio</x-th>
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($sottoProgetti))
+                            @if($sottoProgetti->isEmpty())
+                                <x-tr>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left resp640">-</x-td>
+                                </x-tr>
+                            @else
+                                @foreach($sottoProgetti as $sottoProgetto)
+                                    <x-tr>
+                                        <x-td>
+                                            <a class="underline"
+                                               href="{{route("ricercatore.guest-show", $sottoProgetto)}}">
+                                                {{$sottoProgetto->titolo}}
+                                            </a>
+                                        </x-td>
+                                        <x-td>{{$sottoProgetto->data_rilascio}}</x-td>
+                                    </x-tr>
+                                @endforeach
+                            @endif
+                        @endif
+                    </x-slot>
+                </x-table>
             </div>
         </div>
     </div>
-
 @endsection

@@ -29,9 +29,7 @@ class SottoProgettoController extends Controller
             if (Auth::user()->hasRuolo('manager')) {
                 $sottoProgetti = SottoProgetto::paginate(10);
             } else {
-                $ricercatore=Ricercatore::find(Auth::user()->id);
-                $sottoProgetti = $ricercatore->sotto_progetti()->paginate(10);
-
+                $sottoProgetti = SottoProgetto::where("responsabile_id", Auth::user()->id)->paginate(10);
             }
         }
         if ( $sottoProgetti == null || $sottoProgetti->isEmpty()) {
@@ -93,7 +91,7 @@ class SottoProgettoController extends Controller
     {
         $ricercatori = Ricercatore::all();
 
-        if (Auth::user()->ruolo=='manager') {
+        if (Auth::user()->hasRuolo('manager')) {
             return view('sotto-progetto.edit', compact('ricercatori','sottoProgetto'));
         }
         return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare un sotto progetto');
@@ -108,7 +106,7 @@ class SottoProgettoController extends Controller
      */
     public function update(Request $request, SottoProgetto $sottoprogetti): RedirectResponse
     {
-        if (Auth::user()->ruolo=='manager') {
+        if (Auth::user()->hasRuolo('manager')) {
             return $this->sottoProgettoFill($request, $sottoprogetti);
         }
         return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare un sottoprogetto');

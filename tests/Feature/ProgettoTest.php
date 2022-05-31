@@ -132,4 +132,12 @@ class ProgettoTest extends TestCase
             ->assertStatus(302);
         $this->assertCount(1, $project->ricercatori);
     }
+    public function test_tutti_i_progetti_navbarButton_returns_a_successful_response()
+    {
+
+        $response = $this->get('/progetto/index');
+
+        $response->assertStatus(200);
+    }
+
 }

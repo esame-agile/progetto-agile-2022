@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('tipologia');
             $table->string('autori_esterni')->nullable();
             $table->foreignId('progetto_id')->constrained('progetti');
+            $table->string('file_name');
             $table->timestamps();
         });
     }

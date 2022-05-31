@@ -24,6 +24,7 @@ class PubblicazioneFactory extends Factory
             'doi' => $this->faker->unique()->regexify('[0-9]{8}'),
             'titolo' => $this->faker->title,
             'sorgente' => SorgenteEnum::MANUALE,
+            'file_name' => $this->faker->sentence,
             'ufficiale' => $this->faker->boolean,
             'tipologia' => Arr::random(TipologiaEnum::getTipologiaEnum()),
             'autori_esterni' => $this->faker->name.', '.$this->faker->name,

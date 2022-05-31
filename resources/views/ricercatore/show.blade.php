@@ -63,9 +63,7 @@
                                 <th class="px-4 py-3 text-center">
                                     Progetto
                                 </th>
-                                <th class="px-4 py-3 text-center">
-                                    Visibile
-                                </th>
+                              {{--  --}}
                                 <th class="px-4 py-3 text-center">
                                     Elimina
                                 </th>
@@ -88,14 +86,6 @@
                                         {{\App\Models\Progetto::find($pubblicazione->progetto_id)->titolo}}
                                     </th>
 
-                                    <td class="px-4 py-3 text-ms font-semibold border">
-                                        @if($pubblicazione->ufficiale==false)
-                                        <i class="fa-solid fa-xmark responsive"></i>
-                                        @else
-                                         <i class="fa-solid fa-check responsive"></i>
-                                        @endif
-
-                                    </td>
                                     <td class="px-4 py-3 text-sm font-semibold border">
                                         <form method="POST"
                                               class="float-right"
@@ -127,11 +117,8 @@
                 AGGIUNGI PUBBLICAZIONE
             </a>
         </x-button>
-            <x-button class="mb-10">
-                <a href="{{route('pubblicazioni.edit',$ricercatore)}}">
-                    RENDI VISIBILI O NASCONDI LE PUBBLICAZIONI
-                </a>
-        </x-button>
+         {{--
+        </x-button>--}}
     </div>
         @if(!count($progetti))
             <div id="home" class="relative z-10 header-hero pt-10">

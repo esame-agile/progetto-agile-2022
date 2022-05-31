@@ -173,9 +173,22 @@ Route::prefix('progetto')->group(function () {
      */
     Route::post("/{progetto}/store-ricercatore", [ProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth']);
 });
+
+
+
+//Route::resource('sotto-progetto', SottoProgettoController::class);
+//Route::get('sotto-progetto/{sottoProgetto}/edit_ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sotto-progetto.edit_ricercatori')->middleware(['auth','ruolo:ricercatore']);
+//Route::delete('sotto-progetto/{sottoProgetto}/remove_ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sotto-progetto.remove_ricercatore")->middleware(['auth','ruolo:ricercatore']);
+//Route::get("sotto-progetto/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatoreView'])->name("sotto-progetto.add_ricercatore")->middleware(['auth','ruolo:ricercatore']);
+//Route::post("sotto-progetto/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatore'])->name("sotto-progetto.add_ricercatore")->middleware(['auth','ruolo:ricercatore']);
+
+
+
 /**
  * CRUD per il sottoprogetto.
  */
+
+
 Route::prefix('sotto-progetto')->group(function () {
 
     /**
@@ -244,6 +257,7 @@ Route::prefix('sotto-progetto')->group(function () {
      */
     Route::post("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
 });
+
 /**
  * CRUD per le milestones.
  */
@@ -338,13 +352,13 @@ Route::prefix('pubblicazioni')->group(function () {
      * Vista per editare la visibilità delle pubblicazioni.
      */
 
-    Route::get('/edit/{ricercatore}', [PubblicazioneController::class, 'edit'])->name('pubblicazioni.edit')->middleware('auth', 'ruolo:ricercatore');
+    Route::get('/edit/{progetto}', [PubblicazioneController::class, 'edit'])->name('pubblicazioni.edit')->middleware('auth', 'ruolo:ricercatore');
 
     /**
      * Aggiorna le informazioni sulle pubblicazioni.
      */
 
-    Route::put('/update', [PubblicazioneController::class, 'update'])->name('pubblicazioni.update')->middleware('auth', 'ruolo:ricercatore');
+    Route::put('/update/{progetto}', [PubblicazioneController::class, 'update'])->name('pubblicazioni.update')->middleware('auth', 'ruolo:ricercatore');
 
     /**
      * Aggiorna le informazioni di una pubblicazione.
@@ -357,6 +371,8 @@ Route::prefix('pubblicazioni')->group(function () {
      */
 
     Route::delete('/destroy/{pubblicazione}', [PubblicazioneController::class, 'destroy'])->name('pubblicazioni.destroy')->middleware('auth', 'ruolo:ricercatore');
+    Route::get('/download{file_name}', [PubblicazioneController::class, 'download'])->name('pubblicazioni.download');
+
 
 });
 require __DIR__ . '/auth.php';

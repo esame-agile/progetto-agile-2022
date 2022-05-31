@@ -22,16 +22,10 @@ class SottoProgettoController extends Controller
      */
     public function index(Request $request): View|Factory|RedirectResponse|Application
     {
-        $sottoProgetti = null;
         if ($request->query('progetto')) {
             $sottoProgetti = SottoProgetto::where('progetto_id', $request->query('progetto'))->paginate(10);
-        } elseif (Auth::user() != null) {
-            if (Auth::user()->hasRuolo('manager')) {
-                $sottoProgetti = SottoProgetto::paginate(10);
-            } else {
-                $user = Ricercatore::where('id', Auth::user()->id)->first();
-                $sottoProgetti = $user->sotto_progetti()->paginate(10);
-            }
+        } else {
+            $sottoProgetti = SottoProgetto::paginate(10);
         }
         if ( $sottoProgetti == null || $sottoProgetti->isEmpty()) {
             return view('sotto-progetto.index', compact('sottoProgetti'))->with('error', 'Non ci sono sotto-progetto');

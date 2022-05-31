@@ -34,9 +34,9 @@ class ProgettoController extends Controller
     public function show(Progetto $progetto): View|Factory|Application
     {
         $ricercatori = $progetto->ricercatori()->paginate(10);
-        $sotto_progetti = $progetto->sotto_progetti()->paginate(10);
+        $sottoProgetti = $progetto->sotto_progetti()->paginate(10);
         $pubblicazioni=$progetto->pubbicazioni()->where('ufficiale','=','1')->paginate(10);
-        return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti','pubblicazioni'));
+        return view('progetto.show', compact('progetto', 'ricercatori', 'sottoProgetti','pubblicazioni'));
     }
 
     /**

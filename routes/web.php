@@ -54,6 +54,13 @@ Route::prefix('ricercatore')->group(function () {
      *
      */
     Route::get('/progetti', [RicercatoreController::class, 'progetti'])->name('ricercatore.progetti')->middleware('auth');
+
+    /**
+     * Vista per l'elenco dei progetto del ricercatore.
+     *
+     */
+    Route::get('/sotto-progetti', [RicercatoreController::class, 'sotto_progetti'])->name('ricercatore.sotto-progetti')->middleware('auth');
+
 });
 /**
  * CRUD per il manager
@@ -246,19 +253,13 @@ Route::prefix('sotto-progetto')->group(function () {
 /**
  * CRUD per le milestones.
  */
-Route::prefix('{sottoProgetto}/milestone')->group(function () {
+Route::prefix('sotto-progetto/{sottoProgetto}/milestone')->group(function () {
 
     /**
      * Vista elenco delle milestone
      *
      */
     Route::get('/index', [MilestoneController::class, 'index'])->name('milestone.index');
-
-    /**
-     * Vista info di un progetto.
-     *
-     */
-    Route::get('/show/{milestone}', [MilestoneController::class, 'show'])->name('milestone.show');
 
     /**
      * Vista per editare le informazioni di un milestone.

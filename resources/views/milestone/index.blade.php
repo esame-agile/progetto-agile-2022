@@ -1,36 +1,47 @@
 @extends('layouts.main')
 @section('content')
-    <div class="container">
+    <div class="container mx-auto">
         <x-table>
-            <x-slot name="titolo">
-                <x-button class="float-right"><a href="{{ route('milestone.create', $sottoProgetto) }}"><i
+            <x-slot name="pulsanti_up">
+                <x-button><a href="{{ route('milestone.create', $sottoProgetto) }}"><i
                             class="lni lni-plus"></i> Aggiungi Milestone</a></x-button>
-                <h2 class=" testo titolo grande">Elenco delle milestones del
-                    progetto {{ $sottoProgetto->titolo}}</h2>
+            </x-slot>
+            <x-slot name="titolo">
+                Milestones del progetto {{ $sottoProgetto->titolo}}
+            </x-slot>
+            <x-slot name="link">
+                @if(isset($milestones))
+                    <div class="px-5 pb-5">
+                        {{$milestones->links()}}
+                    </div>
+                @endif
             </x-slot>
             <x-slot name="colonne">
-                <th class="px-4 py-3 ">Descrizione</th>
-                <th class="px-4 py-3 responsive">Data Evento</th>
+                <x-th>Descrizione</x-th>
+                <x-th class="resp640">Data Evento</x-th>
                 @if(!Auth::user()->hasRuolo("manager"))
-                    <th class="px-4 py-3 ">Azioni</th>
+                    <x-th>Azioni</x-th>
                 @endif
             </x-slot>
             <x-slot name="righe">
-                {{ $milestones->links() }}
-                @foreach ($milestones as $milestone)
-                    <x-tr class="@if($loop->index%2==0) bg-gray @else bg-white @endif">
-                        <x-slot name="body">
-                            <x-td>
-                                <x-slot name="body"> {{ $milestone->descrizione }}</x-slot>
-                            </x-td>
-                            <x-td class="responsive">
-                                <x-slot name="body"> {{ date('d/m/Y', strtotime($milestone->data_evento )) }}</x-slot>
-                            </x-td>
-                            @if(!Auth::user()->hasRuolo("manager"))
-                                <x-td>
-                                    <x-slot name="body">
-                                        <a href="{{ route('milestone.show', [$milestone->sotto_progetto->id,$milestone->id]) }}"><i
-                                                class="lni lni-eye"></i></a>
+                @if(isset($milestones))
+                    @if($milestones->isEmpty())
+                        <x-tr>
+                            <x-td>-</x-td>
+                            <x-td class="resp640">-</x-td>
+                            @auth
+                                @if(Auth::user()->ruolo == 'manager')
+                                    <x-td>-</x-td>
+                                @endif
+                            @endauth
+                        </x-tr>
+                    @else
+                        @foreach ($milestones as $milestone)
+                            <x-tr>
+                                <x-td>{{ $milestone->descrizione }}</x-td>
+                                <x-td class="resp640">{{ date('d/m/Y', strtotime($milestone->data_evento )) }}</x-td>
+                                @if(!Auth::user()->hasRuolo("manager"))
+                                    <x-td class="flex flex-wrap justify-between">
                                         <a href="{{ route('milestone.edit', [$milestone->sotto_progetto->id, $milestone->id]) }}"><i
                                                 class="lni lni-pencil"></i></a>
                                         <form method="POST"
@@ -42,14 +53,13 @@
                                             @method("DELETE")
                                             <button type="submit"><i class="lni lni-trash"></i></button>
                                         </form>
-                                    </x-slot>
-                                </x-td>
-                            @endif
-                        </x-slot>
-                    </x-tr>
-                @endforeach
+                                    </x-td>
+                                @endif
+                            </x-tr>
+                        @endforeach
+                    @endif
+                @endif
             </x-slot>
         </x-table>
     </div>
-
 @endsection

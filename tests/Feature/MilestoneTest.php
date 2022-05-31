@@ -21,7 +21,7 @@ class MilestoneTest extends TestCase
             'sotto_progetto_id' => $sottoProgetto->id,
         ]);
         $this->actingAs($user)
-            ->post('/'. $sottoProgetto->id .'/milestone/store', [
+            ->post('/sotto-progetto/'. $sottoProgetto->id .'/milestone/store', [
                 'descrizione' => $milestone->descrizione,
                 'data_evento' => $milestone->data_evento,
                 'responsabile_id' => $milestone->responsabile_id,
@@ -77,7 +77,7 @@ class MilestoneTest extends TestCase
         $descrizione = $faker->sentence;
         $data_evento = $faker->date;
         $this->actingAs($user)
-            ->put('/'. $sottoProgetto->id .'/milestone/update/'. $milestone->id, [
+            ->put('/sotto-progetto/'. $sottoProgetto->id .'/milestone/update/'. $milestone->id, [
                 'descrizione' => $descrizione,
                 'data_evento' => $data_evento,
                 'responsabile_id' => $milestone->responsabile_id,
@@ -98,7 +98,7 @@ class MilestoneTest extends TestCase
             'sotto_progetto_id' => $sottoProgetto->id,
         ]);
         $this->actingAs($user)
-            ->delete('/'. $sottoProgetto->id .'/milestone/destroy/' . $milestone->id)
+            ->delete('/sotto-progetto/'. $sottoProgetto->id .'/milestone/destroy/' . $milestone->id)
             ->assertStatus(302);
         $this->assertCount(0, $sottoProgetto->fresh()->milestones);
     }
@@ -114,13 +114,10 @@ class MilestoneTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->get('/'. $sottoProgetto->id .'/milestone/show/'. $milestone->id)
+            ->get('/sotto-progetto/'. $sottoProgetto->id .'/milestone/index')
             ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/'. $sottoProgetto->id .'/milestone/index')
-            ->assertStatus(200);
-        $this->actingAs($user)
-            ->get('/'. $sottoProgetto->id .'/milestone/edit/' . $milestone->id)
+            ->get('/sotto-progetto/'. $sottoProgetto->id .'/milestone/edit/' . $milestone->id)
             ->assertStatus(200);
     }
 

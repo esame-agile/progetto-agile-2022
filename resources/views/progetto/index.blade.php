@@ -1,102 +1,98 @@
 @extends('layouts.main')
 @section('content')
     <div class="container mx-auto">
-        <h2 class="text-3xl font-bold leading-normal text-blueGray-700 mb-2 uppercase">
-            @if(isset($mieiProgetti))
-                I MIEI PROGETTI
-            @else
-                ELENCO PROGETTI
-            @endif
-        </h2>
-        <div class="card-grey mb-10">
-            <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                <div class="w-full overflow-x-auto">
-                    <table class="w-full">
-                        <thead>
-                        <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                            <th class="px-4 py-2">Titolo</th>
-                            @auth()
-                                <th class="px-4 py-2">Responsabile</th>
-                            @endauth
-                            <th class="px-4 py-2">Scopo</th>
-                            <th class="px-4 py-2">Data inizio</th>
-                            <th class="px-4 py-2">Data fine</th>
+        <x-table>
+            <x-slot name="titolo">
+                @if(isset($mieiProgetti))
+                    I MIEI PROGETTI
+                @else
+                    ELENCO PROGETTI
+                @endif
+            </x-slot>
+
+            <x-slot name="link">
+                @if(isset($progetti))
+                    <div class="px-5 pb-5">
+                        {{$progetti->links()}}
+                    </div>
+                @endif
+            </x-slot>
+            <x-slot name="colonne">
+                <x-th>Titolo</x-th>
+                <x-th class="resp640">Scopo</x-th>
+                <x-th class="resp1024">Data inizio</x-th>
+                <x-th class="resp1024">Data fine</x-th>
+                @auth
+                    @if(Auth::user()->ruolo == 'manager')
+                        <x-th>Azioni</x-th>
+                    @endif
+                @endauth
+            </x-slot>
+            <x-slot name="righe">
+                @if(isset($progetti))
+                    @if($progetti->isEmpty())
+                        <x-tr>
+                            <x-td class="resp640">-</x-td>
+                            <x-td class="resp1024">-</x-td>
+                            <x-td class="resp1024">-</x-td>
                             @auth
                                 @if(Auth::user()->ruolo == 'manager')
-                                    <th class="px-4 py-2">Azioni</th>
+                                    <x-td class="text-center">-</x-td>
                                 @endif
                             @endauth
-                        </tr>
-                        </thead>
-                        <tbody class="bg-white">
-                        @if($progetti != null)
-                            {{$progetti->links()}}
-                            @if($progetti->isEmpty())
-                                <tr class="text-gray-700">
-                                    <td class="px-4 py-2 text-left">-</td>
-                                    <td class="px-4 py-2 text-left">-</td>
-                                    <td class="px-4 py-2 text-left">-</td>
-                                </tr>
-                            @else
-                                @foreach($progetti as $progetto)
-                                    <tr class="text-gray-700">
-                                        <td class="px-4 py-2 text-ms font-semibold border">
-                                            <a class="underline"
-                                               href="{{route("progetto.show", $progetto)}}">{{$progetto->titolo}}</a>
-                                        </td>
-                                        @auth()
-                                            @if(Auth::user()->id == $progetto->responsabile_id)
-                                                <td class="px-4 py-2 text-sm font-semibold border"><i
-                                                        class="lni lni-crown flex justify-center"></i></td>
-                                            @else
-                                                <td class="px-4 py-2 text-sm font-semibold border text-center">-
-                                                </td>
-                                            @endif
-                                        @endauth
-                                        <td class="px-4 py-2 text-ms font-semibold border">{{$progetto->scopo}}</td>
-                                        <td class="px-4 py-2 text-sm font-semibold border"> {{$progetto->data_inizio}}</td>
-                                        <td class="px-4 py-2 text-sm font-semibold border">{{$progetto->data_fine}}</td>
-                                        @auth()
-                                            @if(Auth::user()->ruolo == 'manager')
-                                                <td class="px-4 py-2 text-sm font-semibold border">
-                                                    <a href="{{ route('progetto.edit', $progetto) }}"><i
-                                                            class="lni lni-pencil float-left"></i></a>
-                                                    <form method="POST"
-                                                          class="float-right"
-                                                          action="{{ route('progetto.destroy', $progetto) }}"
-                                                          id="delete_progetto"
-                                                          name="delete_progetto"
-                                                          onsubmit="confirm('Sei sicuro di voler cancellare?')">
-                                                        @csrf
-                                                        @method("DELETE")
-                                                        <button type="submit"><i class="lni lni-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
-                                            @endif
-                                        @endauth
-                                    </tr>
-                                @endforeach
-                            @endif
-                        @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            @if(isset($mieiProgetti))
-                <x-button class="mt-5">
-                    <a href="{{route("sotto-progetto.index")}}">
-                        I MIEI SOTTOPROGETTI
-                    </a>
-                </x-button>
-            @else
-                <x-button class="mt-5">
-                    <a href="{{route("sotto-progetto.index")}}">
-                        SOTTOPROGETTI
-                    </a>
-                </x-button>
-            @endif
-        </div>
+                        </x-tr>
+                    @else
+                        @foreach($progetti as $progetto)
+                            <x-tr>
+                                <x-td><a class="underline"
+                                         href="{{route("progetto.show", $progetto)}}">{{$progetto->titolo}}
+                                    </a>
+                                    @if(Auth::user()->id == $progetto->responsabile_id)
+                                        <x-td><i class="lni lni-crown flex justify-center"></i></x-td>
+                                    @endif
+                                </x-td>
+                                <x-td class="resp640">{{$progetto->scopo}}</x-td>
+                                <x-td class="resp1024"> {{$progetto->data_inizio}}</x-td>
+                                <x-td class="resp1024">{{$progetto->data_fine}}</x-td>
+                                @auth()
+                                    @if(Auth::user()->ruolo == 'manager')
+                                        <x-td>
+                                            <a href="{{ route('progetto.edit', $progetto) }}"><i
+                                                    class="lni lni-pencil float-left"></i></a>
+                                            <form method="POST"
+                                                  class="float-right"
+                                                  action="{{ route('progetto.destroy', $progetto) }}"
+                                                  id="delete_progetto"
+                                                  name="delete_progetto"
+                                                  onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                                @csrf
+                                                @method("DELETE")
+                                                <button type="submit"><i class="lni lni-trash"></i>
+                                                </button>
+                                            </form>
+                                        </x-td>
+                                    @endif
+                                @endauth
+                            </x-tr>
+                        @endforeach
+                    @endif
+                @endif
+            </x-slot>
+            <x-slot name="pulsanti">
+                @if(isset($mieiProgetti))
+                    <x-button class="mt-5">
+                        <a href="{{route("ricercatore.sotto-progetti")}}">
+                            I MIEI SOTTOPROGETTI
+                        </a>
+                    </x-button>
+                @else
+                    <x-button class="mt-5">
+                        <a href="{{route("sotto-progetto.index")}}">
+                            SOTTOPROGETTI
+                        </a>
+                    </x-button>
+                @endif
+            </x-slot>
+        </x-table>
     </div>
-
 @endsection

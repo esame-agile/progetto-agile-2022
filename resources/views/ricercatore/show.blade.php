@@ -1,127 +1,97 @@
 @extends('layouts.main')
-@include('layouts.alert-message')
 @section('content')
-
     <div class="container mx-auto">
         <!--- Copertina del profilo --->
-        <div class="card-grey copertina-profilo">
-            @yield('alert-message')
-            <div class="card-body">
-                <div class="profile-background">
-                    <!--- Immagine di copertina del profilo --->
-                </div>
+        <x-profile>
+            <x-slot name="nome">
+                {{$ricercatore->nome}} {{$ricercatore->cognome}}
+                @auth()
+                    {{-- Pulsante per editare informazioni personali --}}
+                    <a href="{{route('ricercatore.edit', $ricercatore)}}"><i
+                            class="lni lni-pencil"></i></a>
+                @endauth
+            </x-slot>
+            <x-slot name="info">
+                <x-li>
+                    <span class="font-bold">Ambito di ricerca:</span> <br>
+                    {{$ricercatore->ambito_ricerca}}
+                </x-li>
+                <x-li>
+                    <span class="font-bold">Università:</span> <br>
+                    {{$ricercatore->universita}}
+                </x-li>
+            </x-slot>
+            <x-slot name="profile_picture">
                 <div class="profile-picture">
                     <!--- Immagine del profilo --->
                 </div>
-                <div class="nome-utente-container">
-                    <p class="testo grande">{{$ricercatore->nome}} {{$ricercatore->cognome}} </p>
-
-                    <p class="testo">
-                        {{$ricercatore->ambito_ricerca}}
-                        <br>
-                        {{$ricercatore->universita}}
-                    </p>
-
-                </div>
-                <div class="contatti">
-                    <p class="testo">
-                        {{$ricercatore->email}}
-                    </p>
-                </div>
-            </div>
-            @auth()
-                {{-- Pulsante per editare informazioni personali --}}
-                <a href="{{route('ricercatore.edit', $ricercatore)}}"><i
-                        class="lni lni-pencil edit"></i></a>
-            @endauth
-            <div class="contatti hidden">
-                <p class="testo">
+            </x-slot>
+            <x-slot name="contatti">
+                <x-li>
+                    <span class="font-bold">Contatti:</span> <br>
                     {{$ricercatore->email}}
-                </p>
-            </div>
-        </div>
-        <!--- Fine copertina del profilo --->
-
-        <div class="mb-3">
-            <h2 class="text-3xl font-bold leading-normal text-blueGray-700 mb-2 uppercase">Pubblicazioni</h2>
-            <x-button class="">
-                <a href="{{route('pubblicazioni.create',$ricercatore)}}">
-                    AGGIUNGI PUBBLICAZIONE
-                </a>
-            </x-button>
-            <x-button class="">
-                <a href="{{route('pubblicazioni.edit',$ricercatore)}}">
-                    RENDI VISIBILI O NASCONDI LE PUBBLICAZIONI
-                </a>
-            </x-button>
-        </div>
-        <div class="card-grey mb-10">
-            <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                <div class="w-full overflow-x-auto">
-                    <table class="w-full">
-                        <thead>
-                        <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                            <th class="px-3 py-2 text-left">
-                                DOI
-                            </th>
-                            <th class="px-3 py-2 text-left">
-                                Titolo
-                            </th>
-                            <th class="px-3 py-2 text-left">
-                                Tipologia
-                            </th>
-                            <th class="px-3 py-2 text-left">
-                                Progetto
-                            </th>
-                            <th class="px-3 py-2 text-left">
-                                Visibile
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody class="bg-white">
-                        <tr class="text-gray-700">
-                        @if($pubblicazioni != null)
-                            {{ $pubblicazioni->links() }}
+                </x-li>
+            </x-slot>
+            <!--- Fine copertina del profilo --->
+            <x-slot name="pubblicazioni">
+                <x-table>
+                    <x-slot name="titolo">
+                        PUBBLICAZIONI
+                    </x-slot>
+                    <x-slot name="pulsanti_up">
+                        <x-button>
+                            <a href="{{route('pubblicazioni.create',$ricercatore)}}">
+                                AGGIUNGI
+                            </a>
+                        </x-button>
+                        <x-button>
+                            <a href="{{route('pubblicazioni.edit',$ricercatore)}}">
+                                VISIBILITA'
+                            </a>
+                        </x-button>
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($pubblicazioni))
+                            <div class="px-5 pb-5">
+                                {{$pubblicazioni->links()}}
+                            </div>
+                        @endif
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>DOI</x-th>
+                        <x-th>Titolo</x-th>
+                        <x-th class="resp1024">Tipologia</x-th>
+                        <x-th class="resp640">Progetto</x-th>
+                        <x-th class="resp1024">Visibile</x-th>
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($pubblicazioni))
                             @if($pubblicazioni->isEmpty())
-                                <tr class="text-gray-700">
-                                    <td class="px-4 py-2 text-left">-</td>
-                                    <td class="px-4 py-2 text-left">-</td>
-                                    <td class="px-4 py-2 text-left">-</td>
-                                    <td class="px-4 py-2 text-left">-</td>
-                                    <td class="px-4 py-2 text-left">-</td>
-                                </tr>
+                                <x-tr>
+                                    <x-td>-</x-td>
+                                    <x-td>-</x-td>
+                                    <x-td class="resp1024">-</x-td>
+                                    <x-td class="resp640">-</x-td>
+                                    <x-td class="resp1024">-</x-td>
+                                </x-tr>
                             @else
                                 @foreach($pubblicazioni as $pubblicazione)
-                                    <tr class="text-gray-700">
-                                        <th class="px-4 py-3 text-ms font-semibold border ">
-                                            {{$pubblicazione->doi}}
-                                        </th>
-                                        <th class="px-4 py-3 text-ms font-semibold border ">
-                                            {{$pubblicazione->titolo}}
-                                        </th>
-                                        <th class="px-4 py-3 text-ms font-semibold border ">
-                                            {{$pubblicazione->tipologia}}
-                                        </th>
-                                        <th class="px-4 py-3 text-ms font-semibold border ">
-                                            {{\App\Models\Progetto::find($pubblicazione->progetto_id)->titolo}}
-                                        </th>
-
-                                        <td class="px-4 py-3 text-ms font-semibold border">
-                                            @if($pubblicazione->ufficiale==false)
-                                                <i class="fa-solid fa-xmark "></i>
-                                            @else
-                                                <i class="fa-solid fa-check "></i>
-                                            @endif
-
-                                        </td>
-                                    </tr>
+                                    <x-tr>
+                                        <x-td>{{$pubblicazione->doi}}</x-td>
+                                        <x-td><a class="underline"
+                                                 href="{{route("pubblicazione.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
+                                            </a>
+                                        </x-td>
+                                        <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
+                                        <x-td class="resp640">{{$pubblicazione->progetto}}</x-td>
+                                        <x-td class="resp1024">{{$pubblicazione->visibile}}</x-td>
+                                    </x-tr>
                                 @endforeach
                             @endif
                         @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+                    </x-slot>
+                </x-table>
+            </x-slot>
+        </x-profile>
     </div>
 @endsection

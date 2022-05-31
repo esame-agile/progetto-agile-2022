@@ -102,8 +102,9 @@ class RicercatoreController extends Controller
      */
     public function sotto_progetti(): Factory|View|Application
     {
+        $mieiSottoProgetti = true;
         $sottoProgetti = Ricercatore::find(Auth::user()->id)->sotto_progetti()->paginate(10);
-        return view('sotto-progetto.index', compact('sottoProgetti'));
+        return view('sotto-progetto.index', compact('sottoProgetti', 'mieiSottoProgetti'));
     }
 
     /**

@@ -4,8 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\Finanziatore;
 use App\Models\Manager;
+use App\Models\Milestone;
 use App\Models\Progetto;
 use App\Models\Ricercatore;
+use App\Models\SottoProgetto;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -30,6 +32,14 @@ class DatabaseSeeder extends Seeder
         $progetto->save();
         echo "RICERCATORE: \n";
         echo "email: " . $ricercatore->email . "\n" . "password: password" . "\n";
+
+        SottoProgetto::factory(10)->create([
+            'responsabile_id' => $ricercatore->id,
+            'progetto_id' => $progetto->id,
+        ]);
+        Milestone::factory(10)->create([
+            'sotto_progetto_id' => $progetto->sotto_progetti()->first()->id,
+        ]);
 
         Finanziatore::factory(10)->create();
         $finanziatore = Finanziatore::first();

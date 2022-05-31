@@ -20,7 +20,7 @@ class FinanziatoreController extends Controller
     public function show(): Factory|View|Application
     {
         $finanziatore = Finanziatore::find(Auth::user()->id);
-        $progetti = $finanziatore->progetti()->get();
+        $progetti = $finanziatore->progetti()->paginate(10);
 
         return view('finanziatore.show', compact('finanziatore', 'progetti'));
     }

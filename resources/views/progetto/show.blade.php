@@ -143,14 +143,14 @@
                                                     </thead>
                                                     <tbody class="bg-white">
 
-                                                    @if($sotto_progetti==!null)
-                                                        @foreach($sotto_progetti as $sotto_progetto)
+                                                    @if($sottoProgetti==!null)
+                                                        @foreach($sottoProgetti as $sottoProgetto)
                                                             <tr class="text-gray-700">
                                                                 <th class="px-4 py-3">
-                                                                    <a href="{{route("sotto-progetto.show", ["sotto-progetto"=>$sotto_progetto])}}"> {{$sotto_progetto->titolo}} </a>
+                                                                    <a href="{{route("sotto-progetto.show", compact('sottoProgetto'))}}"> {{$sottoProgetto->titolo}} </a>
                                                                 </th>
                                                                 <th class="px-4 py-3">
-                                                                    {{$sotto_progetto->data_rilascio}}
+                                                                    {{$sottoProgetto->data_rilascio}}
                                                                 </th>
                                                             </tr>
                                                         @endforeach

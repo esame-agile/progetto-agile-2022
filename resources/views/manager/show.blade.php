@@ -1,42 +1,31 @@
 @extends('layouts.main')
-@include('layouts.alert-message')
 @section('content')
     <div class="container mx-auto">
         <!--- Copertina del profilo --->
-        <div class="card copertina-profilo">
-            @yield('alert-message')
-            <div class="card-body">
-                <div class="profile-background">
-                    <!--- Immagine di copertina del profilo --->
-                </div>
+        <x-profile>
+            <x-slot name="nome">
+                {{$manager->nome}} {{$manager->cognome}}
+                @auth()
+                    {{-- Pulsante per editare informazioni personali --}}
+                    <a href="{{route('manager.edit', $manager)}}"><i
+                            class="lni lni-pencil"></i></a>
+                @endauth
+            </x-slot>
+            <x-slot name="info">
+
+            </x-slot>
+            <x-slot name="profile_picture">
                 <div class="profile-picture">
                     <!--- Immagine del profilo --->
                 </div>
-                <div class="nome-utente-container">
-                    <p class="testo grande">{{$manager->nome}} {{$manager->cognome}} </p>
-
-                    <p class="testo">
-                        {{$manager->ruolo}}
-                    </p>
-
-                </div>
-                <div class="contatti">
-                    <p class="testo">
-                        {{$manager->email}}
-                    </p>
-                </div>
-            </div>
-            @auth()
-                {{-- Pulsante per editare informazioni personali --}}
-                <a href="{{route('manager.edit', $manager)}}"><i
-                        class="lni lni-pencil edit"></i></a>
-            @endauth
-            <div class="contatti hidden">
-                <p class="testo">
+            </x-slot>
+            <x-slot name="contatti">
+                <x-li>
+                    <span class="font-bold">Contatti:</span> <br>
                     {{$manager->email}}
-                </p>
-            </div>
-        </div>
-        <!--- Fine copertina del profilo --->
+                </x-li>
+            </x-slot>
+            <!--- Fine copertina del profilo --->
+        </x-profile>
     </div>
 @endsection

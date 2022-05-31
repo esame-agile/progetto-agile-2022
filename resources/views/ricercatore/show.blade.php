@@ -63,7 +63,9 @@
                                 <th class="px-4 py-3 text-center">
                                     Progetto
                                 </th>
-                              {{--  --}}
+                                <th class="px-4 py-3 text-center">
+                                    File
+                                </th>
                                 <th class="px-4 py-3 text-center">
                                     Elimina
                                 </th>
@@ -84,6 +86,10 @@
                                     </th>
                                     <th class="px-4 py-3 text-ms font-semibold border responsive">
                                         {{\App\Models\Progetto::find($pubblicazione->progetto_id)->titolo}}
+                                    </th>
+                                    <th class="px-4 py-3 text-ms font-semibold border responsive">
+                                        <a href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}" >{{$pubblicazione->file_name}}</a>
+
                                     </th>
 
                                     <td class="px-4 py-3 text-sm font-semibold border">

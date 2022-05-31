@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('ricercatore_sotto_progetto', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreignId('sotto_progetto_id')->constrained('sotto_progetti');
+            $table->foreignId('sotto_progetto_id')->constrained('sotto_progetti')->onUpdate("cascade")->onDelete("cascade");
             $table->foreignId('ricercatore_id')->constrained('utenti');
         });
     }

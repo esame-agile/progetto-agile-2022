@@ -8,19 +8,19 @@
             <div class="card-body">
                 <div class="form-container">
                     <form class="informazioni" method="POST" id="informazioni"
-                          action="{{ route('sotto-progetto.update', $sottoprogetti) }}">
+                          action="{{ route('sotto-progetto.update', $sottoProgetto) }}">
                         @csrf
                         @method('PUT')
                         <div class="mb-6">
                             <div class="form-control float-left inline-block">
                                 <label for="descrizione" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Titolo</label>
-                                <x-input name="titolo" type="text" id="titolo" value="{{ $sottoprogetti->titolo}}"
+                                <x-input name="titolo" type="text" id="titolo" value="{{ $sottoProgetto->titolo}}"
                                          class="@error('titolo') is-invalid @enderror "
                                          required></x-input>
                             </div>
                             <div class="form-control float-right inline-block">
                                 <label for="descrizione" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Descrizione</label>
-                                <x-input name="descrizione" type="text" id="descrizione" value="{{$sottoprogetti->descrizione}}"
+                                <x-input name="descrizione" type="text" id="descrizione" value="{{$sottoProgetto->descrizione}}"
                                          class="@error('descrizione') is-invalid @enderror "
                                          required></x-input>
                             </div>
@@ -29,7 +29,7 @@
                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Data Rilascio</label>
                                 <x-input type="date" id="data_rilascio"
                                          name="data_rilascio"
-                                         value="{{$sottoprogetti->data_rilascio}}"
+                                         value="{{$sottoProgetto->data_rilascio}}"
                                          required
                                          class="@error('data_rilascio') is-invalid @enderror">
                                 </x-input>
@@ -40,13 +40,13 @@
                                     <x-slot name="body">
                                         @foreach($ricercatori as $ricercatore)
                                             <option value="{{$ricercatore->id}}"
-                                                    @if($ricercatore->id == $sottoprogetti->responsabile_id) selected @endif>{{$ricercatore->nome}} {{$ricercatore->cognome}}
+                                                    @if($ricercatore->id == $sottoProgetto->responsabile_id) selected @endif>{{$ricercatore->nome}} {{$ricercatore->cognome}}
                                             </option>
                                         @endforeach
                                     </x-slot>
                                 </x-select>
                             </div>
-                            <input type="hidden" name="progetto_id" value="{{$sottoprogetti->progetto_id}}">
+                            <input type="hidden" name="progetto_id" value="{{$sottoProgetto->progetto_id}}">
                         </div>
 
                         <x-button type="submit" class="float-right">

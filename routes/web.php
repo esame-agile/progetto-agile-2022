@@ -213,13 +213,13 @@ Route::prefix('sotto-progetto')->group(function () {
      * Vista per editare le informazioni di una sottoProgetto.
      *
      */
-    Route::get('/edit/{sottoProgetto}', [SottoProgettoController::class, 'edit'])->name('sotto-progetto.edit')->middleware('auth', 'ruolo:ricercatore');
+    Route::get('/edit/{sottoProgetto}', [SottoProgettoController::class, 'edit'])->name('sotto-progetto.edit')->middleware('auth', 'ruolo:manager');
 
     /**
      * Aggiorna le informazioni di una sottoProgetto.
      *
      */
-    Route::put('/update/{sottoProgetto}', [SottoProgettoController::class, 'update'])->name('sotto-progetto.update')->middleware('auth', 'ruolo:ricercatore');
+    Route::put('/update/{sottoProgetto}', [SottoProgettoController::class, 'update'])->name('sotto-progetto.update')->middleware('auth', 'ruolo:manager');
 
     /**
      * Aggiorna le informazioni di una sottoProgetto.
@@ -255,7 +255,7 @@ Route::prefix('sotto-progetto')->group(function () {
      * Salva le modifiche sui ricercatori
      *
      */
-    Route::post("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
+    Route::post("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("sotto-progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
 });
 
 /**

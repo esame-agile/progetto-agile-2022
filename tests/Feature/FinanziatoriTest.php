@@ -36,7 +36,7 @@ class FinanziatoriTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_finanziatore_puo_modificare_i_suoi_campi()
+  /*  public function test_finanziatore_puo_modificare_i_suoi_campi()
     {
         $faker = Faker\Factory::create();
         $finanziatore = Finanziatore::factory()->create();
@@ -49,9 +49,9 @@ class FinanziatoriTest extends TestCase
                 'password_confirmation' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'nome_azienda' => 'Azienda',
             ])->assertRedirect('/finanziatore/show?finanziatore=' . $finanziatore->id);
-    }
+    }*/
 
-    public function test_pagina_edit_restituisce_errore_se_i_campi_non_sono_validi()
+  /*  public function test_pagina_edit_restituisce_errore_se_i_campi_non_sono_validi()
     {
         $faker = Faker\Factory::create();
         $finanziatore = Finanziatore::factory()->create();
@@ -64,7 +64,7 @@ class FinanziatoriTest extends TestCase
                 'password_confirmation' => '', // password
                 'nome_azienda' => '',
             ])->assertRedirect('/');
-    }
+    }*/
 
     public function test_guest_non_puo_modificare_informazioni_di_un_finanziatore()
     {

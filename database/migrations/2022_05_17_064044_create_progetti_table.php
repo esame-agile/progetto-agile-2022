@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('data_inizio');
             $table->date('data_fine');
             $table->unsignedInteger('budget');
-            $table->foreignId('responsabile_id')->constrained('utenti');
+            $table->foreignId('responsabile_id')->constrained('utenti')->onUpdate("cascade")->onDelete("cascade");
             $table->timestamps();
         });
     }

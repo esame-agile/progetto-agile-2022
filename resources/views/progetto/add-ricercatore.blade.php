@@ -5,7 +5,8 @@
         @yield('alert-message')
         <h2 class="testo titolo grande">Aggiungi un ricercatore al progetto</h2>
         <form class="informazioni" method="POST" id="informazioni"
-              action="{{ route('progetto.add-ricercatore', compact("progetto")) }}">
+
+              action="{{ route('progetto.store-ricercatore', compact("progetto")) }}">
             <div class="card">
                 <div class="card-body">
                     <div class="form-container">

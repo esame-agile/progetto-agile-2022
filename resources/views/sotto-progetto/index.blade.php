@@ -31,7 +31,7 @@
                     <th class="px-4 py-3 ">Descrizione</th>
                     <th class="px-4 py-3 responsive">Data Rilascio</th>
                     @auth
-                        @if(Auth::user()->hasRuolo("manager") || Auth::user()->hasRuolo("ricercatore") && Auth::user()->id == $sottoProgetti[0]->progetto->responsabile_id)
+                        @if(Auth::user() !=null && Auth::user()->hasRuolo("manager") || Auth::user()->hasRuolo("ricercatore") && Auth::user()->id == $sottoProgetti[0]->progetto->responsabile_id)
                             <th class="px-4 py-3 ">Azioni</th>
                         @endif
                     @endauth
@@ -55,10 +55,10 @@
                                             name="body"> {{ date('d/m/Y', strtotime($sottoProgetto->data_rilascio )) }}</x-slot>
                                     </x-td>
                                     @auth
-                                        @if(Auth::user()->hasRuolo("manager") || Auth::user()->hasRuolo("ricercatore") && Auth::user()->id == $sottoProgetti[0]->progetto->responsabile_id)
+                                        @if(Auth::user() !=null && Auth::user()->hasRuolo("manager") || Auth::user()->hasRuolo("ricercatore") && Auth::user()->id == $sottoProgetti[0]->progetto->responsabile_id)
                                             <x-td>
                                                 <x-slot name="body">
-                                                    @if(Auth::user()->hasRuolo("manager"))
+                                                    @if(Auth::user() !=null && Auth::user()->hasRuolo("manager"))
                                                         <a href="{{ route('sotto-progetto.edit', $sottoProgetto) }}"><i
                                                                 class="lni lni-pencil"></i></a>
                                                         <form method="POST"
@@ -70,7 +70,7 @@
                                                             @method("DELETE")
                                                             <button type="submit"><i class="lni lni-trash"></i></button>
                                                         </form>
-                                                    @elseif(Auth::user()->hasRuolo("ricercatore") && $sottoProgetto->responsabile_id == Auth::user()->id)
+                                                    @elseif(Auth::user() !=null && Auth::user()->hasRuolo("ricercatore") && $sottoProgetto->responsabile_id == Auth::user()->id)
                                                         <a href="{{ route('sotto-progetto.edit-ricercatori', ["sottoProgetto" => $sottoProgetto]) }}">
                                                             <x-button>
                                                                 <i class="lni lni-pencil"></i>

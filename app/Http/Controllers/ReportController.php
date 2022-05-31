@@ -45,8 +45,9 @@ class ReportController extends Controller
         $ricercatori = $progetto->ricercatori()->get();
         $sotto_progetti = $progetto->sotto_progetti()->get();
         $reports = $progetto->reports()->get();
+        $pubblicazioni=$progetto->pubblicazioni();
 
-        return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti', 'reports'));
+        return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti', 'reports','pubblicazioni'));
 
     }
 

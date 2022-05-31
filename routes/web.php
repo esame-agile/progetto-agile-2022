@@ -361,7 +361,7 @@ Route::prefix('pubblicazioni')->group(function () {
      * Aggiorna le informazioni sulle pubblicazioni.
      */
 
-    Route::put('/update', [PubblicazioneController::class, 'update'])->name('pubblicazioni.update')->middleware('auth', 'ruolo:ricercatore');
+    Route::put('/update/{progetto}', [PubblicazioneController::class, 'update'])->name('pubblicazioni.update')->middleware('auth', 'ruolo:ricercatore');
 
     /**
      * Aggiorna le informazioni di una pubblicazione.

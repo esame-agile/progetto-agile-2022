@@ -8,7 +8,7 @@
                 <div class="w-full lg:w-5/6 xl:w-2/3">
                     <div class="pt-5 pb-64 header-content">  <!-- pt padding top -->
 
-                    <form class="" id="modificaP" method="POST" action="{{ route('pubblicazioni.update') }}">
+                    <form class="" id="modificaP" method="POST" action="{{ route('pubblicazioni.update',$progetto) }}">
                         @csrf
                         @method('PUT')
                         <div class="mb-6">

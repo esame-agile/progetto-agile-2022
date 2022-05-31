@@ -40,10 +40,10 @@ class PubblicazioneController extends Controller
      */
     public function edit(Progetto $progetto): View|Factory|Application
     {
-        dd($progetto);
+
         $pubblicazioniF = $progetto->pubblicazioni()->where('ufficiale', '=','0')->get();
         $pubblicazioniT = $progetto->pubblicazioni()->where('ufficiale', '=','1')->get();
-        return view('pubblicazioni.edit', compact('pubblicazioniF','pubblicazioniT'));
+        return view('pubblicazioni.edit', compact('pubblicazioniF','pubblicazioniT','progetto'));
     }
 
     /**
@@ -51,10 +51,10 @@ class PubblicazioneController extends Controller
      *
 
      */
-    public function update(Request $request): RedirectResponse
+    public function update(Request $request, Progetto $progetto): RedirectResponse
     {
         $this->setVisibilitaPubblicazioni($request);
-        return redirect()->route('ricercatore.show');
+        return redirect()->route('progetto.show',$progetto);
     }
 
     /**

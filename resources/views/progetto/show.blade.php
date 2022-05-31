@@ -52,7 +52,7 @@
 
                                 <!--- Ricercatori--->
                                 @auth
-                                    @if(Auth::user()->id == $progetto->responsabile_id)
+                                    @if(Auth::user()!=null && Auth::user()->id == $progetto->responsabile_id)
                                         <x-button class="mb-10">
                                             <a href="{{route("progetto.edit-ricercatori", compact("progetto"))}}">
                                                 MODIFICA RICERCATORI
@@ -117,7 +117,7 @@
                                 </div>
                                 <!--- Progetti affiliati --->
                                 @auth
-                                    @if(Auth::user()->hasRuolo("manager"))
+                                    @if(Auth::user()!=null && Auth::user()->hasRuolo("manager"))
                                         <x-button class="mb-10">
                                             <a href="{{route("sotto-progetto.create")}}">
                                                 CREA SOTTOPROGETTO
@@ -182,7 +182,7 @@
                                                             <th class="px-4 py-3 responsive text-center">
                                                                 Tipologia
                                                             </th>
-                                                            @if(Auth::user()->id==$progetto->responsabile_id)
+                                                            @if(Auth::user()!=null && Auth::user()->id==$progetto->responsabile_id)
                                                             <th class="px-4 py-3 text-center">
                                                                 Visibile
                                                             </th>
@@ -191,7 +191,7 @@
                                                         </thead>
                                                         <tbody class="bg-white">
                                                         @if($pubblicazioni==!null)
-                                                            @if(Auth::user()->id==$progetto->responsabile_id)
+                                                            @if(Auth::user()!=null && Auth::user()->id==$progetto->responsabile_id)
                                                             @foreach($pubblicazioni as $pubblicazione)
                                                                 <tr class="text-gray-700">
                                                                     <th class="px-4 py-3">
@@ -240,6 +240,7 @@
                                         </section>
                                     </div>
                                     <!--- Fine pubblicazioni --->
+                                    @if(Auth::user()!=null && Auth::user()->id==$progetto->responsabile_id)
                                     <x-button class="mb-10">
                                         <a href="{{route('pubblicazioni.edit',$progetto)}}">
                                             RENDI VISIBILI O NASCONDI LE PUBBLICAZIONI
@@ -255,7 +256,7 @@
                                             Report</h3>
                                     </div>
                                 </div>
-                                    @if(Auth::user()->hasRuolo("ricercatore"))
+                                    @if(Auth::user()!=null && Auth::user()->hasRuolo("ricercatore"))
                                         <x-button class="mb-5">
                                             <a href="{{route("report.create", $progetto)}}">
                                                 AGGIUNGI REPORT
@@ -308,7 +309,7 @@
                                                                 </th>
                                                                 <x-td>
                                                                     <x-slot name="body">
-                                                                        @if(Auth::user()->hasRuolo('ricercatore') && $report->ricercatore_id==Auth::user()->id)
+                                                                        @if(Auth::user()!=null && Auth::user()->hasRuolo('ricercatore') && $report->ricercatore_id==Auth::user()->id)
                                                                             <form method="POST"
                                                                                   action="{{ route('report.destroy', ["report" => $report, "progetto" => $progetto] ) }}"
                                                                                   id="delete_report"

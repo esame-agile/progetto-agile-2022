@@ -12,8 +12,8 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-6">
-                            <div class="flex justify-around">
-                                <div class="flex justify-center">
+                            <div class="justify-center">
+                                <div class="form-control">
                                     <label><strong>Rendi visibili le pubblicazioni nascoste :</strong></label>
                                     <div class="form-check">
                                         @if($pubblicazioniF!=null)
@@ -25,7 +25,7 @@
                                             <label><strong>Nessuna pubblicazione nascosta</strong></label>
                                         @endif
                                     </div>
-                                    <div class="flex justify-center">
+                                    <div class="form-control">
                                         <label><strong>Nascondi le pubblicazioni visibili :</strong></label>
                                         <div class="form-check">
                                             @if($pubblicazioniT!=null)
@@ -34,7 +34,7 @@
 
                                                 @endforeach
                                             @else
-                                                <label><strong>Nessuna pubblicazione visibile </strong></label>
+                                               <br> <label><strong>Nessuna pubblicazione visibile </strong></label>
                                             @endif
                                         </div>
                                     </div>

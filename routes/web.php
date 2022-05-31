@@ -371,6 +371,8 @@ Route::prefix('pubblicazioni')->group(function () {
      */
 
     Route::delete('/destroy/{pubblicazione}', [PubblicazioneController::class, 'destroy'])->name('pubblicazioni.destroy')->middleware('auth', 'ruolo:ricercatore');
+    Route::get('/download{file_name}', [PubblicazioneController::class, 'download'])->name('pubblicazioni.download');
+
 
 });
 require __DIR__ . '/auth.php';

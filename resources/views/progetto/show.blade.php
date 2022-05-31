@@ -147,7 +147,7 @@
                                                         @foreach($sotto_progetti as $sotto_progetto)
                                                             <tr class="text-gray-700">
                                                                 <th class="px-4 py-3">
-                                                                    <a href="{{route("sotto-progetto.show", ["sotto-progetto"=>$sotto_progetto])}}"> {{$sotto_progetto->titolo}} </a>
+                                                                    <a href="{{route("sotto-progetto.show", $sotto_progetto)}}"> {{$sotto_progetto->titolo}} </a>
                                                                 </th>
                                                                 <th class="px-4 py-3">
                                                                     {{$sotto_progetto->data_rilascio}}
@@ -180,11 +180,20 @@
                                                                 Titolo
                                                             </th>
                                                             <th class="px-4 py-3 responsive text-center">
-                                                                Tipologia
+                                                            Tipologia
                                                             </th>
+                                                            <th class="px-4 py-3 responsive text-center">
+                                                                File
+                                                            </th>
+                                                            @if(Auth::user()!=null && Auth::user()->id==$progetto->responsabile_id)
+                                                            <th class="px-4 py-3 responsive text-center">
+                                                                Visibile
+                                                            </th>
+                                                            @endif
                                                         </tr>
                                                         </thead>
                                                         <tbody class="bg-white">
+                                                        @if(Auth::user()!=null && Auth::user()->id==$progetto->responsabile_id)
                                                         @if($pubblicazioni==!null)
                                                             @foreach($pubblicazioni as $pubblicazione)
                                                                 <tr class="text-gray-700">
@@ -197,16 +206,57 @@
                                                                     <th class="px-4 py-3">
                                                                         {{$pubblicazione->tipologia}}
                                                                     </th>
+                                                                    <th class="px-4 py-3">
+                                                                        <a href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}" >{{$pubblicazione->file_name}}</a>
+
+                                                                    </th>
+                                                                    @if($pubblicazione->ufficiale==false)
+                                                                    <th class="px-4 py-3">
+                                                                        <i class="fa-solid fa-xmark"></i>
+                                                                    </th>
+                                                                        @else
+                                                                        <th class="px-4 py-3">
+                                                                            <i class="fa-solid fa-check"></i>
+                                                                        </th>
+                                                                        @endif
                                                                 </tr>
                                                             @endforeach
                                                         @endif
+                                                        @else
+                                                            @if($pubblicazioni==!null)
+                                                                @foreach($pubblicazioni as $pubblicazione)
+                                                                    @if($pubblicazione->ufficiale==true)
+                                                                    <tr class="text-gray-700">
+                                                                        <th class="px-4 py-3">
+                                                                            {{$pubblicazione->doi}}
+                                                                        </th>
+                                                                        <th class="px-4 py-3">
+                                                                            {{$pubblicazione->titolo}}
+                                                                        </th>
+                                                                        <th class="px-4 py-3">
+                                                                            {{$pubblicazione->tipologia}}
+                                                                        </th>
+                                                                        <th class="px-4 py-3">
+                                                                            <a href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}" >{{$pubblicazione->file_name}}</a>
 
+                                                                        </th>
+                                                                    @endif
+                                                                    @endforeach
+                                                                    @endif
+                                                        @endif
 
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>  <!-- fine container -->
                                         </section>
+                                        @if(Auth::user()!=null && Auth::user()->id==$progetto->responsabile_id)
+                                        <x-button class="mb-10">
+                                            <a href="{{route('pubblicazioni.edit',$progetto)}}">
+                                                RENDI VISIBILI O NASCONDI LE PUBBLICAZIONI
+                                            </a>
+                                        </x-button>
+                                        @endif
                                     </div>
                                     <!--- Fine pubblicazioni --->
                                 </div>
@@ -218,7 +268,7 @@
                                             Report</h3>
                                     </div>
                                 </div>
-                                    @if(Auth::user()->hasRuolo("ricercatore"))
+                                    @if(Auth::user()!=null && Auth::user()->hasRuolo("ricercatore"))
                                         <x-button class="mb-5">
                                             <a href="{{route("report.create", $progetto)}}">
                                                 AGGIUNGI REPORT
@@ -271,7 +321,7 @@
                                                                 </th>
                                                                 <x-td>
                                                                     <x-slot name="body">
-                                                                        @if(Auth::user()->hasRuolo('ricercatore') && $report->ricercatore_id==Auth::user()->id)
+                                                                        @if(Auth::user()!=null && Auth::user()->hasRuolo('ricercatore') && $report->ricercatore_id==Auth::user()->id)
                                                                             <form method="POST"
                                                                                   action="{{ route('report.destroy', ["report" => $report, "progetto" => $progetto] ) }}"
                                                                                   id="delete_report"

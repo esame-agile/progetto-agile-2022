@@ -117,10 +117,7 @@
                 AGGIUNGI PUBBLICAZIONE
             </a>
         </x-button>
-         {{--   <x-button class="mb-10">
-                <a href="{{route('pubblicazioni.edit',$ricercatore)}}">
-                    RENDI VISIBILI O NASCONDI LE PUBBLICAZIONI
-                </a>
+         {{--
         </x-button>--}}
     </div>
         @if(!count($progetti))

@@ -2,12 +2,15 @@
 @include("layouts.alert-message")
 @section("content")
     <div class="container">
+
+            <a href="{{ route('sotto-progetto.add-ricercatore', compact("sottoProgetto")) }}" class="main-btn bg-gray-600 hover:bg-gray-800">
+                AGGIUNGI RICERCATORI
+            </a>
+
         @if(!$ricercatori->isEmpty())
             <x-table>
                 <x-slot name="titolo">
-                    <x-button class="float-right"><a
-                            href="{{ route('sotto-progetto.add-ricercatore', compact("sottoProgetto")) }}"><i
-                                class="lni lni-plus"></i> Aggiungi ricercatore</a></x-button>
+
                     <h2 class=" testo titolo grande">Elenco dei sottoprogetti</h2>
                 </x-slot>
                 <x-slot name="colonne">

@@ -36,7 +36,7 @@ class FinanziatoriTest extends TestCase
         $response->assertStatus(200);
     }
 
-  /*  public function test_finanziatore_puo_modificare_i_suoi_campi()
+ /*  public function test_finanziatore_puo_modificare_i_suoi_campi()
     {
         $faker = Faker\Factory::create();
         $finanziatore = Finanziatore::factory()->create();

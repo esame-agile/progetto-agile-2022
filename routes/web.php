@@ -255,7 +255,7 @@ Route::prefix('sotto-progetto')->group(function () {
      * Salva le modifiche sui ricercatori
      *
      */
-    Route::post("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("sotto-progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
+    Route::get("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("sotto-progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
 });
 
 /**

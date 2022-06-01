@@ -16,9 +16,7 @@
                     <p class="testo grande">{{$finanziatore->nome}} {{$finanziatore->cognome}} </p>
 
                     <p class="testo">
-                        {{$finanziatore->ambito_ricerca}}
-                        <br>
-                        {{$finanziatore->universita}}
+                        {{$finanziatore->nome_azienda}}
                     </p>
 
                 </div>

@@ -45,12 +45,22 @@
                             </div>
                         </div>
 
-                        <div class="form-control">
-                            <label for="email"
-                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email</label>
-                            <x-input name="email" type="email" id="email" value="{{$finanziatore->email}}"
-                                     class="@error('email') is-invalid @enderror"
-                                     placeholder="name@flowbite.com" required></x-input>
+                        <div class="mb-6">
+                            <div class="form-control float-left inline-block">
+                                <label for="email"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email</label>
+                                <x-input name="email" type="email" id="email" value="{{$finanziatore->email}}"
+                                         class="@error('email') is-invalid @enderror"
+                                         placeholder="name@flowbite.com" required></x-input>
+                            </div>
+                            <div class="form-control float-right inline-block">
+                                <label for="nome_azienda"
+                                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Azienda</label>
+                                <x-input name="nome_azienda" type="text" id="nome_azienda"
+                                         value="{{$finanziatore->nome_azienda}}"
+                                         class="@error('nome_azienda') is-invalid @enderror "
+                                         required></x-input>
+                            </div>
                         </div>
 
                         <div class="mb-6">

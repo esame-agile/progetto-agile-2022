@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('file_name');
             $table->date('data');
             $table->foreignId('ricercatore_id')->constrained('utenti');
+            $table->foreignId('progetto_id')->constrained('progetti');
             $table->timestamps();
         });
     }

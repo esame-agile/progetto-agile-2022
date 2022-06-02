@@ -2,35 +2,41 @@
 @include('layouts.alert-message')
 @section('content')
 
-    <div id="home" class="relative z-10 header-hero">
-        <div class="container">
-            <div class="justify-center row">
-                <div class="w-full lg:w-5/6 xl:w-2/3">
-                    <div class="pt-5 pb-64 header-content"> <!-- pt padding top -->
-
-                        <form class="" id="creazioneP" method="POST" action="{{ route('pubblicazioni.store') }}">
+    <div class="container mx-auto">
+        <form class="" id="creazioneP" method="POST" enctype="multipart/form-data" action="{{ route('pubblicazioni.store') }}">
+            <h2 class="testo titolo grande">Nuova pubblicazione</h2>
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-container">
                             @csrf
                             @method('POST')
                             <div class="mb-6">
-                                <div class="flex justify-around">
-                                    <div class="inline-block">
-                                        <label for="doi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex justify-center">DOI:</label>
+                                <div class="form-control  content-center ">
+                                        <label for="doi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex">DOI:</label>
                                         <x-input name="doi" type="text" value="{{ old('doi') }}" id="doi" placeholder="DOI"></x-input>
                                     </div>
-                                    <div class="inline-block">
-                                        <label for="titolo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex justify-center">Titolo:</label>
+                                    <div class="form-control content-center " >
+                                        <label for="titolo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex ">Titolo:</label>
                                         <x-input name="titolo" type="text" value="{{ old('titolo') }}" id="titolo" placeholder="Titolo pubblicazione"></x-input>
                                     </div>
-                                    <div class="inline-block">
-                                        <label for="autori_esterni" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex justify-center">Autori non registrati nel sito:</label>
+                                    <div class="form-control content-center">
+                                        <label for="autori_esterni" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex">Autori non registrati nel sito:</label>
                                         <x-input name="autori_esterni" type="text" value="{{ old('autori_esterni') }}" id="autori_esterni" placeholder="Autori esterni"> </x-input>
                                     </div>
                                 </div>
+
+                            <div class="form-control content-center">
+                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex ">File</label>
+                                <x-input name="file_name" type="file" id="file_name"
+
+                                         required></x-input>
                             </div>
 
-                        </form>
-                        <div class="mt-4 ml-64 form-control inline-block justify-center">
-                            <label for="tipologia" class=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 ">Tipologia:</label>
+
+
+
+                        <div class="mt-4 ml-64 form-control inline-block">
+                        <label for="tipologia" class=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 ">Tipologia:</label>
                             <select name="tipologia" form="creazioneP">
                                 <option selected disabled value="">Seleziona una tipologia...</option>
                                 <option value="Giornale">Giornale</option>
@@ -40,7 +46,7 @@
                                 <option value="Libro">Libro </option>
                             </select>
                         </div>
-                        <div class="mt-4 ml-64 form-control inline-block justify-center">
+                        <div class="mt-4 ml-64 form-control inline-block">
                             <label for="progetto_id" class=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 ">Progetto:</label>
                             <select name="progetto_id" form="creazioneP">
                                 <option selected disabled value="">Seleziona il progetto...</option>
@@ -50,9 +56,10 @@
                             </select>
                         </div>
 
-                        <div class="flex justify-center">
-                                <label><strong>Ricercatori :</strong></label>
-                            <div class="form-check">
+
+                                <div class="form-control">
+                                    <label class= " mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 "><strong>Ricercatori :</strong></label>
+
                                 @foreach($ricercatori as $ricercatoricheck)
                                     @if($ricercatoricheck->id==$ricercatore->id)
                                         <br> <label><input type="checkbox" name="ricercatori[]" value="{{$ricercatoricheck->id}}" form="creazioneP" checked> {{$ricercatoricheck->nome}} {{$ricercatoricheck->cognome}}</label>
@@ -66,12 +73,10 @@
                             <x-button type="submit" form="creazioneP"> CREA </x-button>
                         </div>
                         </div>
-
-
-                    </div> <!-- header content -->
                 </div>
-            </div> <!-- row -->
-        </div> <!-- container -->
-    </div> <!-- header content -->
+
+    </form>
+    </div>
+    <!-- header content -->
 
 @endsection

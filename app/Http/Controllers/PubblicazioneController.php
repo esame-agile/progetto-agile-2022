@@ -21,13 +21,6 @@ class PubblicazioneController extends Controller
      * @return Application|Factory|View
      */
 
-   /* public function show(Progetto $progetto): View|Factory|Application
-    {
-        $ricercatori = $progetto->ricercatori()->get();
-        $sotto_progetti = $progetto->sotto_progetti()->get();
-        return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti'));
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -43,27 +36,25 @@ class PubblicazioneController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Progetto $progetto
-     * @return Application|Factory|View
+     *
      */
-    public function edit(Ricercatore $ricercatore): View|Factory|Application
+    public function edit(Progetto $progetto): View|Factory|Application
     {
-        $pubblicazioniF = $ricercatore->pubblicazioni()->where('ufficiale', '=','0')->get();
-        $pubblicazioniT = $ricercatore->pubblicazioni()->where('ufficiale', '=','1')->get();
-        return view('pubblicazioni.edit', compact('pubblicazioniF','pubblicazioniT'));
+
+        $pubblicazioniF = $progetto->pubblicazioni()->where('ufficiale', '=','0')->get();
+        $pubblicazioniT = $progetto->pubblicazioni()->where('ufficiale', '=','1')->get();
+        return view('pubblicazioni.edit', compact('pubblicazioniF','pubblicazioniT','progetto'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param Progetto $progetto
-     * @return RedirectResponse
+
      */
-    public function update(Request $request): RedirectResponse
+    public function update(Request $request, Progetto $progetto): RedirectResponse
     {
         $this->setVisibilitaPubblicazioni($request);
-        return redirect()->route('ricercatore.show');
+        return redirect()->route('progetto.show',$progetto);
     }
 
     /**
@@ -75,46 +66,48 @@ class PubblicazioneController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $pubblicazione = new Pubblicazione();
-        $this->setProjectParameters($request, $pubblicazione);
+        $this->pubblicazioneFill($request, $pubblicazione);
         return redirect()->route('ricercatore.show');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Progetto $progetto
-     * @return RedirectResponse
-     */
-    public function destroy(Progetto $progetto): RedirectResponse
-    {
-        if (Auth::user()->hasRuolo('manager')) {
-            $progetto->delete();
-            return redirect()->route('progetto.index')->with('success', 'Progetto eliminato con successo');
-        } else {
-            return redirect()->route('progetto.index')->with('error', 'Non hai i permessi per eliminare un progetto');
-        }
-    }
+
 
     /**
      * @param Request $request
-     * @param Progetto $progetto
-     * @return Progetto
+     * @param Pubblicazione $pubblicazione
+     * @return Pubblicazione
      */
-    public function setProjectParameters(Request $request, Pubblicazione $pubblicazione): Pubblicazione
+    public function pubblicazioneFill(Request $request, Pubblicazione $pubblicazione): Pubblicazione
     {
+        $request->validate([
+            'doi' => 'required|max:255|min:3',
+            'titolo' => 'required|max:255|min:3',
+            'autori_esterni' => 'required|max:255|min:3',
+            'tipologia' => 'required|max:255|min:3',
+            'progetto_id' => 'required|integer',
+        ]);
         $pubblicazione->doi = $request->doi;
         $pubblicazione->titolo = $request->titolo;
         $pubblicazione->autori_esterni = $request->autori_esterni;
         $pubblicazione->tipologia = $request->tipologia;
         $pubblicazione->progetto()->associate($request->progetto_id);
-
+        $file=$request->file_name;
+        $filename=time().'.'.$file->extension();
+        $request->file_name->move('assets', $filename);
+        $pubblicazione->file_name=$filename;
         $pubblicazione->save();
         foreach ($request->ricercatori as $ricercatore_id) {
             $ricercatore=Ricercatore::find($ricercatore_id);
             $pubblicazione->ricercatore()->attach($ricercatore);
         }
+
         return $pubblicazione;
     }
+    public function download(Request $request, $file_name) {
+
+        return response()->download(public_path('assets/'.$file_name));
+    }
+
     public function setVisibilitaPubblicazioni(Request $request)
     {
         if($request->pubblicazioniT!=null) {
@@ -135,7 +128,21 @@ class PubblicazioneController extends Controller
 
     }
 
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Pubblicazione $pubblicazione
+     * @return RedirectResponse
+     */
+    public function destroy(Pubblicazione $pubblicazione): RedirectResponse
+    {
+        if (Auth::user()->hasRuolo('ricercatore')) {
+            $pubblicazione->delete();
+            return redirect()->route('ricercatore.show')->with('success', 'Pubblicazione eliminata con successo');
+        } else {
+            return redirect()->route('ricercatore.show')->with('error', 'Non hai i permessi per eliminare questa pubblicazione');
+        }
+    }
 
 
 

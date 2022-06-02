@@ -21,7 +21,7 @@ class ProgettoController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $progetti = Progetto::paginate(10);
+        $progetti = Progetto::all();
         return view('progetto.index', compact('progetti'));
     }
 
@@ -35,8 +35,9 @@ class ProgettoController extends Controller
     {
         $ricercatori = $progetto->ricercatori()->paginate(10);
         $sottoProgetti = $progetto->sotto_progetti()->paginate(10);
-        $pubblicazioni=$progetto->pubbicazioni()->where('ufficiale','=','1')->paginate(10);
-        return view('progetto.show', compact('progetto', 'ricercatori', 'sottoProgetti','pubblicazioni'));
+        $reports = $progetto->reports()->get();
+        $pubblicazioni = $progetto->pubblicazioni()->get();
+        return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti'));
     }
 
     /**
@@ -114,8 +115,8 @@ class ProgettoController extends Controller
         $progetto->titolo = $request->titolo;
         $progetto->descrizione = $request->descrizione;
         $progetto->scopo = $request->scopo;
-        $progetto->data_inizio = $request->data_inizio;
-        $progetto->data_fine = $request->data_fine;
+        $progetto->data_inizio = $request->datainizio;
+        $progetto->data_fine = $request->datafine;
         $progetto->budget = $request->budget;
         $progetto->responsabile()->associate($request->responsabile_id);
 

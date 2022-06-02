@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('descrizione');
             $table->date('data_rilascio');
             $table->foreignId('responsabile_id')->constrained('utenti');
-            $table->foreignId('progetto_id')->constrained('progetti');
+            $table->foreignId('progetto_id')->constrained('progetti')->onUpdate("cascade")->onDelete("cascade");
             $table->timestamps();
         });
     }

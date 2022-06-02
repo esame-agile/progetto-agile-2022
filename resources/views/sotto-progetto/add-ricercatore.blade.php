@@ -4,8 +4,8 @@
     <div class="container mx-auto">
         @yield('alert-message')
         <h2 class="testo titolo grande">Aggiungi un ricercatore al progetto</h2>
-        <form class="informazioni" method="POST" id="informazioni"
-              action="{{ route('sotto-progetto.add-ricercatore', compact("sottoProgetto")) }}">
+        <form class="informazioni" method="GET" id="informazioni"
+              action="{{ route('sotto-progetto.store-ricercatore', compact("sottoProgetto")) }}">
             <div class="card">
                 <div class="card-body">
                     <div class="form-container">

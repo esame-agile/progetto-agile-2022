@@ -45,14 +45,14 @@ class FinanziatoreController extends Controller
      */
     public function update(Finanziatore $finanziatore, Request $request): RedirectResponse
     {
-        $this->validateFinanziatore();
+       $this->validateFinanziatore(); /* questa chiamata a metodo impedisce al metodo corrente di andare avanti, il redirect non avveniva*/
         if ($request->password != null) {
             $this->validatePassword();
             $finanziatore->update($request->all(['nome', 'cognome', 'email', 'password', 'nome_azienda']));
         } else {
             $finanziatore->update($request->all(['nome', 'cognome', 'email', 'nome_azienda']));
         }
-        return redirect()->route('finanziatore.show', compact('finanziatore'))->with('success', 'Informazioni aggiorante con successo.');
+        return redirect()->route('finanziatore.show')->with('success', 'Informazioni aggiorante con successo.');
     }
 
     /**

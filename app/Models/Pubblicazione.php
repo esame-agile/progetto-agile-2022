@@ -27,7 +27,8 @@ class Pubblicazione extends Model
         'ufficiale',
         'tipologia',
         'autori_esterni',
-        'progetto_id'
+        'progetto_id',
+        'file_name'
     ];
 
     public function ricercatore(){

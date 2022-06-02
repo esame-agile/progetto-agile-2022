@@ -33,9 +33,9 @@ class RicercatoreController extends Controller
     {
         $ricercatore = Ricercatore::find(Auth::user()->id);
         $progetti = $ricercatore->progetti()->paginate(10);
-        $pubblicazioni=$ricercatore->pubblicazioni()->paginate(10);
+        $pubblicazioni = $ricercatore->pubblicazioni()->paginate(10);
 
-        return view('ricercatore.show', compact('ricercatore', 'progetti','pubblicazioni'));
+        return view('ricercatore.show', compact('ricercatore', 'progetti', 'pubblicazioni'));
     }
 
     /**
@@ -48,9 +48,7 @@ class RicercatoreController extends Controller
     {
         $progetti = $ricercatore->progetti()->paginate(10);
         $pubblicazioni=$ricercatore->pubblicazioni()->where('ufficiale','=','1')->paginate(10);
-
-        return view('ricercatore.guest-show', compact('ricercatore', 'progetti','pubblicazioni'));
-
+        return view('ricercatore.guest-show', compact('ricercatore', 'progetti', 'pubblicazioni'));
     }
 
     /**

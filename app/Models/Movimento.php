@@ -13,17 +13,23 @@ class Movimento extends Model
     use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'movimenti';
     public $timestamps = true;
+    /*
+     * approvazione può essere 0, 1 o 2:
+     * 0 se il movimento non è stato approvato
+     * 1 se il movimento è stato approvato
+     * 2 se il movimento è stato rifiutato
+     */
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-
     protected $fillable = [
         'importo',
         'causale',
         'data',
+        'approvazione',
         'progetto_id'
     ];
 

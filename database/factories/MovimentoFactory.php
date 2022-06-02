@@ -6,7 +6,7 @@ use App\Models\Progetto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Movimento>
+ * @extends Factory
  */
 class MovimentoFactory extends Factory
 {
@@ -20,7 +20,8 @@ class MovimentoFactory extends Factory
         return [
             'importo' => $this->faker->randomFloat(0, 1, 500),
             'causale' => $this->faker->sentence,
-            'data' => $this->faker->dateTimeBetween('1 years', 'now'),
+            'data' => $this->faker->dateTimeBetween('now', '1 year')->format('Y-m-d'),
+            'approvazione' => 0,
             'progetto_id' => Progetto::factory()->create()->id,
         ];
     }

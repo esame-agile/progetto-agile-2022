@@ -114,9 +114,6 @@ class MilestoneTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->get('/sotto-progetto/'. $sottoProgetto->id .'/milestone/show/'. $milestone->id)
-            ->assertStatus(200);
-        $this->actingAs($user)
             ->get('/sotto-progetto/'. $sottoProgetto->id .'/milestone/index')
             ->assertStatus(200);
         $this->actingAs($user)

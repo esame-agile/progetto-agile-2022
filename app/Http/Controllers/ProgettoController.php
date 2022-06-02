@@ -7,7 +7,6 @@ use App\Models\Ricercatore;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use App\Models\Utente;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +20,7 @@ class ProgettoController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $progetti = Progetto::all();
+        $progetti = Progetto::paginate(10);
         return view('progetto.index', compact('progetti'));
     }
 
@@ -35,9 +34,9 @@ class ProgettoController extends Controller
     {
         $ricercatori = $progetto->ricercatori()->paginate(10);
         $sottoProgetti = $progetto->sotto_progetti()->paginate(10);
-        $reports = $progetto->reports()->get();
-        $pubblicazioni = $progetto->pubblicazioni()->get();
-        return view('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti'));
+        $reports = $progetto->reports()->paginate(10);
+        $pubblicazioni = $progetto->pubblicazioni()->paginate(10);
+        return view('progetto.show', compact('progetto', 'ricercatori', 'sottoProgetti', 'reports', 'pubblicazioni'));
     }
 
     /**
@@ -47,7 +46,7 @@ class ProgettoController extends Controller
      */
     public function create(): View|Factory|Application
     {
-        $ricercatori = Ricercatore::all();
+        $ricercatori = Ricercatore::paginate(10);
         return view('progetto.create', compact('ricercatori'));
     }
 
@@ -59,7 +58,7 @@ class ProgettoController extends Controller
      */
     public function edit(Progetto $progetto): View|Factory|Application
     {
-        $ricercatori = Ricercatore::all();
+        $ricercatori = Ricercatore::paginate(10);
         return view('progetto.edit', compact('progetto', 'ricercatori'));
     }
 

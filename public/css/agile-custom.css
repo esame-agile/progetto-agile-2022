@@ -91,25 +91,27 @@
     padding: 2% 2% 2% 2%;
 }
 
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+.column {
+    flex: 25%;
+    max-width: 50%;
+}
+
 @media (max-width: 1024px) {
     .resp1024 {
         display: none;
     }
-
-    .pr-5.respTable, .pl-5.respTable {
-        padding-left: 0;
-        padding-right: 0;
-        width: 100%;
-        display: block;
-    }
 }
 
 @media (max-width: 640px) {
-    .pr-5.respTable, .pl-5.respTable {
+    .pl-5.column, .pr-5.column {
+        flex: 100%;
+        max-width: 100%;
         padding-left: 0;
         padding-right: 0;
-        width: 100%;
-        display: block;
     }
 
     .resp640, .resp1024 {

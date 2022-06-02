@@ -62,9 +62,11 @@
                                 <x-td class="underline">
                                     <a href="{{route("sotto-progetto.show", $sottoProgetto)}}">
                                         {{$sottoProgetto->titolo}}
-                                        @if(Auth::user()->id == $sottoProgetto->responsabile_id)
-                                            <i class="lni lni-crown float-right"></i>
-                                        @endif
+                                        @auth
+                                            @if(Auth::user()->id == $sottoProgetto->responsabile_id)
+                                                <i class="lni lni-crown float-right"></i>
+                                            @endif
+                                        @endauth
                                     </a>
                                 </x-td>
                                 <x-td class="resp640">{{ $sottoProgetto->descrizione }}</x-td>

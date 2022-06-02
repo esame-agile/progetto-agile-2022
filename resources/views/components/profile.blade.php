@@ -20,12 +20,14 @@
     </div>
 </div>
 @if(isset($progetti) && isset($pubblicazioni))
-    <div class="flex-wrap flex justify-between">
-        <div class="lg:w-6/12 pr-5 respTable">
+    <div class="row">
+        <div class="lg:w-6/12 pr-5 column">
             {{$pubblicazioni}}
+            {{--{{$report}}--}}
         </div>
-        <div class="lg:w-6/12 pl-5 respTable">
+        <div class="lg:w-6/12 pl-5 column">
             {{$progetti}}
+
         </div>
     </div>
 @elseif(isset($pubblicazioni))
@@ -33,5 +35,3 @@
 @elseif(isset($progetti))
     {{$progetti}}
 @endif
-
-

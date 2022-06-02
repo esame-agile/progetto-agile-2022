@@ -87,7 +87,7 @@
         <div class="flex flex-wrap justify-between">
             <div class="lg:w-5/12">
                 <x-table>
-                    <x-section name="pulsanti_up">
+                    <x-slot name="pulsanti_up">
                         @auth
                             @if(Auth::user()->id == $progetto->responsabile_id)
                                 <x-button>
@@ -97,7 +97,7 @@
                                 </x-button>
                             @endif
                         @endauth
-                    </x-section>
+                    </x-slot>
                     <x-slot name="titolo_interno">
                         ELENCO PUBBLICAZIONI
                     </x-slot>

@@ -19,29 +19,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Manager::factory(10)->create();
+        Manager::factory(12)->create();
         $manager = Manager::first();
         echo "MANAGER: \n";
         echo "email: " . $manager->email . "\n" . "password: password" . "\n";
 
-        Ricercatore::factory(10)->create();
+        Ricercatore::factory(12)->create();
         $ricercatore = Ricercatore::first();
-        $ricercatore->progetti()->saveMany(Progetto::factory(10)->create());
+        $ricercatore->progetti()->saveMany(Progetto::factory(12)->create());
         $progetto= $ricercatore->progetti()->first();
         $progetto->responsabile()->associate($ricercatore);
         $progetto->save();
         echo "RICERCATORE: \n";
         echo "email: " . $ricercatore->email . "\n" . "password: password" . "\n";
 
-        SottoProgetto::factory(10)->create([
+        SottoProgetto::factory(12)->create([
             'responsabile_id' => $ricercatore->id,
             'progetto_id' => $progetto->id,
         ]);
-        Milestone::factory(10)->create([
+        Milestone::factory(12)->create([
             'sotto_progetto_id' => $progetto->sotto_progetti()->first()->id,
         ]);
 
-        Finanziatore::factory(10)->create();
+        Finanziatore::factory(12)->create();
         $finanziatore = Finanziatore::first();
         echo "FINANZIATORE: \n";
         echo "email: " . $finanziatore->email . "\n" . "password: password" . "\n";

@@ -11,7 +11,7 @@
         </div>
     @endif
 </div>
-<div class="card-grey mb-10 h-full">
+<div class="card-grey mb-10">
     @if(isset($titolo_interno))
         <h2 class="text-3xl font-bold leading-normal text-blueGray-700 mb-2 ml-5 uppercase">
             {{ $titolo_interno }}

@@ -47,9 +47,11 @@
                                 <x-td><a class="underline"
                                          href="{{route("progetto.show", $progetto)}}">{{$progetto->titolo}}
                                     </a>
-                                    @if(Auth::user()->id == $progetto->responsabile_id)
-                                        <i class="lni lni-crown float-right"></i>
-                                    @endif
+                                    @auth()
+                                        @if(Auth::user()->id == $progetto->responsabile_id)
+                                            <i class="lni lni-crown float-right"></i>
+                                        @endif
+                                    @endauth
                                 </x-td>
                                 <x-td class="resp640">{{$progetto->scopo}}</x-td>
                                 <x-td class="resp1024"> {{$progetto->data_inizio}}</x-td>

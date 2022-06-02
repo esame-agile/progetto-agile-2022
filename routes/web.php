@@ -250,7 +250,7 @@ Route::prefix('sotto-progetto')->group(function () {
      *
      */
     //perchè get??
-    Route::get("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
+    Route::post("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("sotto-progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
 });
 /**
  * CRUD per le milestones.
@@ -326,7 +326,6 @@ Route::prefix('report')->group(function () {
 /**
  * CRUD per le pubblicazioni.
  */
-//da mettere al singolare
 Route::prefix('pubblicazione')->group(function () {
 
     /**

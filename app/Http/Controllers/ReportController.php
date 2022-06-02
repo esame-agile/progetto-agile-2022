@@ -42,12 +42,12 @@ class ReportController extends Controller
         $report->progetto_id = $progetto->id;
         $report->save();
 
-        $ricercatori = $progetto->ricercatori()->get();
-        $sotto_progetti = $progetto->sotto_progetti()->get();
-        $reports = $progetto->reports()->get();
-        $pubblicazioni=$progetto->pubblicazioni()->get();
+        $ricercatori = $progetto->ricercatori()->paginate(10);
+        $sottoProgetti = $progetto->sotto_progetti()->paginate(10);
+        $reports = $progetto->reports()->paginate(10);
+        $pubblicazioni=$progetto->pubblicazioni()->paginate(10);
 
-        return redirect()->route('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti', 'reports','pubblicazioni'));
+        return redirect()->route('progetto.show', compact('progetto', 'ricercatori', 'sottoProgetti', 'reports','pubblicazioni'));
 
     }
 

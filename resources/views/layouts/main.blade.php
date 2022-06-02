@@ -6,11 +6,19 @@
     <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 @yield('head')
-<body class="flex-wrapper">
-@yield('navbar')
+<body>
 <div>
-    @yield('content')
+    @yield('navbar')
+    <div class="min-h-screen">
+        @yield('content')
+    </div>
+    @yield('footer')
 </div>
-@yield('footer')
+
 </body>
+<style>
+    .min-h-screen {
+        min-height: calc(100vh - 232px);
+    }
+</style>
 </html>

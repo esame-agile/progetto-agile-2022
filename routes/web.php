@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\ProgettoController;
+use App\Http\Controllers\PubblicazioneController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RicercatoreController;
 use App\Http\Controllers\SottoProgettoController;
 use Illuminate\Support\Facades\Route;
@@ -179,7 +181,7 @@ Route::prefix('progetto')->group(function () {
     Route::post("/{progetto}/store-ricercatore", [ProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth']);
 });
 /**
- * CRUD per il sottoprogetto.
+ * CRUD per il sotto progetto.
  */
 Route::prefix('sotto-progetto')->group(function () {
 
@@ -250,7 +252,6 @@ Route::prefix('sotto-progetto')->group(function () {
     //perchè get??
     Route::get("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
 });
-
 /**
  * CRUD per le milestones.
  */
@@ -292,11 +293,10 @@ Route::prefix('sotto-progetto/{sottoProgetto}/milestone')->group(function () {
      */
     Route::delete('/destroy/{milestone}', [MilestoneController::class, 'destroy'])->name('milestone.destroy')->middleware('auth', 'ruolo:ricercatore');
 });
-
 /**
- * CRUD per i respors.
+ * CRUD per i report.
  */
-Route::prefix('/report')->group(function () {
+Route::prefix('report')->group(function () {
 
     /**
      * Vista creazione dei report da un ricercatore.
@@ -323,12 +323,11 @@ Route::prefix('/report')->group(function () {
      */
     Route::delete('/destroy/{report}/{progetto}', [ReportController::class, 'destroy'])->name('report.destroy')->middleware('auth', 'ruolo:ricercatore');
 });
-
 /**
  * CRUD per le pubblicazioni.
  */
 //da mettere al singolare
-Route::prefix('pubblicazioni')->group(function () {
+Route::prefix('pubblicazione')->group(function () {
 
     /**
      * Vista per far creare una pubblicazione a un ricercatore.
@@ -365,7 +364,5 @@ Route::prefix('pubblicazioni')->group(function () {
      *
      */
     Route::get('/download{file_name}', [PubblicazioneController::class, 'download'])->name('pubblicazioni.download');
-
-
 });
 require __DIR__ . '/auth.php';

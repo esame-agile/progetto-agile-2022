@@ -11,15 +11,15 @@ use Tests\TestCase;
 class SottoProgettoTest extends TestCase
 {
     use RefreshDatabase;
-    public function test_caricamento_views_sottoprogetti_responsabile()
+    public function test_caricamento_views_sotto_progetti_responsabile()
     {
         $user = Ricercatore::factory()->create();
         $sottoProgetto = SottoProgetto::factory()->create([
             'responsabile_id' => $user->id
         ]);
-//        $this->actingAs($user)
-//            ->get('/sotto-progetto/index')
-//            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/sotto-progetto/index')
+            ->assertStatus(200);
         $this->actingAs($user)
             ->get('/sotto-progetto/show/' . $sottoProgetto->id)
             ->assertStatus(200);
@@ -31,25 +31,25 @@ class SottoProgettoTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function test_caricamento_views_sottoprogetti_manager()
+    public function test_caricamento_views_sotto_progetti_manager()
     {
         $user = Manager::factory()->create();
         $sottoProgetto = SottoProgetto::factory()->create();
-//        $this->actingAs($user)
-//            ->get('/sotto-progetto/index')
-//            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/sotto-progetto/index')
+            ->assertStatus(200);
         $this->actingAs($user)
             ->get('/sotto-progetto/show/' . $sottoProgetto->id)
             ->assertStatus(200);
     }
 
-    public function test_caricamento_views_sottoprogetti_ricercatore()
+    public function test_caricamento_views_sotto_progetti_ricercatore()
     {
         $user = Ricercatore::factory()->create();
         $sottoProgetto = SottoProgetto::factory()->create();
-//        $this->actingAs($user)
-//            ->get('/sotto-progetto/index')
-//            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/sotto-progetto/index')
+            ->assertStatus(200);
         $this->actingAs($user)
             ->get('/sotto-progetto/show/' . $sottoProgetto->id)
             ->assertStatus(200);
@@ -127,7 +127,6 @@ class SottoProgettoTest extends TestCase
                 'progetto_id' => $sottoProgetto2->progetto_id,
             ])
             ->assertStatus(302);
-
         $this->assertNotEquals($sottoProgetto2->titolo, SottoProgetto::first()->titolo);
     }
 
@@ -149,11 +148,11 @@ class SottoProgettoTest extends TestCase
         ]);
         $user2 = Ricercatore::factory()->create();
         $this->actingAs($user)
-            ->get('/sotto-progetto/' . $sottoProgetto->id . '/store-ricercatore', [
+            ->post('/sotto-progetto/' . $sottoProgetto->id . '/store-ricercatore', [
                 'ricercatore_id' => $user2->id
             ])
             ->assertStatus(302);
-       // $this->assertCount(1, $sottoProgetto->ricercatori);
+        $this->assertCount(1, $sottoProgetto->ricercatori);
     }
 
     public function test_responsabile_puo_eliminare_ricercatore()
@@ -192,7 +191,4 @@ class SottoProgettoTest extends TestCase
             ->assertStatus(302);
         $this->assertCount(1, $sottoProgetto->ricercatori);
     }
-
-
-
 }

@@ -1,15 +1,24 @@
 @include('/layouts/head')
 @include('/layouts/footer')
 @include('/layouts/navbar')
+@include('/layouts/alert-message')
 
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    @yield('head')
-    <body class="flex-wrapper">
+@yield('head')
+<body>
+<div>
     @yield('navbar')
-    <div>
+    <div class="min-h-screen">
         @yield('content')
     </div>
     @yield('footer')
-    </body>
+</div>
+
+</body>
+<style>
+    .min-h-screen {
+        min-height: calc(100vh - 232px);
+    }
+</style>
 </html>

@@ -22,15 +22,10 @@ class SottoProgettoController extends Controller
      */
     public function index(Request $request): View|Factory|RedirectResponse|Application
     {
-        $sottoProgetti = null;
         if ($request->query('progetto')) {
             $sottoProgetti = SottoProgetto::where('progetto_id', $request->query('progetto'))->paginate(10);
-        } elseif (Auth::user() != null) {
-            if (Auth::user()->hasRuolo('manager')) {
-                $sottoProgetti = SottoProgetto::paginate(10);
-            } else {
-                $sottoProgetti = SottoProgetto::where("responsabile_id", Auth::user()->id)->paginate(10);
-            }
+        } else {
+            $sottoProgetti = SottoProgetto::paginate(10);
         }
         if ( $sottoProgetti == null || $sottoProgetti->isEmpty()) {
             return view('sotto-progetto.index', compact('sottoProgetti'))->with('error', 'Non ci sono sotto-progetto');
@@ -101,13 +96,13 @@ class SottoProgettoController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param SottoProgetto $sottoprogetto
+     * @param SottoProgetto $sottoprogetti
      * @return RedirectResponse
      */
-    public function update(Request $request, SottoProgetto $sottoprogetto): RedirectResponse
+    public function update(Request $request, SottoProgetto $sottoProgetto): RedirectResponse
     {
         if (Auth::user()->hasRuolo('manager')) {
-            return $this->sottoProgettoFill($request, $sottoprogetto);
+            return $this->sottoProgettoFill($request, $sottoProgetto);
         }
         return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare un sottoprogetto');
     }

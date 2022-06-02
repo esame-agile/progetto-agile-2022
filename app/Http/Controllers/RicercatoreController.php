@@ -19,7 +19,7 @@ class RicercatoreController extends Controller
      */
     public function index(): Factory|View|Application
     {
-        $ricercatori = Ricercatore::all();
+        $ricercatori = Ricercatore::paginate(10);
         return view('ricercatore.index', compact('ricercatori'));
     }
 
@@ -32,10 +32,10 @@ class RicercatoreController extends Controller
     public function show(): Factory|View|Application
     {
         $ricercatore = Ricercatore::find(Auth::user()->id);
-        $progetti = $ricercatore->progetti()->get();
-        $pubblicazioni=$ricercatore->pubblicazioni()->get();
+        $progetti = $ricercatore->progetti()->paginate(10);
+        $pubblicazioni = $ricercatore->pubblicazioni()->paginate(10);
 
-        return view('ricercatore.show', compact('ricercatore', 'progetti','pubblicazioni'));
+        return view('ricercatore.show', compact('ricercatore', 'progetti', 'pubblicazioni'));
     }
 
     /**
@@ -46,10 +46,9 @@ class RicercatoreController extends Controller
      */
     public function guest_show(Ricercatore $ricercatore): Factory|View|Application
     {
-        $progetti = $ricercatore->progetti()->get();
-        $pubblicazioni=$ricercatore->pubblicazioni()->where('ufficiale','=','1')->get();
-        return view('ricercatore.guest-show', compact('ricercatore', 'progetti','pubblicazioni'));
-
+        $progetti = $ricercatore->progetti()->paginate(10);
+        $pubblicazioni=$ricercatore->pubblicazioni()->where('ufficiale','=','1')->paginate(10);
+        return view('ricercatore.guest-show', compact('ricercatore', 'progetti', 'pubblicazioni'));
     }
 
     /**
@@ -89,8 +88,21 @@ class RicercatoreController extends Controller
      */
     public function progetti(): Factory|View|Application
     {
-        $progetti = Ricercatore::find(Auth::user()->id)->progetti()->get();
-        return view('progetto.index', compact('progetti'));
+        $mieiProgetti = true;
+        $progetti = Ricercatore::find(Auth::user()->id)->progetti()->paginate(10);
+        return view('progetto.index', compact('progetti', 'mieiProgetti'));
+    }
+
+    /**
+     * Vista con l'elenco dei progetto del ricercaotore
+     *
+     * @return Factory|View|Application
+     */
+    public function sotto_progetti(): Factory|View|Application
+    {
+        $mieiSottoProgetti = true;
+        $sottoProgetti = Ricercatore::find(Auth::user()->id)->sotto_progetti()->paginate(10);
+        return view('sotto-progetto.index', compact('sottoProgetti', 'mieiSottoProgetti'));
     }
 
     /**

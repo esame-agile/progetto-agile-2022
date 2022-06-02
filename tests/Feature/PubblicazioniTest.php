@@ -20,10 +20,10 @@ class PubblicazioniTest extends TestCase
         $user=Ricercatore::factory()->create();
 
         $this->actingAs($user)
-            ->get('/pubblicazioni/create/' . $user->id)
+            ->get('/pubblicazione/create/' . $user->id)
             ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/pubblicazioni/edit/' . $progetto->id)
+            ->get('/pubblicazione/edit/' . $progetto->id)
             ->assertStatus(200);
     }
 
@@ -37,7 +37,7 @@ class PubblicazioniTest extends TestCase
         $progetto=Progetto::factory()->create();
         $progetto->responsabile_id=$user->id;
         $this->actingAs($user)
-            ->put('/pubblicazioni/update'. $progetto->id, [
+            ->put('/pubblicazione/update'. $progetto->id, [
                 'pubblicazioneiT'=>$pubblicazioniT_id,
                 'pubblicazioneiF'=>$pubblicazioniF_id,
             ])
@@ -49,7 +49,7 @@ class PubblicazioniTest extends TestCase
         $pubblicazione = Pubblicazione::factory()->create();
 
         $this->actingAs($user)
-            ->delete('/pubblicazioni/destroy/' . $pubblicazione->id)
+            ->delete('/pubblicazione/destroy/' . $pubblicazione->id)
             ->assertStatus(302);
 
         $this->assertCount(0, Pubblicazione::all());

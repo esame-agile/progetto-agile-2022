@@ -1,360 +1,313 @@
 @extends('layouts.main')
 @section('content')
     <div class="container mx-auto">
-        <div class="card top">
-            <div class="flex flex-wrap justify-center">
-                <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                </div>
-                <div class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                    <div class="py-6 px-3 mt-32 sm:mt-0">
-                    </div>
-                </div>
-                <div class="w-full lg:w-4/12 px-4 lg:order-1">
-                    <div class="flex justify-center py-4 lg:pt-4 pt-8">
-                    </div>
-                </div>
-                <div class="text-center mt-12 w-full">
-                    <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+        <div class="flex flex-wrap justify-between mb-10">
+            <div class="card-grey lg:w-5/12 h-full">
+                <div class="card-white px-5 py-5">
+                    <h3 class="text-4xl font-semibold leading-normal text-blueGray-700 uppercase">
                         {{$progetto->titolo}}
                     </h3>
-                    <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-700 font-bold uppercase">
+                </div>
+                <div class="card-white mt-5 px-5 py-5">
+                    <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                        SCOPO:
+                    </div>
+                    <div class="text-blueGray-700">
                         {{$progetto->scopo}}
                     </div>
-                    <div class="mb-2 text-blueGray-700 mt-5">
-                        Data di inizio
+                    <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                        DATA D'INIZIO:
                     </div>
-                    <div class="mb-2 text-blueGray-600 mt-2">
+                    <div class="text-blueGray-700">
                         {{$progetto->data_inizio}}
                     </div>
-                    <div class="mb-2 text-blueGray-700 mt-2">
-                        Data di fine
+                    <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                        DATA DI FINE:
                     </div>
-                    <div class="mb-2 text-blueGray-600 mt-2">
+                    <div class="text-blueGray-700">
                         {{$progetto->data_fine}}
                     </div>
                 </div>
-                <div class="mt-2 py-10 border-t border-blueGray-200 text-center w-full">
-                    <div class="text-center mt-12">
-                        <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-700 font-bold uppercase">
-                            In cosa consiste
-                        </div>
-                        <div class="flex flex-wrap justify-center">
-                            <div class="w-full lg:w-9/12 px-4">
-                                <p class="mb-4 text-lg leading-relaxed text-blueGray-700">
-                                    {{$progetto->descrizione}}
-                                </p>
-                                <div class="mt-2 py-10 border-t border-blueGray-200 text-center w-full">
-                                    <div class="text-center mt-12 ">
-                                        <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                                            Ricercatori</h3>
-                                    </div>
-                                </div>
-
-                                <!--- Ricercatori--->
-                                @auth
-                                    @if(Auth::user()!=null && Auth::user()->id == $progetto->responsabile_id)
-                                        <x-button class="mb-10">
-                                            <a href="{{route("progetto.edit-ricercatori", compact("progetto"))}}">
-                                                MODIFICA RICERCATORI
-                                            </a>
-                                        </x-button>
-                                    @endif
-                                @endauth
-                                <div class="card tabella">
-                                    <section class="container mx-fit p-6 font-semibold">
-                                        <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                                            <div class="w-full overflow-x-auto">
-                                                <table class="w-full">
-                                                    <thead>
-                                                    <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                                        <th class="px-4 py-3 text-center">
-                                                            Nome
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Cognome
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Ambito ricerca
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Università
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody class="bg-white">
-                                                    @if($ricercatori==!null)
-                                                        @foreach($ricercatori as $ricercatore)
-                                                            <tr class="text-gray-700">
-                                                                <th class="px-4 py-3">
-                                                                    <a href="{{route("ricercatore.guest-show", $ricercatore)}}">{{$ricercatore->nome}}</a>
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$ricercatore->cognome}}
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$ricercatore->ambito_ricerca}}
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$ricercatore->universita}}
-                                                                </th>
-                                                            </tr>
-                                                        @endforeach
-                                                    @endif
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>  <!-- fine container -->
-                                    </section>
-                                </div>
-                                <!--- Fine ricercatori --->
-                                <div class="mt-2 py-10 border-t border-blueGray-200 text-center w-full">
-                                    <div class="text-center mt-12">
-                                        <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                                            Progetti affiliati</h3>
-                                    </div>
-                                </div>
-                                <!--- Progetti affiliati --->
-                                @auth
-                                    @if(Auth::user()->hasRuolo("manager"))
-                                        <x-button class="mb-10">
-                                            <a href="{{route("sotto-progetto.create")}}">
-                                                CREA SOTTOPROGETTO
-                                            </a>
-                                        </x-button>
-                                    @endif
-                                @endauth
-                                <div class="card tabella">
-                                    <section class="container mx-fit p-6 font-semibold">
-                                        <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                                            <div class="w-full overflow-x-auto">
-                                                <table class="w-full">
-                                                    <thead>
-                                                    <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                                        <th class="px-4 py-3 text-center">
-                                                            Titolo
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Data di rilascio
-                                                        </th>
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody class="bg-white">
-
-                                                    @if($sotto_progetti==!null)
-                                                        @foreach($sotto_progetti as $sotto_progetto)
-                                                            <tr class="text-gray-700">
-                                                                <th class="px-4 py-3">
-                                                                    <a href="{{route("sotto-progetto.show", $sotto_progetto)}}"> {{$sotto_progetto->titolo}} </a>
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$sotto_progetto->data_rilascio}}
-                                                                </th>
-                                                            </tr>
-                                                        @endforeach
-                                                    @endif
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>  <!-- fine container -->
-                                    </section>
-                                    <!--- Pubblicazioni del progetto--->
-                                    <div class="text-center mt-12">
-                                        <h3 class=" text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                                            Pubblicazioni relative al progetto</h3>
-                                    </div>
-                                    <div class="card tabella">
-                                        <section class="container mx-fit p-6 font-semibold">
-                                            <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                                                <div class="w-full overflow-x-auto">
-                                                    <table class="w-full">
-                                                        <thead>
-                                                        <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                                            <th class="px-4 py-3 text-center">
-                                                                DOI
-                                                            </th>
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                                Titolo
-                                                            </th>
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                            Tipologia
-                                                            </th>
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                                File
-                                                            </th>
-                                                            @if(Auth::user()!=null && Auth::user()->id==$progetto->responsabile_id)
-                                                            <th class="px-4 py-3 responsive text-center">
-                                                                Visibile
-                                                            </th>
-                                                            @endif
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody class="bg-white">
-                                                        @if(Auth::user()!=null && Auth::user()->id==$progetto->responsabile_id)
-                                                        @if($pubblicazioni==!null)
-                                                            @foreach($pubblicazioni as $pubblicazione)
-                                                                <tr class="text-gray-700">
-                                                                    <th class="px-4 py-3">
-                                                                        {{$pubblicazione->doi}}
-                                                                    </th>
-                                                                    <th class="px-4 py-3">
-                                                                        {{$pubblicazione->titolo}}
-                                                                    </th>
-                                                                    <th class="px-4 py-3">
-                                                                        {{$pubblicazione->tipologia}}
-                                                                    </th>
-                                                                    <th class="px-4 py-3">
-                                                                        <a href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}" >{{$pubblicazione->file_name}}</a>
-
-                                                                    </th>
-                                                                    @if($pubblicazione->ufficiale==false)
-                                                                    <th class="px-4 py-3">
-                                                                        <i class="fa-solid fa-xmark"></i>
-                                                                    </th>
-                                                                        @else
-                                                                        <th class="px-4 py-3">
-                                                                            <i class="fa-solid fa-check"></i>
-                                                                        </th>
-                                                                        @endif
-                                                                </tr>
-                                                            @endforeach
-                                                        @endif
-                                                        @else
-                                                            @if($pubblicazioni==!null)
-                                                                @foreach($pubblicazioni as $pubblicazione)
-                                                                    @if($pubblicazione->ufficiale==true)
-                                                                    <tr class="text-gray-700">
-                                                                        <th class="px-4 py-3">
-                                                                            {{$pubblicazione->doi}}
-                                                                        </th>
-                                                                        <th class="px-4 py-3">
-                                                                            {{$pubblicazione->titolo}}
-                                                                        </th>
-                                                                        <th class="px-4 py-3">
-                                                                            {{$pubblicazione->tipologia}}
-                                                                        </th>
-                                                                        <th class="px-4 py-3">
-                                                                            <a href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}" >{{$pubblicazione->file_name}}</a>
-
-                                                                        </th>
-                                                                    @endif
-                                                                    @endforeach
-                                                                    @endif
-                                                        @endif
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>  <!-- fine container -->
-                                        </section>
-                                        @if(Auth::user()!=null && Auth::user()->id==$progetto->responsabile_id)
-                                        <x-button class="mb-10">
-                                            <a href="{{route('pubblicazioni.edit',$progetto)}}">
-                                                RENDI VISIBILI O NASCONDI LE PUBBLICAZIONI
-                                            </a>
-                                        </x-button>
-                                        @endif
-                                    </div>
-                                    <!--- Fine pubblicazioni --->
-                                </div>
-                                <!-- REPORT -->
-                                @auth
-                                <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
-                                    <div class="text-center mt-12">
-                                        <h3 class=" text-xl font-semibold leading-normal text-blueGray-700 mb-2">
-                                            Report</h3>
-                                    </div>
-                                </div>
-                                    @if(Auth::user()!=null && Auth::user()->hasRuolo("ricercatore"))
-                                        <x-button class="mb-5">
-                                            <a href="{{route("report.create", $progetto)}}">
-                                                AGGIUNGI REPORT
-                                            </a>
-                                        </x-button>
-                                    @endif
-                                <div class="card tabella">
-                                    <section class="container mx-fit p-6 font-semibold">
-                                        <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                                            <div class="w-full overflow-x-auto">
-                                                <table class="w-full">
-                                                    <thead>
-                                                    <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                                        <th class="px-4 py-3 text-center">
-                                                            Titolo
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            File
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Data
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Ricercatore
-                                                        </th>
-                                                        <th class="px-4 py-3 responsive text-center">
-                                                            Azioni
-                                                        </th>
-
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody class="bg-white">
-
-                                                    @if($reports==!null)
-                                                        @foreach($reports as $report)
-                                                            <tr class="text-gray-700">
-                                                                <th class="px-4 py-3">
-                                                                    {{$report->titolo}}
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    <a href="{{route('report.download', $report->file_name)}}" >{{$report->file_name}}</a>
-
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$report->data}}
-                                                                </th>
-                                                                <th class="px-4 py-3">
-                                                                    {{$report->autore->nome}}
-                                                                </th>
-                                                                <x-td>
-                                                                    <x-slot name="body">
-                                                                        @if(Auth::user()!=null && Auth::user()->hasRuolo('ricercatore') && $report->ricercatore_id==Auth::user()->id)
-                                                                            <form method="POST"
-                                                                                  action="{{ route('report.destroy', ["report" => $report, "progetto" => $progetto] ) }}"
-                                                                                  id="delete_report"
-                                                                                  name="delete_report"
-                                                                                  onsubmit="confirm('Sei sicuro di voler cancellare?')">
-                                                                                @csrf
-                                                                                @method("DELETE")
-                                                                                <button type="submit"><i class="lni lni-trash"></i></button>
-                                                                            </form>
-                                                                        @else
-                                                                            <p>/</p>
-                                                                        @endif
-                                                                    </x-slot>
-                                                                </x-td>
-
-
-                                                            </tr>
-                                                        @endforeach
-                                                    @endif
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>  <!-- fine container -->
-                                    </section>
-                                </div>
-                                @endauth
+            </div>
+            <div class="lg:w-6/12">
+                <x-table>
+                    <x-slot name="titolo_interno">
+                        ELENCO RICERCATORI
+                    </x-slot>
+                    <x-slot name="pulsanti_up_interno">
+                        @auth
+                            @if(Auth::user()->id == $progetto->responsabile_id)
+                                <x-button class="mb-10">
+                                    <a href="{{route("progetto.edit-ricercatori", compact("progetto"))}}">
+                                        MODIFICA RICERCATORI
+                                    </a>
+                                </x-button>
+                            @endif
+                        @endauth
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($ricercatori))
+                            <div class="px-5 pb-5">
+                                {{$ricercatori->links()}}
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        @endif
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>Nome</x-th>
+                        <x-th>Ambito ricerca</x-th>
+                        <x-th class="resp640">Università</x-th>
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($ricercatori))
+                            @if($ricercatori->isEmpty())
+                                <x-tr>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left resp640">-</x-td>
+                                </x-tr>
+                            @else
+                                @foreach($ricercatori as $ricercatore)
+                                    <x-tr>
+                                        <x-td>
+                                            <a class="underline"
+                                               href="{{route("ricercatore.guest-show", $ricercatore)}}">
+                                                {{$ricercatore->nome . ' ' . $ricercatore->cognome}}
+                                            </a>
+                                        </x-td>
+                                        <x-td>{{$ricercatore->ambito_ricerca}}</x-td>
+                                        <x-td class="resp640">{{$ricercatore->universita}}</x-td>
+                                    </x-tr>
+                                @endforeach
+                            @endif
+                        @endif
+                    </x-slot>
+                </x-table>
             </div>
         </div>
-    </div>
+        <div class="flex flex-wrap justify-between">
+            <div class="lg:w-5/12">
+                <x-table>
+                    <x-slot name="pulsanti_up">
+                        @auth
+                            @if(Auth::user()->id == $progetto->responsabile_id)
+                                <x-button>
+                                    <a href="{{route('pubblicazioni.edit',$progetto)}}">
+                                        VISIBILITA'
+                                    </a>
+                                </x-button>
+                            @endif
+                        @endauth
+                    </x-slot>
+                    <x-slot name="titolo_interno">
+                        ELENCO PUBBLICAZIONI
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($pubblicazioni))
+                            <div class="px-5 pb-5">
+                                {{$pubblicazioni->links()}}
+                            </div>
+                        @endif
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>Titolo</x-th>
+                        <x-th>File</x-th>
+                        @auth
+                            @if(Auth::user()->id == $progetto->responsabile_id)
+                                <x-th>Visibile</x-th>
+                            @endif
+                        @endauth
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($pubblicazioni))
+                            @if($pubblicazioni->isEmpty())
+                                <x-tr>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left">-</x-td>
+                                    @auth
+                                        @if(Auth::user()->id == $progetto->responsabile_id)
+                                            <x-td class="text-left">-</x-td>
+                                        @endif
+                                    @endauth
+                                </x-tr>
+                            @else
+                                @foreach($pubblicazioni as $pubblicazione)
+                                    @if($pubblicazione->ufficiale || (Auth::user() != null && Auth::user()->id == $progetto->responsabile_id))
+                                        <x-tr>
+                                            <x-td>
+                                                <a class="underline"
+                                                   href="{{route("pubblicazione.show", $pubblicazione)}}">
+                                                    {{$pubblicazione->titolo}}
+                                                </a>
+                                            </x-td>
+                                            <x-td>
+                                                <a class="underline"
+                                                   href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}">
+                                                    {{$pubblicazione->file_name}}
+                                                </a>
+                                            </x-td>
+                                            @if(Auth::user()->id == $progetto->responsabile_id)
+                                                @if($pubblicazione->ufficiale)
+                                                    <th class="px-4 py-3">
+                                                        <i class="fa-solid fa-check"></i>
+                                                    </th>
+                                                @else
+                                                    <th class="px-4 py-3">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </th>
+                                                @endif
+                                            @endif
+                                        </x-tr>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endif
+                    </x-slot>
+                </x-table>
+            </div>
+            <div class="lg:w-6/12">
+                <x-table>
+                    <x-slot name="titolo_interno">
+                        ELENCO SOTTO PROGETTI
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($sottoProgetti))
+                            <div class="px-5 pb-5">
+                                {{$sottoProgetti->links()}}
+                            </div>
+                        @endif
+                    </x-slot>
+                    <x-slot name="pulsanti_up_interno">
+                        @auth
+                            @if(Auth::user()->hasRuolo("manager"))
+                                <x-button class="mb-10">
+                                    <a href="{{route("sotto-progetto.create")}}">
+                                        CREA SOTTOPROGETTO
+                                    </a>
+                                </x-button>
+                            @endif
+                        @endauth
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>Titolo</x-th>
+                        <x-th>Data rilascio</x-th>
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($sottoProgetti))
+                            @if($sottoProgetti->isEmpty())
+                                <x-tr>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left resp640">-</x-td>
+                                </x-tr>
+                            @else
+                                @foreach($sottoProgetti as $sottoProgetto)
+                                    <x-tr>
+                                        <x-td>
+                                            <a class="underline"
+                                               href="{{route("ricercatore.guest-show", $sottoProgetto)}}">
+                                                {{$sottoProgetto->titolo}}
+                                            </a>
+                                        </x-td>
+                                        <x-td>{{$sottoProgetto->data_rilascio}}</x-td>
+                                    </x-tr>
+                                @endforeach
+                            @endif
+                        @endif
+                    </x-slot>
+                </x-table>
+            </div>
 
+            <!-- REPORT -->
+            @auth
+                <div class="mt-10 py-10 border-t border-blueGray-200 text-center w-full">
+                    <div class="text-center mt-12">
+                        <h3 class=" text-xl font-semibold leading-normal text-blueGray-700 mb-2">
+                            Report</h3>
+                    </div>
+                </div>
+                @if(Auth::user()!=null && Auth::user()->hasRuolo("ricercatore"))
+                    <x-button class="mb-5">
+                        <a href="{{route("report.create", $progetto)}}">
+                            AGGIUNGI REPORT
+                        </a>
+                    </x-button>
+                @endif
+                <div class="card tabella">
+                    <section class="container mx-fit p-6 font-semibold">
+                        <div class="w-full overflow-hidden rounded-lg shadow-lg">
+                            <div class="w-full overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                    <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                        <th class="px-4 py-3 text-center">
+                                            Titolo
+                                        </th>
+                                        <th class="px-4 py-3 responsive text-center">
+                                            File
+                                        </th>
+                                        <th class="px-4 py-3 responsive text-center">
+                                            Data
+                                        </th>
+                                        <th class="px-4 py-3 responsive text-center">
+                                            Ricercatore
+                                        </th>
+                                        <th class="px-4 py-3 responsive text-center">
+                                            Azioni
+                                        </th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody class="bg-white">
+
+                                    @if($reports==!null)
+                                        @foreach($reports as $report)
+                                            <tr class="text-gray-700">
+                                                <th class="px-4 py-3">
+                                                    {{$report->titolo}}
+                                                </th>
+                                                <th class="px-4 py-3">
+                                                    <a href="{{route('report.download', $report->file_name)}}" >{{$report->file_name}}</a>
+
+                                                </th>
+                                                <th class="px-4 py-3">
+                                                    {{$report->data}}
+                                                </th>
+                                                <th class="px-4 py-3">
+                                                    {{$report->autore->nome}}
+                                                </th>
+                                                <x-td>
+                                                    <x-slot name="body">
+                                                        @if(Auth::user()!=null && Auth::user()->hasRuolo('ricercatore') && $report->ricercatore_id==Auth::user()->id)
+                                                            <form method="POST"
+                                                                  action="{{ route('report.destroy', ["report" => $report, "progetto" => $progetto] ) }}"
+                                                                  id="delete_report"
+                                                                  name="delete_report"
+                                                                  onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                                                @csrf
+                                                                @method("DELETE")
+                                                                <button type="submit"><i class="lni lni-trash"></i></button>
+                                                            </form>
+                                                        @else
+                                                            <p>/</p>
+                                                        @endif
+                                                    </x-slot>
+                                                </x-td>
+
+
+                                            </tr>
+                                        @endforeach
+                                    @endif
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>  <!-- fine container -->
+                    </section>
+                </div>
+            @endauth
+
+
+        </div>
+    </div>
 @endsection

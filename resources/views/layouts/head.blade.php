@@ -12,8 +12,8 @@
         <!--====== Title ======-->
         <title>Stark Industries</title>
 
-        <!--====== pagina-personale css ======-->
-        <link rel="stylesheet" href="{{ asset('css/pagina-personale.css') }}">
+        <!--====== css per il progetto agile ======-->
+        <link rel="stylesheet" href="{{ asset('css/agile-custom.css') }}">
 
         <!--====== Favicon Icon ======-->
 

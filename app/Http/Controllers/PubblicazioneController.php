@@ -28,8 +28,8 @@ class PubblicazioneController extends Controller
      */
     public function create(Ricercatore $ricercatore): View|Factory|Application
     {
-        $progetti = $ricercatore->progetti()->get();
-        $ricercatori=Ricercatore::all();
+        $progetti = $ricercatore->progetti()->paginate(10);
+        $ricercatori = Ricercatore::paginate(10);
         return view('pubblicazioni.create', compact('progetti','ricercatori','ricercatore'));
     }
 
@@ -69,8 +69,6 @@ class PubblicazioneController extends Controller
         $this->pubblicazioneFill($request, $pubblicazione);
         return redirect()->route('ricercatore.show');
     }
-
-
 
     /**
      * @param Request $request

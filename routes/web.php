@@ -5,8 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\ProgettoController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PubblicazioneController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RicercatoreController;
 use App\Http\Controllers\SottoProgettoController;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +55,13 @@ Route::prefix('ricercatore')->group(function () {
      *
      */
     Route::get('/progetti', [RicercatoreController::class, 'progetti'])->name('ricercatore.progetti')->middleware('auth');
+
+    /**
+     * Vista per l'elenco dei progetto del ricercatore.
+     *
+     */
+    Route::get('/sotto-progetti', [RicercatoreController::class, 'sotto_progetti'])->name('ricercatore.sotto-progetti')->middleware('auth');
+
 });
 /**
  * CRUD per il manager
@@ -173,22 +180,9 @@ Route::prefix('progetto')->group(function () {
      */
     Route::post("/{progetto}/store-ricercatore", [ProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth']);
 });
-
-
-
-//Route::resource('sotto-progetto', SottoProgettoController::class);
-//Route::get('sotto-progetto/{sottoProgetto}/edit_ricercatori', [SottoProgettoController::class, 'editRicercatori'])->name('sotto-progetto.edit_ricercatori')->middleware(['auth','ruolo:ricercatore']);
-//Route::delete('sotto-progetto/{sottoProgetto}/remove_ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sotto-progetto.remove_ricercatore")->middleware(['auth','ruolo:ricercatore']);
-//Route::get("sotto-progetto/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatoreView'])->name("sotto-progetto.add_ricercatore")->middleware(['auth','ruolo:ricercatore']);
-//Route::post("sotto-progetto/{sottoProgetto}/add_ricercatore", [SottoProgettoController::class, 'addRicercatore'])->name("sotto-progetto.add_ricercatore")->middleware(['auth','ruolo:ricercatore']);
-
-
-
 /**
- * CRUD per il sottoprogetto.
+ * CRUD per il sotto progetto.
  */
-
-
 Route::prefix('sotto-progetto')->group(function () {
 
     /**
@@ -255,9 +249,9 @@ Route::prefix('sotto-progetto')->group(function () {
      * Salva le modifiche sui ricercatori
      *
      */
-    Route::get("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("sotto-progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
+    //perchè get??
+    Route::post("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("sotto-progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
 });
-
 /**
  * CRUD per le milestones.
  */
@@ -268,12 +262,6 @@ Route::prefix('sotto-progetto/{sottoProgetto}/milestone')->group(function () {
      *
      */
     Route::get('/index', [MilestoneController::class, 'index'])->name('milestone.index');
-
-    /**
-     * Vista info di un progetto.
-     *
-     */
-    Route::get('/show/{milestone}', [MilestoneController::class, 'show'])->name('milestone.show');
 
     /**
      * Vista per editare le informazioni di un milestone.
@@ -305,29 +293,29 @@ Route::prefix('sotto-progetto/{sottoProgetto}/milestone')->group(function () {
      */
     Route::delete('/destroy/{milestone}', [MilestoneController::class, 'destroy'])->name('milestone.destroy')->middleware('auth', 'ruolo:ricercatore');
 });
-
-
-
-
-
-Route::prefix('/report')->group(function () {
+/**
+ * CRUD per i report.
+ */
+Route::prefix('report')->group(function () {
 
     /**
      * Vista creazione dei report da un ricercatore.
      *
      */
     Route::get('/create/{progetto}', [ReportController::class, 'create'])->name('report.create')->middleware('auth', 'ruolo:ricercatore');
+
     /**
-     * Creazione dei report da un ricercatore.
+     * Salbataggio dei report da un ricercatore.
      *
      */
+    //perchè create??
     Route::post('/create/{progetto}', [ReportController::class, 'store'])->name('report.store')->middleware('auth', 'ruolo:ricercatore');
 
-
-
+    /**
+     * Download dei report da un ricercatore.
+     *
+     */
     Route::get('/download{file_name}', [ReportController::class, 'download'])->name('report.download');
-
-
 
     /**
      * Eliminazione report da chi l'ha caricato.
@@ -335,12 +323,10 @@ Route::prefix('/report')->group(function () {
      */
     Route::delete('/destroy/{report}/{progetto}', [ReportController::class, 'destroy'])->name('report.destroy')->middleware('auth', 'ruolo:ricercatore');
 });
-
 /**
  * CRUD per le pubblicazioni.
  */
-Route::prefix('pubblicazioni')->group(function () {
-
+Route::prefix('pubblicazione')->group(function () {
 
     /**
      * Vista per far creare una pubblicazione a un ricercatore.
@@ -350,14 +336,14 @@ Route::prefix('pubblicazioni')->group(function () {
 
     /**
      * Vista per editare la visibilità delle pubblicazioni.
+     *
      */
-
     Route::get('/edit/{progetto}', [PubblicazioneController::class, 'edit'])->name('pubblicazioni.edit')->middleware('auth', 'ruolo:ricercatore');
 
     /**
      * Aggiorna le informazioni sulle pubblicazioni.
+     *
      */
-
     Route::put('/update/{progetto}', [PubblicazioneController::class, 'update'])->name('pubblicazioni.update')->middleware('auth', 'ruolo:ricercatore');
 
     /**
@@ -368,11 +354,14 @@ Route::prefix('pubblicazioni')->group(function () {
 
     /**
      * Elimina una pubblicazione.
+     *
      */
-
     Route::delete('/destroy/{pubblicazione}', [PubblicazioneController::class, 'destroy'])->name('pubblicazioni.destroy')->middleware('auth', 'ruolo:ricercatore');
+
+    /**
+     * Download di una pubblicazione.
+     *
+     */
     Route::get('/download{file_name}', [PubblicazioneController::class, 'download'])->name('pubblicazioni.download');
-
-
 });
 require __DIR__ . '/auth.php';

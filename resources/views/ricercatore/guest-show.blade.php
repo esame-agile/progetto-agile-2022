@@ -1,180 +1,114 @@
 @extends('layouts.main')
-@include('layouts.alert-message')
 @section('content')
-
-    <!--====== pagina-personale css ======-->
-    <link rel="stylesheet" href="{{ asset('css/pagina-personale.css') }}">
 
     <div class="container mx-auto">
         <!--- Copertina del profilo --->
-        <div class="card top copertina-profilo">
-            @yield('alert-message')
-            <div class="card-body">
-                <div class="profile-background">
-                    <!--- Immagine di copertina del profilo --->
-                </div>
+        <x-profile>
+            <x-slot name="nome">
+                {{$ricercatore->nome}} {{$ricercatore->cognome}}
+            </x-slot>
+            <x-slot name="info">
+                <x-li>
+                    <span class="font-bold">Ambito di ricerca:</span> <br>
+                    {{$ricercatore->ambito_ricerca}}
+                </x-li>
+                <x-li>
+                    <span class="font-bold">Università:</span> <br>
+                    {{$ricercatore->universita}}
+                </x-li>
+            </x-slot>
+            <x-slot name="profile_picture">
                 <div class="profile-picture">
                     <!--- Immagine del profilo --->
                 </div>
-                <div class="nome-utente-container">
-                    <p class="testo grande">{{$ricercatore->nome}} {{$ricercatore->cognome}} </p>
-
-                    <p class="testo">
-                        {{$ricercatore->ambito_ricerca}}
-                        <br>
-                        {{$ricercatore->universita}}
-                    </p>
-
-                </div>
-                <div class="contatti">
-                    <p class="testo">
-                        {{$ricercatore->email}}
-                    </p>
-                </div>
-            </div>
-            <div class="contatti hidden">
-                <p class="testo">
+            </x-slot>
+            <x-slot name="contatti">
+                <x-li>
+                    <span class="font-bold">Contatti:</span> <br>
                     {{$ricercatore->email}}
-                </p>
-            </div>
-        </div>
-        <!--- Fine copertina del profilo --->
-
-
-        <h2 class="testo titolo grande">Pubblicazioni</h2>
-
-        <div class="card tabella">
-            <section class="container mx-auto p-6 font-mono">
-                <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                    <div class="w-full overflow-x-auto">
-                        <table class="w-full">
-                            <thead>
-                            <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                <th class="px-4 py-3 text-center">
-                                    DOI
-                                </th>
-                                <th class="px-4 py-3 text-center">
-                                    Titolo
-                                </th>
-                                <th class="px-4 py-3 text-center">
-                                    Tipologia
-                                </th>
-                                <th class="px-4 py-3 text-center">
-                                    Progetto
-                                </th>
-                                <th class="px-4 py-3 text-center">
-                                    File
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody class="bg-white">
-
-                                @foreach($pubblicazioni as $pubblicazione)
-                                    <tr class="text-gray-700">
-                                    <th class="px-4 py-3 text-ms font-semibold border responsive">
-                                        {{$pubblicazione->doi}}
-                                    </th>
-                                    <th class="px-4 py-3 text-ms font-semibold border responsive">
-                                        {{$pubblicazione->titolo}}
-                                    </th>
-                                    <th class="px-4 py-3 text-ms font-semibold border responsive">
-                                        {{$pubblicazione->tipologia}}
-                                    </th>
-                                    <th class="px-4 py-3 text-ms font-semibold border responsive">
-                                        {{\App\Models\Progetto::find($pubblicazione->progetto_id)->titolo}}
-                                    </th>
-                                        <th class="px-4 py-3 text-ms font-semibold border responsive">
-                                            <a href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}" >{{$pubblicazione->file_name}}</a>
-
-                                        </th>
-                                    </tr>
-                                @endforeach
-
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-        </div>
-<!--Fine pubblicazioni --->
-
-        @if(!count($progetti))
-            <div id="home" class="relative z-10 header-hero pt-10">
-                <div class="container mx-auto">
-                    <div class="justify-center row">
-                        <div class="w-full lg:w-5/6 xl:w-2/3">
-                            <div style='background-color:rgb(255, 255, 255)'>
-                                <div class="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-4 pb-10"
-                                     style="cursor: auto;">
-                                    <div
-                                        class="max-w-lg mx-auto overflow-hidden rounded-lg shadow-lg lg:max-w-none lg:flex">
-                                        <div class="flex-1 px-6 py-8 bg-white" style="cursor: auto;">
-                                            <h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl"
-                                                style="cursor: auto;">
-                                                <span class="">Nessun <strong>progetto</strong> associato</span>
-                                            </h3>
-                                        </div>
-                                    </div>
-                                </div>
+                </x-li>
+            </x-slot>
+            <!--- Fine copertina del profilo --->
+            <x-slot name="pubblicazioni">
+                <x-table>
+                    <x-slot name="titolo">
+                        PUBBLICAZIONI
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($pubblicazioni))
+                            <div class="px-5 pb-5">
+                                {{$pubblicazioni->links()}}
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @else
-            <h2 class="testo titolo grande">Elenco progetti</h2>
-            <!--- Progetti --->
-            <div class="card tabella">
-                <section class="container mx-auto p-6 font-mono">
-                    <div class="w-full overflow-hidden rounded-lg shadow-lg">
-                        <div class="w-full overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                                    <th class="px-4 py-3 text-center">
-                                        Titolo
-                                    </th>
-                                    <th class="px-4 py-3 responsive text-center">
-                                        Scopo
-                                    </th>
-                                    <th class="px-4 py-3 responsive text-center">
-                                        Data di inizio
-                                    </th>
-                                    <th class="px-4 py-3 responsive text-center">
-                                        Data di fine
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody class="bg-white">
+                        @endif
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>DOI</x-th>
+                        <x-th>Titolo</x-th>
+                        <x-th>Progetto</x-th>
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($pubblicazioni))
+                            @if($pubblicazioni->isEmpty())
+                                <x-tr>
+                                    <x-td>-</x-td>
+                                    <x-td>-</x-td>
+                                    <x-td>-</x-td>
+                                </x-tr>
+                            @else
+                                @foreach($pubblicazioni as $pubblicazione)
+                                    <x-tr>
+                                        <x-td>{{$pubblicazione->doi}}</x-td>
+                                        <x-td><a class="underline"
+                                                 href="{{route("pubblicazione.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
+                                            </a>
+                                        </x-td>
+                                        <x-td class="resp640">{{$pubblicazione->progetto}}</x-td>
+                                    </x-tr>
+                                @endforeach
+                            @endif
+                        @endif
+                    </x-slot>
+                </x-table>
+            </x-slot>
+            <x-slot name="progetti">
+                <x-table>
+                    <x-slot name="titolo">
+                        PROGETTI
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($progetti))
+                            <div class="px-5 pb-5">
+                                {{$progetti->links()}}
+                            </div>
+                        @endif
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>Titolo</x-th>
+                        <x-th>Scopo</x-th>
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($progetti))
+                            @if($progetti->isEmpty())
+                                <x-tr>
+                                    <x-td>-</x-td>
+                                    <x-td>-</x-td>
+                                </x-tr>
+                            @else
+                                @foreach($progetti as $progetto)
+                                    <x-tr>
+                                        <x-td><a class="underline"
+                                                 href="{{route("progetto.show", $progetto)}}">{{$progetto->titolo}}
+                                            </a>
+                                        </x-td>
+                                        <x-td>{{$progetto->scopo}}</x-td>
+                                    </x-tr>
+                                @endforeach
+                            @endif
+                        @endif
+                    </x-slot>
+                </x-table>
+            </x-slot>
+        </x-profile>
 
-                                @if($progetti != null)
-                                    @foreach($progetti as $progetto)
-                                        <tr class="text-gray-700">
-                                            <th class="px-4 py-3 text-ms font-semibold border">
-                                                <a href="{{route("progetto.show", $progetto)}}">{{$progetto->titolo}}</a>
-
-                                            </th>
-                                            <th class="px-4 py-3 text-ms font-semibold border responsive">
-                                                {{$progetto->scopo}}
-                                            </th>
-                                            <th class="px-4 py-3 text-ms font-semibold border responsive">
-                                                {{$progetto->data_inizio}}
-                                            </th>
-                                            <th class="px-4 py-3 text-ms font-semibold border responsive">
-                                                {{$progetto->data_fine}}
-                                            </th>
-                                        </tr>
-                                    @endforeach
-                                @endif
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>  <!-- fine container -->
-                </section>
-            </div>
-        @endif
-        <!--- Fine progetto --->
     </div>
 @endsection

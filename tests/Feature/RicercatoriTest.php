@@ -15,9 +15,7 @@ class RicercatoriTest extends TestCase
     public function test_ricercatore_buttonName_returns_a_successful_response()
     {
         $ricercatore = Ricercatore::factory()->create();
-
         $response = $this->get('ricercatore/show/' . $ricercatore->id);
-
         $response->assertStatus(200);
     }
 
@@ -41,7 +39,6 @@ class RicercatoriTest extends TestCase
         $ricercatore = Ricercatore::factory()->create();
         $this->actingAs($ricercatore);
         $response = $this->get('/ricercatore/edit/' . $ricercatore->id);
-
         $response->assertStatus(200);
     }
 
@@ -64,7 +61,6 @@ class RicercatoriTest extends TestCase
 
     public function test_pagina_edit_restituisce_errore_se_i_campi_non_sono_validi()
     {
-        $faker = Faker\Factory::create();
         $ricercatore = Ricercatore::factory()->create();
         $this->actingAs($ricercatore)
             ->put('/ricercatore/update/' . $ricercatore->id, [

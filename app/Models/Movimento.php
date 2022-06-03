@@ -15,7 +15,7 @@ class Movimento extends Model
     public $timestamps = true;
     /*
      * approvazione può essere 0, 1 o 2:
-     * 0 se il movimento non è stato approvato
+     * 0 se il movimento non è ancora stato approvato
      * 1 se il movimento è stato approvato
      * 2 se il movimento è stato rifiutato
      */

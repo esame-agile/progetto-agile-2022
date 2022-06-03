@@ -220,6 +220,8 @@ Route::prefix('progetto/{progetto}/movimento')->group(function () {
      *
      */
     Route::delete('/destroy/{movimento}', [MovimentiController::class, 'destroy'])->name('movimento.destroy')->middleware('auth');
+    Route::put('/approva/{movimento}', [MovimentiController::class, 'approva'])->name('movimento.approva')->middleware('auth');
+    Route::put('/disapprova/{movimento}', [MovimentiController::class, 'disapprova'])->name('movimento.disapprova')->middleware('auth');
 });
 /**
  * CRUD per il sotto progetto.

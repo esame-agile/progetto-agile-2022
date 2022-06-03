@@ -96,13 +96,13 @@ class SottoProgettoController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param SottoProgetto $sottoprogetti
+     * @param SottoProgetto $sottoprogetto
      * @return RedirectResponse
      */
-    public function update(Request $request, SottoProgetto $sottoProgetto): RedirectResponse
+    public function update(Request $request, SottoProgetto $sottoprogetto): RedirectResponse
     {
         if (Auth::user()->hasRuolo('manager')) {
-            return $this->sottoProgettoFill($request, $sottoProgetto);
+            return $this->sottoProgettoFill($request, $sottoprogetto);
         }
         return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare un sottoprogetto');
     }

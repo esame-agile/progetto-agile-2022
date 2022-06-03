@@ -20,7 +20,7 @@ class MovimentiController extends Controller
     public function index(Progetto $progetto): Factory|View|Application
     {
         $movimenti = $progetto->movimenti()->paginate(10);
-        return view('movimento.index', compact('movimenti'));
+        return view('movimento.index', compact('movimenti','progetto'));
     }
 
     /**
@@ -93,7 +93,26 @@ class MovimentiController extends Controller
         $this->movimentoFill($request, $movimento);
         return redirect()->route('movimento.index')->with('success', 'Movimento modificato con successo');
     }
-
+    public function approva( Progetto $progetto , Movimento $movimento){
+        if (Auth::user()->hasRuolo("ricercatore") && $progetto->responsabile_id==Auth::user()->id){
+            $movimento->approvazione = 1;
+            $movimento->save();
+            $progetto->budget-=$movimento->importo;
+            $progetto->save();
+            return redirect()->route('movimento.index', compact('progetto'));
+        }else {
+            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per approvare un movimento');
+        }
+    }
+    public function disapprova( Progetto $progetto , Movimento $movimento){
+        if (Auth::user()->hasRuolo("ricercatore") && $progetto->responsabile_id==Auth::user()->id){
+            $movimento->approvazione = 2;
+            $movimento->save();
+            return redirect()->route('movimento.index', compact('progetto'));
+        }else {
+            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per approvare un movimento');
+        }
+    }
     /**
      * @param Movimento $movimento
      * @param Progetto $progetto

@@ -27,6 +27,12 @@
                     <div class="text-blueGray-700">
                         {{$progetto->data_fine}}
                     </div>
+                    <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                        BUDGET:
+                    </div>
+                    <div class="text-blueGray-700">
+                        {{$progetto->budget}}
+                    </div>
                 </div>
             </div>
             <div class="lg:w-6/12">
@@ -306,8 +312,13 @@
                     </section>
                 </div>
             @endauth
-
-
+            @auth
+            <x-button class="mb-10">
+                <a href="{{route("movimento.index",$progetto)}}">
+                   VEDI MOVIMENTI
+                </a>
+            </x-button>
+            @endauth
         </div>
     </div>
 @endsection

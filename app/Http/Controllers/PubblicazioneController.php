@@ -29,7 +29,7 @@ class PubblicazioneController extends Controller
     public function create(Ricercatore $ricercatore): View|Factory|Application
     {
         $progetti = $ricercatore->progetti()->paginate(10);
-        $ricercatori = Ricercatore::paginate(10);
+        $ricercatori = Ricercatore::all();
         return view('pubblicazioni.create', compact('progetti','ricercatori','ricercatore'));
     }
 
@@ -81,22 +81,24 @@ class PubblicazioneController extends Controller
             'doi' => 'required|max:255|min:3',
             'titolo' => 'required|max:255|min:3',
             'autori_esterni' => 'required|max:255|min:3',
+            'file_name' => 'required',
             'tipologia' => 'required|max:255|min:3',
             'progetto_id' => 'required|integer',
         ]);
+
         $pubblicazione->doi = $request->doi;
         $pubblicazione->titolo = $request->titolo;
         $pubblicazione->autori_esterni = $request->autori_esterni;
         $pubblicazione->tipologia = $request->tipologia;
         $pubblicazione->progetto()->associate($request->progetto_id);
-        $file=$request->file_name;
-        $filename=time().'.'.$file->extension();
+        $file = $request->file_name;
+        $filename = time().'.'.$file->extension();
         $request->file_name->move('assets', $filename);
         $pubblicazione->file_name=$filename;
         $pubblicazione->save();
         foreach ($request->ricercatori as $ricercatore_id) {
-            $ricercatore=Ricercatore::find($ricercatore_id);
-            $pubblicazione->ricercatore()->attach($ricercatore);
+            $ricercatore = Ricercatore::find($ricercatore_id);
+            $ricercatore->pubblicazioni()->attach($pubblicazione->id);
         }
 
         return $pubblicazione;

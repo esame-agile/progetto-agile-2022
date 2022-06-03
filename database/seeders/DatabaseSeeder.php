@@ -23,29 +23,30 @@ class DatabaseSeeder extends Seeder
         $manager = Manager::first();
         echo "MANAGER: \n";
         echo "email: " . $manager->email . "\n" . "password: password" . "\n";
-
-        Ricercatore::factory(12)->create();
+        echo "------------------------------------------------------\n";
+        Ricercatore::factory(1)->create();
         $ricercatore = Ricercatore::first();
         $ricercatore->progetti()->saveMany(Progetto::factory(12)->create());
-        $progetto= $ricercatore->progetti()->first();
+        $progetto = $ricercatore->progetti()->first();
         $progetto->responsabile()->associate($ricercatore);
         $progetto->save();
         echo "RICERCATORE: \n";
         echo "email: " . $ricercatore->email . "\n" . "password: password" . "\n";
-
-        SottoProgetto::factory(12)->create([
-            'responsabile_id' => $ricercatore->id,
-            'progetto_id' => $progetto->id,
-        ]);
-        Milestone::factory(12)->create([
-            'sotto_progetto_id' => $progetto->sotto_progetti()->first()->id,
-        ]);
-
+        echo "------------------------------------------------------\n";
+        SottoProgetto::factory(12)->create()->each(function ($sottoProgetto) {
+            $ricercatore = Ricercatore::first();
+            $progetto = $ricercatore->progetti()->first();
+            $sottoProgetto->responsabile()->associate($ricercatore);
+            $sottoProgetto->progetto()->associate($progetto);
+            $sottoProgetto->ricercatori()->attach($ricercatore);
+            $sottoProgetto->ricercatori()->saveMany(Ricercatore::factory(2)->create());
+            $sottoProgetto->milestones()->saveMany(Milestone::factory(12)->create());
+        });
         Finanziatore::factory(12)->create();
         $finanziatore = Finanziatore::first();
         echo "FINANZIATORE: \n";
         echo "email: " . $finanziatore->email . "\n" . "password: password" . "\n";
-
+        echo "------------------------------------------------------\n";
 
     }
 }

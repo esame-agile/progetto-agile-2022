@@ -6,7 +6,7 @@ use App\Models\Progetto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Movimento>
+ * @extends Factory
  */
 class MovimentoFactory extends Factory
 {

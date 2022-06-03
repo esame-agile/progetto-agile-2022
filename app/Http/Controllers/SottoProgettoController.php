@@ -28,7 +28,7 @@ class SottoProgettoController extends Controller
             $sottoProgetti = SottoProgetto::paginate(10);
         }
         if ( $sottoProgetti == null || $sottoProgetti->isEmpty()) {
-            return view('sotto-progetto.index', compact('sottoProgetti'))->with('error', 'Non ci sono sotto-progetto');
+            return view('sotto-progetto.index', compact('sottoProgetti'))->with('error', 'Non ci sono sotto progetti');
         }
         return view('sotto-progetto.index', compact('sottoProgetti'));
     }
@@ -46,7 +46,7 @@ class SottoProgettoController extends Controller
         if (Auth::user()->hasRuolo('manager')) {
             return view('sotto-progetto.create', compact('ricercatori', 'progetti'));
         }
-        return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per creare un sottoprogetto');
+        return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per creare un sotto progetto');
     }
 
     /**
@@ -58,11 +58,11 @@ class SottoProgettoController extends Controller
     public function store(Request $request): RedirectResponse
     {
         if (!Auth::user()->hasRuolo("manager")) {
-            return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per creare un sottoprogetto');
+            return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per creare un sotto progetto');
         }
         $sottoProgetto = new SottoProgetto();
-
-        return $this->sottoProgettoFill($request, $sottoProgetto);
+        $sottoProgetto = $this->sottoProgettoFill($request, $sottoProgetto);
+        return redirect()->route('sotto-progetto.show', compact('sottoProgetto'))->with('success', 'Sotto progetto creato con successo');
     }
 
     /**
@@ -96,15 +96,16 @@ class SottoProgettoController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param SottoProgetto $sottoprogetti
+     * @param SottoProgetto $sottoProgetto
      * @return RedirectResponse
      */
     public function update(Request $request, SottoProgetto $sottoProgetto): RedirectResponse
     {
         if (Auth::user()->hasRuolo('manager')) {
-            return $this->sottoProgettoFill($request, $sottoProgetto);
+            $sottoProgetto = $this->sottoProgettoFill($request, $sottoProgetto);
+            return redirect()->route('sotto-progetto.show', compact('sottoProgetto'))->with('success', 'Sotto progetto modificato con successo');
         }
-        return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare un sottoprogetto');
+        return redirect()->route('sotto-progetto.show', compact('sottoProgetto'))->with('error', 'Non hai i permessi per modificare un sottoprogetto');
     }
 
     /**
@@ -119,7 +120,7 @@ class SottoProgettoController extends Controller
             $sottoProgetto->delete();
             return redirect()->route('sotto-progetto.index')->with('success', 'Sotto progetto eliminato con successo');
         } else {
-            return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per eliminare un sottoprogetto');
+            return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per eliminare un sotto progetto');
         }
     }
 
@@ -194,9 +195,9 @@ class SottoProgettoController extends Controller
     /**
      * @param Request $request
      * @param SottoProgetto $sottoProgetto
-     * @return RedirectResponse
+     * @return SottoProgetto
      */
-    public function sottoProgettoFill(Request $request, SottoProgetto $sottoProgetto): RedirectResponse
+    public function sottoProgettoFill(Request $request, SottoProgetto $sottoProgetto): SottoProgetto
     {
         $request->validate([
             'titolo' => 'required|max:255|min:3',
@@ -214,6 +215,6 @@ class SottoProgettoController extends Controller
         $sottoProgetto->responsabile()->associate($request->responsabile_id);
         $sottoProgetto->save();
 
-        return redirect()->route('sotto-progetto.index');
+        return $sottoProgetto;
     }
 }

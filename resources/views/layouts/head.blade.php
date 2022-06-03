@@ -15,6 +15,9 @@
         <!--====== css per il progetto agile ======-->
         <link rel="stylesheet" href="{{ asset('css/agile-custom.css') }}">
 
+        <!--====== css per i dropdown di tailwind======-->
+        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.4.7/dist/flowbite.min.css" />
+
         <!--====== Favicon Icon ======-->
 
         <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
@@ -66,6 +69,9 @@
 
         <!--====== Datepicker ======-->
         <script src="https://unpkg.com/flowbite@1.4.5/dist/datepicker.js"></script>
+
+        <!--====== Dropdown ======-->
+        <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
 
     </head>
 @endsection

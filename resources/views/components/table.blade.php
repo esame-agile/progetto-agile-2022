@@ -18,7 +18,7 @@
         </h2>
     @endif
     @if(isset($pulsanti_up_interno))
-        <div class="pr-5 pb-5">
+        <div class="ml-5 pr-5 pb-5">
             {{$pulsanti_up_interno}}
         </div>
     @endif
@@ -35,8 +35,10 @@
             </tbody>
         </table>
     </div>
-    @if(isset($pulsanti))
-        {{$pulsanti}}
-    @endif
+    <div class="pr-5 pb-5">
+        @if(isset($pulsanti))
+            {{$pulsanti}}
+        @endif
+    </div>
 </div>
 

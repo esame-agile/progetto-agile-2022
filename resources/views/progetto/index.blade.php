@@ -32,6 +32,7 @@
                 @if(isset($progetti))
                     @if($progetti->isEmpty())
                         <x-tr>
+                            <x-td>-</x-td>
                             <x-td class="resp640">-</x-td>
                             <x-td class="resp1024">-</x-td>
                             <x-td class="resp1024">-</x-td>

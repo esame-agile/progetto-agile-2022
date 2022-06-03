@@ -44,11 +44,6 @@
                                 AGGIUNGI
                             </a>
                         </x-button>
-                        <x-button>
-                            <a href="{{route('pubblicazioni.edit',$ricercatore)}}">
-                                VISIBILITA'
-                            </a>
-                        </x-button>
                     </x-slot>
                     <x-slot name="link">
                         @if(isset($pubblicazioni))
@@ -73,17 +68,20 @@
                                     <x-td>-</x-td>
                                     <x-td class="resp1024">-</x-td>
                                     <x-td class="resp640">-</x-td>
+                                    <x-td>-</x-td>
+                                    <x-td>-</x-td>
                                 </x-tr>
                             @else
                                 @foreach($pubblicazioni as $pubblicazione)
                                     <x-tr>
                                         <x-td>{{$pubblicazione->doi}}</x-td>
-                                        <x-td><a class="underline"
-                                                 href="{{route("pubblicazione.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
+                                        <x-td>{{$pubblicazione->titolo}}</x-td>
+                                        <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
+                                        <x-td class="resp640">
+                                            <a class="underline" href="{{route('progetto.show', $pubblicazione->progetto)}}">
+                                                {{$pubblicazione->progetto->titolo}}
                                             </a>
                                         </x-td>
-                                        <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
-                                        <x-td class="resp640">{{$pubblicazione->progetto}}</x-td>
                                         <x-td>
                                             <a class="underline" href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}">
                                                 {{$pubblicazione->file_name}}
@@ -91,7 +89,7 @@
                                         </x-td>
                                         <x-td>
                                             <form method="POST"
-                                                  class="float-right"
+                                                  class="float-left"
                                                   action="{{ route('pubblicazioni.destroy', $pubblicazione) }}"
                                                   id="delete_progetto"
                                                   name="delete_progetto"

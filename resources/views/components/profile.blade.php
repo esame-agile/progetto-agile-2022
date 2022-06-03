@@ -27,7 +27,6 @@
         </div>
         <div class="lg:w-6/12 pl-5 column">
             {{$progetti}}
-
         </div>
     </div>
 @elseif(isset($pubblicazioni))

@@ -72,7 +72,7 @@ class ProgettoController extends Controller
     public function update(Request $request, Progetto $progetto): RedirectResponse
     {
         $this->setProjectParameters($request, $progetto);
-        return redirect()->route('progetto.index');
+        return redirect()->route('progetto.index')->with('success', 'Progetto aggiornato con successo');
     }
 
     /**
@@ -85,7 +85,7 @@ class ProgettoController extends Controller
     {
         $progetto = new Progetto;
         $this->setProjectParameters($request, $progetto);
-        return redirect()->route('progetto.index');
+        return redirect()->route('progetto.index')->with('success', 'Progetto creato con successo');
     }
 
     /**
@@ -111,11 +111,21 @@ class ProgettoController extends Controller
      */
     public function setProjectParameters(Request $request, Progetto $progetto): Progetto
     {
+        $request->validate([
+            'titolo' => 'required|max:255',
+            'descrizione' => 'required|max:255',
+            'scopo' => 'required|max:255',
+            'data_inizio' => 'required|date',
+            'data_fine' => 'required|date',
+            'budget' => 'required|numeric',
+            'responsabile_id' => 'required|numeric',
+        ]);
+
         $progetto->titolo = $request->titolo;
         $progetto->descrizione = $request->descrizione;
         $progetto->scopo = $request->scopo;
-        $progetto->data_inizio = $request->datainizio;
-        $progetto->data_fine = $request->datafine;
+        $progetto->data_inizio = $request->data_inizio;
+        $progetto->data_fine = $request->data_fine;
         $progetto->budget = $request->budget;
         $progetto->responsabile()->associate($request->responsabile_id);
 

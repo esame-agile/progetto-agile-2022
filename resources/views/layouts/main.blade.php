@@ -9,6 +9,7 @@
 <body>
 <div>
     @yield('navbar')
+    @yield('alert-message')
     <div class="min-h-screen">
         @yield('content')
     </div>

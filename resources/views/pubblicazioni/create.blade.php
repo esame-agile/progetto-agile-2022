@@ -1,82 +1,99 @@
 @extends('layouts/main')
-@include('layouts.alert-message')
 @section('content')
-
     <div class="container mx-auto">
-        <form class="" id="creazioneP" method="POST" enctype="multipart/form-data" action="{{ route('pubblicazioni.store') }}">
-            <h2 class="testo titolo grande">Nuova pubblicazione</h2>
-            <div class="card">
-                <div class="card-body">
-                    <div class="form-container">
-                            @csrf
-                            @method('POST')
-                            <div class="mb-6">
-                                <div class="form-control  content-center ">
-                                        <label for="doi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex">DOI:</label>
-                                        <x-input name="doi" type="text" value="{{ old('doi') }}" id="doi" placeholder="DOI"></x-input>
-                                    </div>
-                                    <div class="form-control content-center " >
-                                        <label for="titolo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex ">Titolo:</label>
-                                        <x-input name="titolo" type="text" value="{{ old('titolo') }}" id="titolo" placeholder="Titolo pubblicazione"></x-input>
-                                    </div>
-                                    <div class="form-control content-center">
-                                        <label for="autori_esterni" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex">Autori non registrati nel sito:</label>
-                                        <x-input name="autori_esterni" type="text" value="{{ old('autori_esterni') }}" id="autori_esterni" placeholder="Autori esterni"> </x-input>
-                                    </div>
+        <x-form>
+            <x-slot name="title">
+                NUOVA PUBBLICAZIONE
+            </x-slot>
+            <x-slot name="form">
+                <form method="POST" name="pubblicazione_create" id="pubblicazione_create" enctype="multipart/form-data"
+                      action="{{ route('pubblicazioni.store') }}">
+                    @csrf
+                    @method('POST')
+                    <div class="flex flex-wrap justify-between">
+                        <div class="w-2/3 pr-3">
+                            <div class="mb-6 flex flex-wrap justify-between">
+                                <div class="w-1/2 pr-3">
+                                    <x-label for="doi">DOI</x-label>
+                                    <x-input name="doi" type="text" id="doi" value="{{ old('doi') }}"
+                                             required></x-input>
                                 </div>
-
-                            <div class="form-control content-center">
-                                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex ">File</label>
-                                <x-input name="file_name" type="file" id="file_name"
-
-                                         required></x-input>
+                                <div class="w-1/2">
+                                    <x-label for="titolo">Titolo</x-label>
+                                    <x-input name="titolo" type="text" id="titolo" value="{{ old('titolo') }}"
+                                             required></x-input>
+                                </div>
                             </div>
 
-
-
-
-                        <div class="mt-4 ml-64 form-control inline-block">
-                        <label for="tipologia" class=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 ">Tipologia:</label>
-                            <select name="tipologia" form="creazioneP">
-                                <option selected disabled value="">Seleziona una tipologia...</option>
-                                <option value="Giornale">Giornale</option>
-                                <option value="Conferenza">Conferenza </option>
-                                <option value="Workshop">Workshop </option>
-                                <option value="Capitolo di un libro">Capitolo di un libro </option>
-                                <option value="Libro">Libro </option>
-                            </select>
+                            <div class="mb-6 flex flex-wrap justify-between">
+                                <div class="w-full">
+                                    <x-label for="autori_esterni">Autori esterni al sito</x-label>
+                                    <x-input name="autori_esterni" type="text" id="autori_esterni"
+                                             value="{{ old('autori_esterni') }}" required></x-input>
+                                </div>
+                            </div>
+                            <div class="mb-6 flex flex-wrap justify-between">
+                                <div class="w-1/2 pr-3">
+                                    <x-label for="tipologia">Tipologia</x-label>
+                                    <x-select name="tipologia" id="tipologia" value="{{ old('tipologia') }}" required>
+                                        <option selected disabled value="">Seleziona una tipologia...</option>
+                                        <option value="Giornale">Giornale</option>
+                                        <option value="Conferenza">Conferenza</option>
+                                        <option value="Workshop">Workshop</option>
+                                        <option value="Capitolo di un libro">Capitolo di un libro</option>
+                                        <option value="Libro">Libro</option>
+                                    </x-select>
+                                </div>
+                                <div class="w-1/2">
+                                    <x-label for="progetto_id">Progetto associato</x-label>
+                                    <x-select name="progetto_id" id="progetto_id" value="{{ old('progetto_id') }}"
+                                              required>
+                                        <option selected disabled value="">Seleziona il progetto...</option>
+                                        @foreach($progetti as $progetto)
+                                            <option value="{{$progetto->id}}">{{$progetto->titolo}}</option>
+                                        @endforeach
+                                    </x-select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mt-4 ml-64 form-control inline-block">
-                            <label for="progetto_id" class=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 ">Progetto:</label>
-                            <select name="progetto_id" form="creazioneP">
-                                <option selected disabled value="">Seleziona il progetto...</option>
-                                @foreach($progetti as $progetto)
-                                    <option value="{{$progetto->id}}">{{$progetto->titolo}}</option>
-                                @endforeach
-                            </select>
-                        </div>
 
-
-                                <div class="form-control">
-                                    <label class= " mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 "><strong>Ricercatori :</strong></label>
-
+                        <div class="w-1/3">
+                            <x-label for="ricercatori">Ricercatori associati</x-label>
+                            <ul class="scroll-py-1 text-sm text-gray-700 dark:text-gray-200 max-h-64 overflow-y-scroll">
                                 @foreach($ricercatori as $ricercatoricheck)
                                     @if($ricercatoricheck->id==$ricercatore->id)
-                                        <br> <label><input type="checkbox" name="ricercatori[]" value="{{$ricercatoricheck->id}}" form="creazioneP" checked> {{$ricercatoricheck->nome}} {{$ricercatoricheck->cognome}}</label>
+                                        <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            <label>
+                                                <input type="checkbox" name="ricercatori[]"
+                                                       form="pubblicazione_create"
+                                                       tabindex="-1"
+                                                       value="{{$ricercatoricheck->id}}" checked>
+                                                {{$ricercatoricheck->nome}} {{$ricercatoricheck->cognome}}
+                                            </label>
+                                        </li>
                                     @else
-                                <br> <label><input type="checkbox" name="ricercatori[]" value="{{$ricercatoricheck->id}}" form="creazioneP"> {{$ricercatoricheck->nome}} {{$ricercatoricheck->cognome}}</label>
+                                        <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            <label>
+                                                <input type="checkbox" name="ricercatori[]"
+                                                       form="pubblicazione_create"
+                                                       value="{{$ricercatoricheck->id}}">
+                                                {{$ricercatoricheck->nome}} {{$ricercatoricheck->cognome}}
+                                            </label>
+                                        </li>
                                     @endif
                                 @endforeach
-                            </div>
+                            </ul>
                         </div>
-                        <div class="pt-10 flex items-center justify-center">
-                            <x-button type="submit" form="creazioneP"> CREA </x-button>
+                        <div class="w-2/6 mb-10">
+                            <x-label for="file_name">File</x-label>
+                            <input name="file_name" type="file" id="file_name" value="{{ old('file_name') }}"
+                                   class="h-11"
+                                   required>
                         </div>
-                        </div>
-                </div>
-
-    </form>
+                    </div>
+                    <x-button type="submit"> CREA</x-button>
+                </form>
+            </x-slot>
+        </x-form>
     </div>
-    <!-- header content -->
-
 @endsection

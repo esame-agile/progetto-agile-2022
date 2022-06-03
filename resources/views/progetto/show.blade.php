@@ -210,7 +210,7 @@
                                     <x-tr>
                                         <x-td>
                                             <a class="underline"
-                                               href="{{route("ricercatore.guest-show", $sottoProgetto)}}">
+                                               href="{{route("sotto-progetto.show", $sottoProgetto)}}">
                                                 {{$sottoProgetto->titolo}}
                                             </a>
                                         </x-td>

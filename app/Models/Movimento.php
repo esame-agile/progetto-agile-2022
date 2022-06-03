@@ -30,10 +30,19 @@ class Movimento extends Model
         'causale',
         'data',
         'approvazione',
-        'progetto_id'
+        'progetto_id',
+        'utente_id',
     ];
 
     public function progetto(){
         return $this->belongsTo(Progetto::class, "progetto_id");
+    }
+
+    public function ricercatore(){
+        return $this->belongsTo(Ricercatore::class, "utente_id");
+    }
+
+    public function finanziatore(){
+        return $this->belongsTo(Finanziatore::class, "utente_id");
     }
 }

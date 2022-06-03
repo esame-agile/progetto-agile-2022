@@ -20,7 +20,7 @@ class MovimentiController extends Controller
     public function index(Progetto $progetto): Factory|View|Application
     {
         $movimenti = $progetto->movimenti()->paginate(10);
-        return view('movimento.index', compact('movimenti','progetto'));
+        return view('movimento.index', compact('movimenti', 'progetto'));
     }
 
     /**
@@ -49,8 +49,8 @@ class MovimentiController extends Controller
             return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per creare un movimento');
         }
         $movimento = new Movimento();
-        $this->movimentoFill($request, $movimento);
-        return redirect()->route('movimento.index')->with('success', 'Movimento creato con successo');
+        $this->movimentoFill($request, $movimento, $progetto);
+        return redirect()->route('movimento.index', compact('progetto'))->with('success', 'Movimento creato con successo');
     }
 
     /**
@@ -90,29 +90,34 @@ class MovimentiController extends Controller
             return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non puoi modificare un movimento già approvato');
         }
 
-        $this->movimentoFill($request, $movimento);
+        $this->movimentoFill($request, $movimento, $progetto);
         return redirect()->route('movimento.index')->with('success', 'Movimento modificato con successo');
     }
-    public function approva( Progetto $progetto , Movimento $movimento){
-        if (Auth::user()->hasRuolo("ricercatore") && $progetto->responsabile_id==Auth::user()->id){
+
+    public function approva(Progetto $progetto, Movimento $movimento)
+    {
+        if (Auth::user()->hasRuolo("ricercatore") && $progetto->responsabile_id == Auth::user()->id) {
             $movimento->approvazione = 1;
             $movimento->save();
-            $progetto->budget-=$movimento->importo;
+            $progetto->budget += $movimento->importo;
             $progetto->save();
             return redirect()->route('movimento.index', compact('progetto'));
-        }else {
+        } else {
             return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per approvare un movimento');
         }
     }
-    public function disapprova( Progetto $progetto , Movimento $movimento){
-        if (Auth::user()->hasRuolo("ricercatore") && $progetto->responsabile_id==Auth::user()->id){
+
+    public function disapprova(Progetto $progetto, Movimento $movimento)
+    {
+        if (Auth::user()->hasRuolo("ricercatore") && $progetto->responsabile_id == Auth::user()->id) {
             $movimento->approvazione = 2;
             $movimento->save();
             return redirect()->route('movimento.index', compact('progetto'));
-        }else {
+        } else {
             return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per approvare un movimento');
         }
     }
+
     /**
      * @param Movimento $movimento
      * @param Progetto $progetto
@@ -134,11 +139,11 @@ class MovimentiController extends Controller
         return redirect()->route('movimento.index')->with('success', 'Movimento eliminato con successo');
     }
 
-    private function movimentoFill(Request $request, Movimento $movimento)
+    private function movimentoFill(Request $request, Movimento $movimento, Progetto $progetto)
     {
         $request->validate([
-            'descrizione' => 'required|string',
-            'importo' => 'required|numeric',
+            'causale' => 'required|string',
+            'importo' => 'required|numeric|min:0',
             'progetto_id' => 'required|integer',
         ]);
         if (Auth::user()->hasRuolo("ricercatore")) {
@@ -149,7 +154,8 @@ class MovimentiController extends Controller
         $movimento->causale = $request->causale;
         $movimento->data = date('Y-m-d');
         $movimento->approvazione = (Auth::user()->hasRuolo('finanziatore') ? 1 : 0);
-        $movimento->progetto_id = $request->progetto_id;
+        $movimento->progetto_id = $progetto->id;
+        $movimento->utente_id = Auth::user()->id;
         $movimento->save();
     }
 }

@@ -202,6 +202,8 @@
                                                     {{$pubblicazione->file_name}}
                                                 </a>
                                             </x-td>
+                                            <x-td>{{$pubblicazione->tipologia}}</x-td>
+                                            <x-td>{{$pubblicazione->autori_esterni}}</x-td>
                                             @if(Auth::user()->id == $progetto->responsabile_id)
                                                 @if($pubblicazione->ufficiale)
                                                     <th class="px-4 py-3">

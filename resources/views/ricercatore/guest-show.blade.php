@@ -44,7 +44,10 @@
                     <x-slot name="colonne">
                         <x-th>DOI</x-th>
                         <x-th>Titolo</x-th>
-                        <x-th>Progetto</x-th>
+                        <x-th class="resp1024">Tipologia</x-th>
+                        <x-th class="resp1024">Autori esterni</x-th>
+                        <x-th class="resp640">Progetto</x-th>
+                        <x-th>File</x-th>
                     </x-slot>
                     <x-slot name="righe">
                         @if(isset($pubblicazioni))
@@ -52,6 +55,9 @@
                                 <x-tr>
                                     <x-td>-</x-td>
                                     <x-td>-</x-td>
+                                    <x-td class="resp1024">-</x-td>
+                                    <x-td class="resp1024">-</x-td>
+                                    <x-td class="resp640">-</x-td>
                                     <x-td>-</x-td>
                                 </x-tr>
                             @else
@@ -60,18 +66,30 @@
                                         <x-td>{{$pubblicazione->doi}}</x-td>
                                         @if($pubblicazione->sorgente != "api")
                                             <x-td><a class="underline"
-                                                     href="{{route("pubblicazione.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
+                                                     href="{{route("pubblicazioni.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
                                                 </a>
                                             </x-td>
                                         @else
                                             <x-td>{{$pubblicazione->titolo}}</x-td>
                                         @endif
+                                        <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
+                                        <x-td class="resp1024">{{$pubblicazione->autori_esterni}}</x-td>
                                         <x-td class="resp640">
                                             <a class="underline"
-                                               href="{{route("progetto.show", $pubblicazione->progetto)}}">
+                                               href="{{route('progetto.show', $pubblicazione->progetto)}}">
                                                 {{$pubblicazione->progetto->titolo}}
                                             </a>
                                         </x-td>
+                                        @if($pubblicazione->sorgente != "api")
+                                            <x-td>
+                                                <a class="underline"
+                                                   href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}">
+                                                    {{$pubblicazione->file_name}}
+                                                </a>
+                                            </x-td>
+                                        @else
+                                            <x-td>-</x-td>
+                                        @endif
                                     </x-tr>
                                 @endforeach
                             @endif

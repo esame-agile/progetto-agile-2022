@@ -34,7 +34,7 @@
                         </div>
                         <div class="text-blueGray-700">
                             <a class="underline"
-                               href="{{route("ricercatore.show", $progetto->responsabile)}}">
+                               href="{{route("ricercatore.guest-show", $progetto->responsabile)}}">
                                 {{$progetto->responsabile->nome . " " . $progetto->responsabile->cognome}}
                             </a>
                         </div>

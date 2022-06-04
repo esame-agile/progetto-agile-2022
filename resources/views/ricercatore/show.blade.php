@@ -80,7 +80,7 @@
 
                                       @if($pubblicazione->sorgente != "api")
                                             <x-td><a class="underline"
-                                                     href="{{route("pubblicazione.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
+                                                     href="{{route("pubblicazioni.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
                                                 </a>
                                             </x-td>
                                         @else

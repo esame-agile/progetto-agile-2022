@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pubblicazione;
 use App\Models\Ricercatore;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -33,8 +37,10 @@ class RicercatoreController extends Controller
     {
         $ricercatore = Ricercatore::find(Auth::user()->id);
         $progetti = $ricercatore->progetti()->paginate(10);
-        $pubblicazioni = $ricercatore->pubblicazioni()->paginate(10);
 
+        $pubblicazioni = $ricercatore->pubblicazioni()->get();
+        $pubblicazioni = $this->getPubblicazioni($ricercatore, $pubblicazioni);
+        $pubblicazioni = $this->paginate($pubblicazioni);
         return view('ricercatore.show', compact('ricercatore', 'progetti', 'pubblicazioni'));
     }
 
@@ -47,7 +53,9 @@ class RicercatoreController extends Controller
     public function guest_show(Ricercatore $ricercatore): Factory|View|Application
     {
         $progetti = $ricercatore->progetti()->paginate(10);
-        $pubblicazioni=$ricercatore->pubblicazioni()->where('ufficiale','=','1')->paginate(10);
+        $pubblicazioni=$ricercatore->pubblicazioni()->where('ufficiale','=','1')->get();
+        $pubblicazioni = $this->getPubblicazioni($ricercatore, $pubblicazioni);
+        $pubblicazioni = $this->paginate($pubblicazioni);
         return view('ricercatore.guest-show', compact('ricercatore', 'progetti', 'pubblicazioni'));
     }
 
@@ -132,5 +140,37 @@ class RicercatoreController extends Controller
         return request()->validate([
             'password' => 'required|same:password_confirmation',
         ]);
+    }
+
+    public function paginate($items, $perPage = 10, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, ['path' => request()->url(), 'query' => request()->query()]);
+    }
+
+    /**
+     * @param Ricercatore $ricercatore
+     * @param \Illuminate\Database\Eloquent\Collection|array $pubblicazioni
+     * @return array|\Illuminate\Database\Eloquent\Collection
+     */
+    public function getPubblicazioni(Ricercatore $ricercatore, \Illuminate\Database\Eloquent\Collection|array $pubblicazioni): array|\Illuminate\Database\Eloquent\Collection
+    {
+        $url = "https://dblp.org/search/publ/api?q=author:" . str_replace(" ", "_", $ricercatore->nome) . "_" . str_replace(" ", "_", $ricercatore->cognome) . ":&format=json&h=1000";
+
+        $pubbl = json_decode(file_get_contents($url), true);
+        if (isset($pubbl['result']['hits']['hit'])) {
+            foreach ($pubbl['result']['hits']['hit'] as $pubb) {
+                $pubbli = new Pubblicazione();
+                $pubbli->titolo = $pubb['info']['title'];
+                $pubbli->doi = $pubb['info']['doi'] ?? "";
+                $pubbli->sorgente = "api";
+                $pubbli->progetto = "-";
+                $pubbli->tipologia = $pubb['info']['type'];
+                $pubbli->file_name = "-";
+                $pubblicazioni[] = $pubbli;
+            }
+        }
+        return $pubblicazioni;
     }
 }

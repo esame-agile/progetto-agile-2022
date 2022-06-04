@@ -10,10 +10,6 @@
                     {{$ricercatori->links()}}
                 </div>
             </x-slot>
-            <x-slot name="pulsanti_up">
-                <x-button><a href="{{ route('progetto.add-ricercatore', compact("progetto")) }}"><i
-                            class="lni lni-plus"></i> Aggiungi ricercatore</a></x-button>
-            </x-slot>
             <x-slot name="colonne">
                 <x-th>Nome</x-th>
                 <x-th>Cognome</x-th>
@@ -62,6 +58,30 @@
                         @endforeach
                     @endif
                 @endif
+            </x-slot>
+            <x-slot name="pulsanti">
+                <div class="px-5 pt-5">
+                    <form method="POST"
+                          action="{{ route('progetto.store-ricercatore', compact("progetto")) }}">
+                        @csrf
+                        @method("POST")
+                        <ul class="scroll-py-1 text-sm text-gray-700 dark:text-gray-200 max-h-48 overflow-y-scroll columns-3">
+                            @foreach($ricercatori_add as $ricercatore)
+                                <li class="inline-block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <div class="block w-48">
+                                    <label>
+                                        <input type="checkbox" name="ricercatori[]"
+                                               tabindex="-1"
+                                               value="{{$ricercatore->id}}">
+                                        {{$ricercatore->nome}} {{$ricercatore->cognome}}
+                                    </label>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <x-button class="mt-5" type="submit" ><i class="lni lni-plus"></i> Aggiungi ricercatori</x-button>
+                    </form>
+                </div>
             </x-slot>
         </x-table>
     </div>

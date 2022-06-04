@@ -30,20 +30,7 @@ class PubblicazioneController extends Controller
     {
         $progetti = $ricercatore->progetti()->paginate(10);
         $ricercatori = Ricercatore::all();
-        return view('pubblicazioni.create', compact('progetti','ricercatori','ricercatore'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     *
-     */
-    public function edit(Progetto $progetto): View|Factory|Application
-    {
-
-        $pubblicazioniF = $progetto->pubblicazioni()->where('ufficiale', '=','0')->get();
-        $pubblicazioniT = $progetto->pubblicazioni()->where('ufficiale', '=','1')->get();
-        return view('pubblicazioni.edit', compact('pubblicazioniF','pubblicazioniT','progetto'));
+        return view('pubblicazioni.create', compact('progetti', 'ricercatori', 'ricercatore'));
     }
 
     /**
@@ -54,7 +41,7 @@ class PubblicazioneController extends Controller
     public function update(Request $request, Progetto $progetto): RedirectResponse
     {
         $this->setVisibilitaPubblicazioni($request);
-        return redirect()->route('progetto.show',$progetto);
+        return redirect()->route('progetto.show', compact('progetto'))->with('success', 'Pubblicazioni aggiornate con successo');
     }
 
     /**
@@ -92,9 +79,9 @@ class PubblicazioneController extends Controller
         $pubblicazione->tipologia = $request->tipologia;
         $pubblicazione->progetto()->associate($request->progetto_id);
         $file = $request->file_name;
-        $filename = time().'.'.$file->extension();
+        $filename = time() . '.' . $file->extension();
         $request->file_name->move('assets', $filename);
-        $pubblicazione->file_name=$filename;
+        $pubblicazione->file_name = $filename;
         $pubblicazione->save();
         foreach ($request->ricercatori as $ricercatore_id) {
             $ricercatore = Ricercatore::find($ricercatore_id);
@@ -103,29 +90,19 @@ class PubblicazioneController extends Controller
 
         return $pubblicazione;
     }
-    public function download(Request $request, $file_name) {
 
-        return response()->download(public_path('assets/'.$file_name));
+    public function download(Request $request, $file_name)
+    {
+        return response()->download(public_path('assets/' . $file_name));
     }
 
     public function setVisibilitaPubblicazioni(Request $request)
     {
-        if($request->pubblicazioniT!=null) {
-            foreach ($request->pubblicazioniT as $pubblicazioneT_id) {
-                $pubblicazioneT = Pubblicazione::find($pubblicazioneT_id);
-                $pubblicazioneT->ufficiale = false;
-                $pubblicazioneT->save();
-            }
+        if ($request->visibilita == 1) {
+            Pubblicazione::find($request->pubblicazione)->update(['ufficiale' => true]);
+        } else {
+            Pubblicazione::find($request->pubblicazione)->update(['ufficiale' => false]);
         }
-        if($request->pubblicazioniF!=null) {
-            foreach ($request->pubblicazioniF as $pubblicazioneF_id) {
-                $pubblicazioneF = Pubblicazione::find($pubblicazioneF_id);
-                $pubblicazioneF->ufficiale = true;
-                $pubblicazioneF->save();
-            }
-        }
-        return 0;
-
     }
 
     /**
@@ -143,7 +120,6 @@ class PubblicazioneController extends Controller
             return redirect()->route('ricercatore.show')->with('error', 'Non hai i permessi per eliminare questa pubblicazione');
         }
     }
-
 
 
 }

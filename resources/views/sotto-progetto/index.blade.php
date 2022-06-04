@@ -90,17 +90,6 @@
                                                 </form>
                                             </div>
                                         </x-td>
-                                    @elseif(Auth::user()->hasRuolo("ricercatore") && $sottoProgetto->responsabile_id == Auth::user()->id)
-                                        <x-td>
-                                            <div class="flex-wrap flex justify-center">
-                                                <a href="{{ route('sotto-progetto.edit-ricercatori', compact("sottoProgetto")) }}">
-                                                    <x-button class="h-6">
-                                                        <i class="lni lni-pencil"></i>
-                                                        <p class="text-gray-200 ml-2 text-xs"> Ricercatori </p>
-                                                    </x-button>
-                                                </a>
-                                            </div>
-                                        </x-td>
                                     @else
                                         <x-td class="text-center">-</x-td>
                                     @endif

@@ -170,12 +170,6 @@ Route::prefix('progetto')->group(function () {
     Route::delete('/{progetto}/remove-ricercatore/{ricercatore}', [ProgettoController::class, 'removeRicercatore'])->name("progetto.remove-ricercatore")->middleware(['auth']);
 
     /**
-     * Aggiunge un ricercatore a un progetto.
-     *
-     */
-    Route::get("/{progetto}/add-ricercatore", [ProgettoController::class, 'addRicercatore'])->name("progetto.add-ricercatore")->middleware(['auth']);
-
-    /**
      * Salva le modifiche sui ricercatori
      *
      */
@@ -293,12 +287,6 @@ Route::prefix('sotto-progetto')->group(function () {
     Route::delete('/{sottoProgetto}/remove-ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sotto-progetto.remove-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
 
     /**
-     * Aggiunge un ricercatore a un sotto-progetto.
-     *
-     */
-    Route::get("/{sottoProgetto}/add-ricercatore", [SottoProgettoController::class, 'addRicercatore'])->name("sotto-progetto.add-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
-
-    /**
      * Salva le modifiche sui ricercatori
      *
      */
@@ -385,12 +373,6 @@ Route::prefix('pubblicazione')->group(function () {
      *
      */
     Route::get('/create/{ricercatore}', [PubblicazioneController::class, 'create'])->name('pubblicazioni.create')->middleware('auth', 'ruolo:ricercatore');
-
-    /**
-     * Vista per editare la visibilità delle pubblicazioni.
-     *
-     */
-    Route::get('/edit/{progetto}', [PubblicazioneController::class, 'edit'])->name('pubblicazioni.edit')->middleware('auth', 'ruolo:ricercatore');
 
     /**
      * Aggiorna le informazioni sulle pubblicazioni.

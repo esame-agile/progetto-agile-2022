@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('causale');
             $table->date('data');
             $table->integer('approvazione')->default(0);
-            $table->foreignId('progetto_id')->constrained('progetti');
+            $table->foreignId('progetto_id')->constrained('progetti')->onDelete('cascade');
             $table->foreignId('utente_id')->constrained('utenti');
             $table->timestamps();
         });

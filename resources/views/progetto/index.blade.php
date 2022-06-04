@@ -24,7 +24,7 @@
                 <x-th class="resp1024">Data fine</x-th>
                 @auth
                     @if(Auth::user()->ruolo == 'manager')
-                        <x-th>Azioni</x-th>
+                        <x-th class="text-center">Azioni</x-th>
                     @endif
                 @endauth
             </x-slot>

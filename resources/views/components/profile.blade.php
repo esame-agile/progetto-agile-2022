@@ -23,7 +23,6 @@
     <div class="row">
         <div class="lg:w-6/12 pr-5 column">
             {{$pubblicazioni}}
-            {{--{{$report}}--}}
         </div>
         <div class="lg:w-6/12 pl-5 column">
             {{$progetti}}
@@ -31,7 +30,6 @@
     </div>
 @elseif(isset($pubblicazioni))
     {{$pubblicazioni}}
-    {{$movimenti}}
 @elseif(isset($progetti))
     {{$progetti}}
 @endif

@@ -29,8 +29,8 @@
                 <x-th>Data</x-th>
                 @auth
                     @if(Auth::user()->id == $progetto->responsabile_id)
-                        <x-th>Stato</x-th>
-                        <x-th>Approva la spesa</x-th>
+                        <x-th class="text-center">Stato</x-th>
+                        <x-th class="text-center">Approva la spesa</x-th>
                     @endif
                 @endauth
             </x-slot>
@@ -43,63 +43,66 @@
                             <x-td>-</x-td>
                             @auth
                                 @if(Auth::user()->id == $progetto->responsabile_id)
-                                    <x-td>-</x-td>
-                                    <x-td>-</x-td>
+                                    <x-td class="text-center">-</x-td>
+                                    <x-td class="text-center">-</x-td>
                                 @endif
                             @endauth
                         </x-tr>
-                    @endif
-                    @if(Auth::user()->id == $progetto->responsabile_id)
-                        @foreach ($movimenti as $movimento)
-                            <x-tr>
-                                <x-td>{{ $movimento->importo }}</x-td>
-                                <x-td>{{$movimento->causale }}</x-td>
-                                <x-td class="resp640">
-                                    {{ date('d/m/Y', strtotime($movimento->data )) }}
-                                </x-td>
-                                <x-td>
-                                    @if($movimento->approvazione==2)
-                                        <i class="fa-solid fa-xmark"></i>
-                                    @elseif($movimento->approvazione==1)
-                                        <i class="fa-solid fa-check"></i>
-                                    @elseif($movimento->approvazione==0)
-                                        <i class="fa-solid fa-clock"></i>
+                    @else
+                        @auth
+                            @if(Auth::user()->id == $progetto->responsabile_id)
+                                @foreach ($movimenti as $movimento)
+                                    <x-tr>
+                                        <x-td>{{ $movimento->importo }}</x-td>
+                                        <x-td>{{$movimento->causale }}</x-td>
+                                        <x-td class="resp640">
+                                            {{ date('d/m/Y', strtotime($movimento->data )) }}
+                                        </x-td>
+                                        <x-td>
+                                            @if($movimento->approvazione==2)
+                                                <i class="fa-solid fa-xmark flex justify-center"></i>
+                                            @elseif($movimento->approvazione==1)
+                                                <i class="fa-solid fa-check flex justify-center"></i>
+                                            @elseif($movimento->approvazione==0)
+                                                <i class="fa-solid fa-clock flex justify-center"></i>
+                                            @endif
+                                        </x-td>
+                                        <x-td>
+                                            @if($movimento->approvazione==0)
+                                                <div class="flex flex-wrap justify-center ">
+                                                    <form method="POST" class="pr-5"
+                                                          action="{{route('movimento.approva',compact('progetto','movimento'))}}">
+                                                        @csrf
+                                                        @method("PUT")
+                                                        <button type="submit"><i class="fa-solid fa-check"></i></button>
+                                                    </form>
+                                                    <form method="POST" class="pl-5"
+                                                          action="{{route('movimento.disapprova',compact('progetto','movimento'))}}">
+                                                        @csrf
+                                                        @method("PUT")
+                                                        <button type="submit"><i class="fa-solid fa-xmark"></i></button>
+                                                    </form>
+                                                </div>
+                                            @else
+                                                <span class="flex flex-wrap justify-center">-</span>
+                                            @endif
+                                        </x-td>
+                                    </x-tr>
+                                @endforeach
+                            @else
+                                @foreach($movimenti as $movimento)
+                                    @if($movimento->approvazione==1)
+                                        <x-tr>
+                                            <x-td>{{$movimento->importo}}</x-td>
+                                            <x-td>{{$movimento->causale}}</x-td>
+                                            <x-td class="resp640">
+                                                {{ date('d/m/Y', strtotime($movimento->data )) }}
+                                            </x-td>
+                                        </x-tr>
                                     @endif
-                                </x-td>
-                                <x-td>
-                                    @if($movimento->approvazione==0)
-                                        {{--  <a class="px-5" href="">  </a>--}}
-                                        <form method="POST"
-                                              action="{{route('movimento.approva',compact('progetto','movimento'))}}">
-                                            @csrf
-                                            @method("PUT")
-                                            <button type="submit"><i class="fa-solid fa-check"></i></button>
-                                        </form>
-                                        <form method="POST"
-                                              action="{{route('movimento.disapprova',compact('progetto','movimento'))}}">
-                                            @csrf
-                                            @method("PUT")
-                                            <button type="submit"><i class="fa-solid fa-xmark"></i></button>
-                                        </form>
-                                    @else
-                                        -
-                                    @endif
-                                </x-td>
-                            </x-tr>
-                        @endforeach
-                    @endif
-                    @if(Auth::user()->id != $progetto->responsabile_id)
-                        @foreach($movimenti as $movimento)
-                            @if($movimento->approvazione==1)
-                                <x-tr>
-                                    <x-td>{{ $movimento->importo }}</x-td>
-                                    <x-td>{{$movimento->causale }}</x-td>
-                                    <x-td class="resp640">
-                                        {{ date('d/m/Y', strtotime($movimento->data )) }}
-                                    </x-td>
-                                </x-tr>
-                            @endif
-                        @endforeach
+                                @endforeach
+                            @endauth
+                        @endif
                     @endif
                 @endif
             </x-slot>

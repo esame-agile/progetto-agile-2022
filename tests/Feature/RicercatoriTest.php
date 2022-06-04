@@ -14,7 +14,7 @@ class RicercatoriTest extends TestCase
 
     public function test_ricercatore_buttonName_returns_a_successful_response()
     {
-        $ricercatore = Ricercatore::factory()->create();
+        $ricercatore = Ricercatore::factory()->make();
         $response = $this->get('ricercatore/show/' . $ricercatore->id);
         $response->assertStatus(200);
     }

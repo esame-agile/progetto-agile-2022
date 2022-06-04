@@ -73,7 +73,10 @@ class SottoProgettoController extends Controller
      */
     public function show(SottoProgetto $sottoProgetto): View|Factory|Application
     {
-        return view('sotto-progetto.show', compact('sottoProgetto'));
+        $ricercatori = $sottoProgetto->ricercatori()->paginate(10);
+        $milestones = $sottoProgetto->milestones()->paginate(10);
+        $progetto = $sottoProgetto->progetto()->first();
+        return view('sotto-progetto.show', compact('sottoProgetto', 'ricercatori', 'milestones', 'progetto'));
     }
 
     /**
@@ -133,23 +136,10 @@ class SottoProgettoController extends Controller
     {
         if (Auth::user()->id == $sottoProgetto->responsabile_id) {
             $ricercatori = $sottoProgetto->ricercatori()->paginate(10);
-            return view('sotto-progetto.edit-ricercatori', compact('sottoProgetto', 'ricercatori'));
+            $ricercatori_add = Ricercatore::all()->except($sottoProgetto->ricercatori()->pluck('utenti.id')->toArray());
+            return view('sotto-progetto.edit-ricercatori', compact('sottoProgetto', 'ricercatori', 'ricercatori_add'));
         }
         return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
-    }
-
-    /**
-     * Mostra la pagina per aggiungere dei ricercatori al sottoprogetto
-     * @param SottoProgetto $sottoProgetto
-     * @return Application|Factory|View|RedirectResponse
-     */
-    public function addRicercatore(SottoProgetto $sottoProgetto): Factory|View|RedirectResponse|Application
-    {
-        if (Auth::user()->id == $sottoProgetto->responsabile_id) {
-            $ricercatori = Ricercatore::all()->except($sottoProgetto->ricercatori()->pluck('utenti.id')->toArray());
-            return view('sotto-progetto.add-ricercatore', compact('sottoProgetto', 'ricercatori'));
-        }
-        return redirect()->route('sotto-progetto.edit-ricercatori', compact("sottoProgetto"))->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
     /**
@@ -160,18 +150,20 @@ class SottoProgettoController extends Controller
      */
     public function storeRicercatore(Request $request, SottoProgetto $sottoProgetto): RedirectResponse
     {
-        if (Auth::user()->id == $sottoProgetto->responsabile_id) {
-            $ricercatore = Ricercatore::find($request->ricercatore_id);
-            if ($ricercatore == null) {
-                return redirect()->route('sotto-progetto.edit-ricercatori', $sottoProgetto)->with('error', 'Ricercatore non trovato');
+        if (Auth::user()->id == $sottoProgetto->responsabile_id )
+        {
+            $ricercatori = $request->ricercatori;
+            if($ricercatori == null)
+            {
+                return redirect()->route('progetto.edit-ricercatori', $sottoProgetto)->with('error', 'Nessun ricercatore selezionato');
             }
-            if ($sottoProgetto->ricercatori()->where('ricercatore_id', $ricercatore->id)->first() != null) {
-                return redirect()->route('sotto-progetto.edit-ricercatori', $sottoProgetto)->with('error', 'Ricercatore già associato');
+            foreach ($ricercatori as $ricercatore)
+            {
+                $sottoProgetto->ricercatori()->attach($ricercatore);
             }
-            $sottoProgetto->ricercatori()->attach($ricercatore);
-            return redirect()->route('sotto-progetto.edit-ricercatori', $sottoProgetto)->with('success', 'Ricercatore aggiunto con successo');
+            return redirect()->route('progetto.edit-ricercatori', $sottoProgetto)->with('success', 'Ricercatore aggiunto con successo');
         }
-        return redirect()->route('sotto-progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
+        return redirect()->route('progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
     /**

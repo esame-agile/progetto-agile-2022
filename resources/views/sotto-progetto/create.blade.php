@@ -51,11 +51,17 @@
                                class="block  text-sm font-medium text-gray-900 dark:text-gray-300">Progetto</label>
                         <x-select name="progetto_id" id="progetto_id">
                             <x-slot name="slot">
-                                @foreach($progetti as $progetto)
-                                    <option value="{{$progetto->id}}">
-                                        {{$progetto->titolo}}
+                                @if(request()->get('progetto') != null)
+                                    <option value="{{\App\Models\Progetto::find(request()->get('progetto'))->id}}" selected>
+                                        {{\App\Models\Progetto::find(request()->get('progetto'))->titolo}}
                                     </option>
-                                @endforeach
+                                @else
+                                    @foreach($progetti as $progetto)
+                                        <option value="{{$progetto->id}}">
+                                            {{$progetto->titolo}}
+                                        </option>
+                                    @endforeach
+                                @endif
                             </x-slot>
                         </x-select>
                     </div>

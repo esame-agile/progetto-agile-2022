@@ -5,7 +5,7 @@
         <h2 class="text-3xl font-bold leading-normal text-blueGray-700 mb-2 ml-5 uppercase">Modifica Milestone</h2>
         <div class="card-grey mb-10">
             <form method="POST"
-                  action="{{ route('milestone.update', ["sottoProgetto" => $sottoProgetto, "milestone" => $milestone]) }}">
+                  action="{{ route('milestone.update',compact('sottoProgetto', 'milestone')) }}">
                 @csrf
                 @method('PUT')
                 <div class="mb-6 flex flex-wrap justify-between">

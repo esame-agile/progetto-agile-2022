@@ -56,9 +56,10 @@
                         <x-th>DOI</x-th>
                         <x-th>Titolo</x-th>
                         <x-th class="resp1024">Tipologia</x-th>
+                        <x-th class="resp1024">Autori esterni</x-th>
                         <x-th class="resp640">Progetto</x-th>
                         <x-th>File</x-th>
-                        <x-th>Azioni</x-th>
+                        <x-th class="text-center">Azioni</x-th>
                     </x-slot>
                     <x-slot name="righe">
                         @if(isset($pubblicazioni))
@@ -67,9 +68,10 @@
                                     <x-td>-</x-td>
                                     <x-td>-</x-td>
                                     <x-td class="resp1024">-</x-td>
+                                    <x-td class="resp1024">-</x-td>
                                     <x-td class="resp640">-</x-td>
                                     <x-td>-</x-td>
-                                    <x-td>-</x-td>
+                                    <x-td class="text-center">-</x-td>
                                 </x-tr>
                             @else
                                 @foreach($pubblicazioni as $pubblicazione)
@@ -77,29 +79,34 @@
                                         <x-td>{{$pubblicazione->doi}}</x-td>
                                         <x-td>{{$pubblicazione->titolo}}</x-td>
                                         <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
+                                        <x-td class="resp1024">{{$pubblicazione->autori_esterni}}</x-td>
                                         <x-td class="resp640">
-                                            <a class="underline" href="{{route('progetto.show', $pubblicazione->progetto)}}">
+                                            <a class="underline"
+                                               href="{{route('progetto.show', $pubblicazione->progetto)}}">
                                                 {{$pubblicazione->progetto->titolo}}
                                             </a>
                                         </x-td>
                                         <x-td>
-                                            <a class="underline" href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}">
+                                            <a class="underline"
+                                               href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}">
                                                 {{$pubblicazione->file_name}}
                                             </a>
                                         </x-td>
                                         <x-td>
-                                            <form method="POST"
-                                                  class="float-left"
-                                                  action="{{ route('pubblicazioni.destroy', $pubblicazione) }}"
-                                                  id="delete_progetto"
-                                                  name="delete_progetto"
-                                                  onsubmit="confirm('Sei sicuro di voler cancellare?')">
-                                                @csrf
-                                                @method("DELETE")
-                                                <button type="submit">
-                                                    <i class="lni lni-trash"></i>
-                                                </button>
-                                            </form>
+                                            <div class="flex flex-wrap justify-center">
+                                                <form method="POST"
+                                                      class="float-left"
+                                                      action="{{ route('pubblicazioni.destroy', $pubblicazione) }}"
+                                                      id="delete_progetto"
+                                                      name="delete_progetto"
+                                                      onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                                    @csrf
+                                                    @method("DELETE")
+                                                    <button type="submit">
+                                                        <i class="lni lni-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </x-td>
                                     </x-tr>
                                 @endforeach

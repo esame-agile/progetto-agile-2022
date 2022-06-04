@@ -144,7 +144,6 @@ class MovimentiController extends Controller
         $request->validate([
             'causale' => 'required|string',
             'importo' => 'required|numeric|min:0',
-            'progetto_id' => 'required|integer',
         ]);
         if (Auth::user()->hasRuolo("ricercatore")) {
             $movimento->importo = $request->importo * -1;

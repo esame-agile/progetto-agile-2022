@@ -1,91 +1,89 @@
 @extends("layouts.main")
-@include("layouts.alert-message")
 @section("content")
-    <div class="container">
-
-            <a href="{{ route('sotto-progetto.add-ricercatore', compact("sottoProgetto")) }}" class="main-btn bg-gray-600 hover:bg-gray-800">
-                AGGIUNGI RICERCATORI
-            </a>
-
-        @if(!$ricercatori->isEmpty())
-            <x-table>
-                <x-slot name="titolo">
-
-                    <h2 class=" testo titolo grande">Elenco dei sottoprogetti</h2>
-                </x-slot>
-                <x-slot name="colonne">
-                    <th class="px-4 py-3 ">Nome</th>
-                    <th class="px-4 py-3 ">Cognome</th>
-                    <th class="px-4 py-3 responsive">Email</th>
-                    <th class="px-4 py-3">Ambito di ricerca</th>
-                    <th class="px-4 py-3 ">Azioni</th>
-                </x-slot>
-                <x-slot name="righe">
-                    @if($ricercatori != null)
-                        {{ $ricercatori->links() }}
+    <div class="container mx-auto">
+        <x-table>
+            <x-slot name="titolo">
+                Elenco dei ricercatori associati
+            </x-slot>
+            <x-slot name="link">
+                <div class="px-5 pb-5">
+                    {{$ricercatori->links()}}
+                </div>
+            </x-slot>
+            <x-slot name="colonne">
+                <x-th>Nome</x-th>
+                <x-th>Cognome</x-th>
+                <x-th>Email</x-th>
+                <x-th>Ambito di ricerca</x-th>
+                <x-th>Azioni</x-th>
+            </x-slot>
+            <x-slot name="righe">
+                @if(isset($ricercatori))
+                    @if($ricercatori->isEmpty())
+                        <x-tr>
+                            <x-td>-</x-td>
+                            <x-td class="resp640">-</x-td>
+                            <x-td class="resp640">-</x-td>
+                            <x-td class="resp640">-</x-td>
+                            <x-td class="resp640">-</x-td>
+                            @auth
+                                @if(Auth::user()->ruolo == 'manager' || Auth::user()->ruolo == 'ricercatore')
+                                    <x-td class="text-center">-</x-td>
+                                @endif
+                            @endauth
+                        </x-tr>
+                    @else
                         @foreach ($ricercatori as $ricercatore)
                             <x-tr class="@if($loop->index%2==0) bg-gray @else bg-white @endif">
-                                <x-slot name="body">
-                                    <x-td>
-                                        <x-slot name="body">
-                                            {{ $ricercatore->nome }}
-                                        </x-slot>
-                                    </x-td>
-                                    <x-td>
-                                        <x-slot name="body"> {{ $ricercatore->cognome }}</x-slot>
-                                    </x-td>
-                                    <x-td class="responsive">
-                                        <x-slot name="body"> {{ $ricercatore->email }}</x-slot>
-                                    </x-td>
-                                    <x-td>
-                                        <x-slot name="body"> {{$ricercatore->ambito_ricerca}} </x-slot>
-                                    </x-td>
-                                    <x-td>
-                                        <x-slot name="body">
-                                            <form method="POST"
-                                                  action="{{ route('sotto-progetto.remove-ricercatore', ["sottoProgetto" => $sottoProgetto, "ricercatore" => $ricercatore] ) }}"
-                                                  id="delete_sottoProgetto"
-                                                  name="delete_sottoProgetto"
-                                                  onsubmit="onRemove()">
-                                                @csrf
-                                                @method("DELETE")
-                                                <button type="submit" data-modal-toggle="popup-modal"><i
-                                                        class="lni lni-cross-circle"></i> Rimuovi
-                                                </button>
-                                            </form>
-                                        </x-slot>
-
-                                    </x-td>
-                                </x-slot>
+                                <x-td class="underline"><a href="{{route("ricercatore.guest-show", $ricercatore)}}">
+                                    {{ $ricercatore->nome }}
+                                </x-td>
+                                <x-td>{{ $ricercatore->cognome }}</x-td>
+                                <x-td>{{ $ricercatore->email }}</x-td>
+                                <x-td>{{$ricercatore->ambito_ricerca}}</x-td>
+                                <x-td>
+                                    <form method="POST"
+                                          action="{{ route('sotto-progetto.remove-ricercatore', compact('sottoProgetto', 'ricercatore')) }}"
+                                          id="delete_progetto"
+                                          name="delete_progetto"
+                                          onsubmit="onRemove()">
+                                        @csrf
+                                        @method("DELETE")
+                                        <button type="submit" data-modal-toggle="popup-modal"><i
+                                                class="lni lni-cross-circle"></i> Rimuovi
+                                        </button>
+                                    </form>
+                                </x-td>
                             </x-tr>
                         @endforeach
                     @endif
-                </x-slot>
-            </x-table>
-        @else
-            <div id="home" class="relative z-10 header-hero pt-40">
-                <div class="container">
-                    <div class="justify-center row">
-                        <div class="w-full lg:w-5/6 xl:w-2/3">
-                            <div style='background-color:rgb(255, 255, 255)'>
-                                <div class="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-4 pb-10"
-                                     style="cursor: auto;">
-                                    <div
-                                        class="max-w-lg mx-auto overflow-hidden rounded-lg shadow-lg lg:max-w-none lg:flex">
-                                        <div class="flex-1 px-6 py-8 bg-white" style="cursor: auto;">
-                                            <h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl"
-                                                style="cursor: auto;">
-                                                <span class="">Nessun <strong>ricercatore</strong> assegnato</span>
-                                            </h3>
-                                        </div>
+                @endif
+            </x-slot>
+            <x-slot name="pulsanti">
+                <div class="px-5 pt-5">
+                    <form method="POST"
+                          action="{{ route('sotto-progetto.store-ricercatore', compact("sottoProgetto")) }}">
+                        @csrf
+                        @method("POST")
+                        <ul class="scroll-py-1 text-sm text-gray-700 dark:text-gray-200 max-h-48 overflow-y-scroll columns-3">
+                            @foreach($ricercatori_add as $ricercatore)
+                                <li class="inline-block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    <div class="block w-48">
+                                        <label>
+                                            <input type="checkbox" name="ricercatori[]"
+                                                   tabindex="-1"
+                                                   value="{{$ricercatore->id}}">
+                                            {{$ricercatore->nome}} {{$ricercatore->cognome}}
+                                        </label>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <x-button class="mt-5" type="submit" ><i class="lni lni-plus"></i> Aggiungi ricercatori</x-button>
+                    </form>
                 </div>
-            </div>
-        @endif
+            </x-slot>
+        </x-table>
     </div>
 
     <script>

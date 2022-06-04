@@ -32,18 +32,15 @@ class DatabaseSeeder extends Seeder
         $progetto->responsabile()->associate($ricercatore);
         $progetto->movimenti()->saveMany(Movimento::factory(5)->create());
         $progetto->save();
+        $ricercatore->sotto_progetti()->saveMany(SottoProgetto::factory(12)->create());
+        $sottoProgetto = $ricercatore->sotto_progetti()->first();
+        $sottoProgetto->responsabile()->associate($ricercatore);
+        $sottoProgetto->ricercatori()->saveMany(Ricercatore::factory(2)->create());
+        $sottoProgetto->milestones()->saveMany(Milestone::factory(3)->create());
+        $sottoProgetto->save();
         echo "RICERCATORE: \n";
         echo "email: " . $ricercatore->email . "\n" . "password: password" . "\n";
         echo "------------------------------------------------------\n";
-        SottoProgetto::factory(12)->create()->each(function ($sottoProgetto) {
-            $ricercatore = Ricercatore::first();
-            $progetto = $ricercatore->progetti()->first();
-            $sottoProgetto->responsabile()->associate($ricercatore);
-            $sottoProgetto->progetto()->associate($progetto);
-            $sottoProgetto->ricercatori()->attach($ricercatore);
-            $sottoProgetto->ricercatori()->saveMany(Ricercatore::factory(2)->create());
-            $sottoProgetto->milestones()->saveMany(Milestone::factory(12)->create());
-        });
         Finanziatore::factory(12)->create();
         $finanziatore = Finanziatore::first();
         echo "FINANZIATORE: \n";

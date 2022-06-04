@@ -58,10 +58,14 @@
                                 @foreach($pubblicazioni as $pubblicazione)
                                     <x-tr>
                                         <x-td>{{$pubblicazione->doi}}</x-td>
-                                        <x-td><a class="underline"
-                                                 href="{{route("pubblicazione.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
-                                            </a>
-                                        </x-td>
+                                        @if($pubblicazione->sorgente != "api")
+                                            <x-td><a class="underline"
+                                                     href="{{route("pubblicazione.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
+                                                </a>
+                                            </x-td>
+                                        @else
+                                            <x-td>{{$pubblicazione->titolo}}</x-td>
+                                        @endif
                                         <x-td class="resp640">{{$pubblicazione->progetto}}</x-td>
                                     </x-tr>
                                 @endforeach

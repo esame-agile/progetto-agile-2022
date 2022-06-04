@@ -77,12 +77,15 @@
                                 @foreach($pubblicazioni as $pubblicazione)
                                     <x-tr>
                                         <x-td>{{$pubblicazione->doi}}</x-td>
-                                        <x-td>
-                                            <a class="underline"
-                                               href="{{route('pubblicazioni.show', $pubblicazione)}}">
-                                                {{$pubblicazione->titolo}}
-                                            </a>
-                                        </x-td>
+
+                                      @if($pubblicazione->sorgente != "api")
+                                            <x-td><a class="underline"
+                                                     href="{{route("pubblicazione.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
+                                                </a>
+                                            </x-td>
+                                        @else
+                                            <x-td>{{$pubblicazione->titolo}}</x-td>
+                                        @endif
                                         <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
                                         <x-td class="resp1024">{{$pubblicazione->autori_esterni}}</x-td>
                                         <x-td class="resp640">
@@ -91,16 +94,20 @@
                                                 {{$pubblicazione->progetto->titolo}}
                                             </a>
                                         </x-td>
-                                        <x-td>
-                                            <a class="underline"
-                                               href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}">
-                                                {{$pubblicazione->file_name}}
-                                            </a>
-                                        </x-td>
-                                        <x-td>
-                                            <div class="flex flex-wrap justify-center">
+                                        @if($pubblicazione->sorgente != "api")
+                                            <x-td>
+                                                <a class="underline" href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}">
+                                                    {{$pubblicazione->file_name}}
+                                                </a>
+                                            </x-td>
+                                        @else
+                                            <x-td>-</x-td>
+                                        @endif
+                                        @if($pubblicazione->sorgente != "api")
+                                            <x-td>
                                                 <form method="POST"
-                                                      class="float-left"
+                                                      class="float-right"
+
                                                       action="{{ route('pubblicazioni.destroy', $pubblicazione) }}"
                                                       id="delete_progetto"
                                                       name="delete_progetto"
@@ -111,8 +118,12 @@
                                                         <i class="lni lni-trash"></i>
                                                     </button>
                                                 </form>
-                                            </div>
-                                        </x-td>
+                                            </x-td>
+                                        @else
+                                            <x-td>
+                                                -
+                                            </x-td>
+                                        @endif
                                     </x-tr>
                                 @endforeach
                             @endif

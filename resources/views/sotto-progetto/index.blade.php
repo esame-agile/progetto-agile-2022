@@ -39,7 +39,7 @@
                 <x-th class="resp640">Data Rilascio</x-th>
                 @auth
                     @if(Auth::user()->hasRuolo("manager") || Auth::user()->hasRuolo("ricercatore"))
-                        <x-th>Azioni</x-th>
+                        <x-th class="text-center">Azioni</x-th>
                     @endif
                 @endauth
             </x-slot>
@@ -47,12 +47,12 @@
                 @if(isset($sottoProgetti))
                     @if($sottoProgetti->isEmpty())
                         <x-tr>
-                            <x-td class="">-</x-td>
+                            <x-td>-</x-td>
                             <x-td class="resp640">-</x-td>
                             <x-td class="resp640">-</x-td>
                             @auth
                                 @if(Auth::user()->ruolo == 'manager' || Auth::user()->ruolo == 'ricercatore')
-                                    <x-td>-</x-td>
+                                    <x-td class="text-center">-</x-td>
                                 @endif
                             @endauth
                         </x-tr>
@@ -90,19 +90,8 @@
                                                 </form>
                                             </div>
                                         </x-td>
-                                    @elseif(Auth::user()->hasRuolo("ricercatore") && $sottoProgetto->responsabile_id == Auth::user()->id)
-                                        <x-td>
-                                            <a href="{{ route('sotto-progetto.edit-ricercatori', compact("sottoProgetto")) }}">
-                                                <x-button>
-                                                    <i class="lni lni-pencil"></i>
-                                                    <p class="text-gray-200 ml-2"> Ricercatori </p>
-                                                </x-button>
-                                            </a>
-                                        </x-td>
                                     @else
-                                        <x-td>
-                                            -
-                                        </x-td>
+                                        <x-td class="text-center">-</x-td>
                                     @endif
                                 @endauth
                             </x-tr>

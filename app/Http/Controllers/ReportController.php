@@ -32,7 +32,7 @@ class ReportController extends Controller
         $report->titolo = $request->titolo;
 
         //upload del file
-        $file=$request->file_name;
+        $file = $request->file_name;
         $filename=time().'.'.$file->extension();
         $request->file_name->move('assets', $filename);
         $report->file_name=$filename;

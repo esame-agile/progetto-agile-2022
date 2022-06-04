@@ -19,15 +19,13 @@
         </div>
     </div>
 </div>
-@if(isset($progetti) && isset($pubblicazioni))
+@if(isset($progetti) && isset($pubblicazioni) && isset($movimenti))
     <div class="row">
         <div class="lg:w-6/12 pr-5 column">
             {{$pubblicazioni}}
-            {{--{{$report}}--}}
         </div>
         <div class="lg:w-6/12 pl-5 column">
             {{$progetti}}
-
         </div>
     </div>
 @elseif(isset($pubblicazioni))

@@ -41,8 +41,8 @@ class ProgettoTest extends TestCase
                 'titolo' => $project->titolo,
                 'descrizione' => $project->descrizione,
                 'scopo' => $project->scopo,
-                'datainizio' => $project->data_inizio,
-                'datafine' => $project->data_fine,
+                'data_inizio' => $project->data_inizio,
+                'data_fine' => $project->data_fine,
                 'budget' => $project->budget,
                 'responsabile_id' => $project->responsabile_id,
 
@@ -90,7 +90,7 @@ class ProgettoTest extends TestCase
         $user2 = Ricercatore::factory()->create();
         $this->actingAs($user)
             ->post('/progetto/' . $project->id . '/store-ricercatore', [
-                'ricercatore_id' => $user2->id
+                'ricercatori' => [$user2->id]
             ])
             ->assertStatus(302);
         $this->assertCount(1, $project->ricercatori);

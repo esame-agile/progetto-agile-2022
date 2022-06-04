@@ -66,7 +66,12 @@
                                         @else
                                             <x-td>{{$pubblicazione->titolo}}</x-td>
                                         @endif
-                                        <x-td class="resp640">{{$pubblicazione->progetto}}</x-td>
+                                        <x-td class="resp640">
+                                            <a class="underline"
+                                               href="{{route("progetto.show", $pubblicazione->progetto)}}">
+                                                {{$pubblicazione->progetto->titolo}}
+                                            </a>
+                                        </x-td>
                                     </x-tr>
                                 @endforeach
                             @endif

@@ -31,7 +31,7 @@ class Pubblicazione extends Model
         'file_name'
     ];
 
-    public function ricercatore(){
+    public function ricercatori(){
         return $this->belongsToMany(Ricercatore::class);
     }
     public function progetto(){

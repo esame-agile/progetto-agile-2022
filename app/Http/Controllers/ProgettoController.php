@@ -72,7 +72,7 @@ class ProgettoController extends Controller
     public function update(Request $request, Progetto $progetto): RedirectResponse
     {
         $this->setProjectParameters($request, $progetto);
-        return redirect()->route('progetto.index');
+        return redirect()->route('progetto.index')->with('success', 'Progetto aggiornato con successo');
     }
 
     /**
@@ -85,7 +85,7 @@ class ProgettoController extends Controller
     {
         $progetto = new Progetto;
         $this->setProjectParameters($request, $progetto);
-        return redirect()->route('progetto.index');
+        return redirect()->route('progetto.index')->with('success', 'Progetto creato con successo');
     }
 
     /**
@@ -111,11 +111,21 @@ class ProgettoController extends Controller
      */
     public function setProjectParameters(Request $request, Progetto $progetto): Progetto
     {
+        $request->validate([
+            'titolo' => 'required|max:255',
+            'descrizione' => 'required|max:255',
+            'scopo' => 'required|max:255',
+            'data_inizio' => 'required|date',
+            'data_fine' => 'required|date',
+            'budget' => 'required|numeric',
+            'responsabile_id' => 'required|numeric',
+        ]);
+
         $progetto->titolo = $request->titolo;
         $progetto->descrizione = $request->descrizione;
         $progetto->scopo = $request->scopo;
-        $progetto->data_inizio = $request->datainizio;
-        $progetto->data_fine = $request->datafine;
+        $progetto->data_inizio = $request->data_inizio;
+        $progetto->data_fine = $request->data_fine;
         $progetto->budget = $request->budget;
         $progetto->responsabile()->associate($request->responsabile_id);
 
@@ -134,24 +144,10 @@ class ProgettoController extends Controller
         if (Auth::user()->id == $progetto->responsabile_id )
         {
             $ricercatori = $progetto->ricercatori()->paginate(10);
-            return view('progetto.edit-ricercatori', compact('progetto', 'ricercatori'));
+            $ricercatori_add = Ricercatore::all()->except($progetto->ricercatori()->pluck('utenti.id')->toArray());
+            return view('progetto.edit-ricercatori', compact('progetto', 'ricercatori', 'ricercatori_add'));
         }
         return redirect()->route('progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
-    }
-
-    /**
-     * Ritorno la vista se si possiede la giusta autenticazione
-     * @param Progetto $progetto
-     * @return Application|Factory|View|RedirectResponse
-     */
-    public function addRicercatore(Progetto $progetto): View|Factory|RedirectResponse|Application
-    {
-        if (Auth::user()->id == $progetto->responsabile_id )
-        {
-            $ricercatori = Ricercatore::all()->except($progetto->ricercatori()->pluck('utenti.id')->toArray());
-            return view('progetto.add-ricercatore', compact('progetto', 'ricercatori'));
-        }
-        return redirect()->route('progetto.edit-ricercatori', compact("progetto"))->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
 
     /**
@@ -164,14 +160,15 @@ class ProgettoController extends Controller
     {
         if (Auth::user()->id == $progetto->responsabile_id )
         {
-            $ricercatore = Ricercatore::find($request->ricercatore_id);
-            if($ricercatore == null){
-                return redirect()->route('progetto.edit-ricercatori', $progetto)->with('error', 'Ricercatore non trovato');
+            $ricercatori = $request->ricercatori;
+            if($ricercatori == null)
+            {
+                return redirect()->route('progetto.edit-ricercatori', $progetto)->with('error', 'Nessun ricercatore selezionato');
             }
-            if($progetto->ricercatori()->where('ricercatore_id', $ricercatore->id)->first() != null){
-                return redirect()->route('progetto.edit-ricercatori', $progetto)->with('error', 'Ricercatore già associato');
+            foreach ($ricercatori as $ricercatore)
+            {
+                $progetto->ricercatori()->attach($ricercatore);
             }
-            $progetto->ricercatori()->attach($ricercatore);
             return redirect()->route('progetto.edit-ricercatori', $progetto)->with('success', 'Ricercatore aggiunto con successo');
         }
         return redirect()->route('progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
@@ -194,7 +191,4 @@ class ProgettoController extends Controller
         }
         return redirect()->route('progetto.index')->with('error', 'Non hai i permessi per modificare i ricercatori');
     }
-
-
-
 }

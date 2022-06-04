@@ -4,6 +4,7 @@ use App\Http\Controllers\FinanziatoreController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\MilestoneController;
+use App\Http\Controllers\MovimentiController;
 use App\Http\Controllers\ProgettoController;
 use App\Http\Controllers\PubblicazioneController;
 use App\Http\Controllers\ReportController;
@@ -169,16 +170,62 @@ Route::prefix('progetto')->group(function () {
     Route::delete('/{progetto}/remove-ricercatore/{ricercatore}', [ProgettoController::class, 'removeRicercatore'])->name("progetto.remove-ricercatore")->middleware(['auth']);
 
     /**
-     * Aggiunge un ricercatore a un progetto.
-     *
-     */
-    Route::get("/{progetto}/add-ricercatore", [ProgettoController::class, 'addRicercatore'])->name("progetto.add-ricercatore")->middleware(['auth']);
-
-    /**
      * Salva le modifiche sui ricercatori
      *
      */
     Route::post("/{progetto}/store-ricercatore", [ProgettoController::class, 'storeRicercatore'])->name("progetto.store-ricercatore")->middleware(['auth']);
+});
+/**
+ * CRUD per i movimenti.
+ */
+Route::prefix('progetto/{progetto}/movimento')->group(function () {
+    /**
+     * Vista per visionare la lista dei movimenti di un progetto.
+     *
+     */
+    Route::get('/index', [MovimentiController::class, 'index'])->name('movimento.index')->middleware('auth');
+
+    /**
+     * Vista per creare un movimento.
+     *
+     */
+    Route::get('/create', [MovimentiController::class, 'create'])->name('movimento.create')->middleware('auth');
+
+    /**
+     * Vista per editare un movimento.
+     *
+     */
+    Route::get('/edit/{movimento}', [MovimentiController::class, 'edit'])->name('movimento.edit')->middleware('auth');
+
+    /**
+     * Aggiorna le informazioni di un movimento.
+     *
+     */
+    Route::put('/update/{movimento}', [MovimentiController::class, 'update'])->name('movimento.update')->middleware('auth');
+
+    /**
+     * Memorizza le informazioni di un movimento.
+     *
+     */
+    Route::post('/store', [MovimentiController::class, 'store'])->name('movimento.store')->middleware('auth');
+
+    /**
+     * Elimina un movimento.
+     *
+     */
+    Route::delete('/destroy/{movimento}', [MovimentiController::class, 'destroy'])->name('movimento.destroy')->middleware('auth');
+
+    /**
+     * Approva un movimento.
+     *
+     */
+    Route::put('/approva/{movimento}', [MovimentiController::class, 'approva'])->name('movimento.approva')->middleware('auth');
+
+    /**
+     * Disapprova un movimento.
+     *
+     */
+    Route::put('/disapprova/{movimento}', [MovimentiController::class, 'disapprova'])->name('movimento.disapprova')->middleware('auth');
 });
 /**
  * CRUD per il sotto progetto.
@@ -240,16 +287,9 @@ Route::prefix('sotto-progetto')->group(function () {
     Route::delete('/{sottoProgetto}/remove-ricercatore/{ricercatore}', [SottoProgettoController::class, 'removeRicercatore'])->name("sotto-progetto.remove-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
 
     /**
-     * Aggiunge un ricercatore a un sotto-progetto.
-     *
-     */
-    Route::get("/{sottoProgetto}/add-ricercatore", [SottoProgettoController::class, 'addRicercatore'])->name("sotto-progetto.add-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
-
-    /**
      * Salva le modifiche sui ricercatori
      *
      */
-    //perchè get??
     Route::post("/{sottoProgetto}/store-ricercatore", [SottoProgettoController::class, 'storeRicercatore'])->name("sotto-progetto.store-ricercatore")->middleware(['auth', 'ruolo:ricercatore']);
 });
 /**
@@ -332,13 +372,13 @@ Route::prefix('pubblicazione')->group(function () {
      * Vista per far creare una pubblicazione a un ricercatore.
      *
      */
-    Route::get('/create/{ricercatore}', [PubblicazioneController::class, 'create'])->name('pubblicazioni.create')->middleware('auth', 'ruolo:ricercatore');
+    Route::get('/show/{pubblicazione}', [PubblicazioneController::class, 'show'])->name('pubblicazioni.show');
 
     /**
-     * Vista per editare la visibilità delle pubblicazioni.
+     * Vista per far creare una pubblicazione a un ricercatore.
      *
      */
-    Route::get('/edit/{progetto}', [PubblicazioneController::class, 'edit'])->name('pubblicazioni.edit')->middleware('auth', 'ruolo:ricercatore');
+    Route::get('/create/{ricercatore}', [PubblicazioneController::class, 'create'])->name('pubblicazioni.create')->middleware('auth', 'ruolo:ricercatore');
 
     /**
      * Aggiorna le informazioni sulle pubblicazioni.
@@ -350,7 +390,7 @@ Route::prefix('pubblicazione')->group(function () {
      * Aggiorna le informazioni di una pubblicazione.
      *
      */
-    Route::post('/store', [PubblicazioneController::class, 'store'])->name('pubblicazioni.store');
+    Route::post('/store', [PubblicazioneController::class, 'store'])->name('pubblicazioni.store')->middleware('auth', 'ruolo:ricercatore');
 
     /**
      * Elimina una pubblicazione.
@@ -364,4 +404,5 @@ Route::prefix('pubblicazione')->group(function () {
      */
     Route::get('/download{file_name}', [PubblicazioneController::class, 'download'])->name('pubblicazioni.download');
 });
+
 require __DIR__ . '/auth.php';

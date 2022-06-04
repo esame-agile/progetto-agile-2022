@@ -1,66 +1,210 @@
 @extends('layouts.main')
-@include('layouts.alert-message')
 @section('content')
-    @yield('alert-message')
-    <div id="home" class="relative z-10 header-hero">
-        <div class="container">
-            <div class="justify-center row">
-                <div class="w-full lg:w-5/6 xl:w-2/3">
-                    <div style='background-color:rgb(255, 255, 255)'>
-                        <div class="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-4 pb-10" style="cursor: auto;">
-                            <div class="max-w-lg mx-auto overflow-hidden rounded-lg shadow-lg lg:max-w-none lg:flex">
-                                <div class="flex-1 px-6 py-8 bg-white" style="cursor: auto;">
-                                    <h3 class="text-2xl font-extrabold text-gray-900 sm:text-3xl" style="cursor: auto;">
-                                        @auth
-                                            @if(Auth::user()->ruolo == "manager")
-                                                <a href="{{ route('sotto-progetto.edit', ["sottoProgetto" => $sottoProgetto]) }}"><i class="lni lni-pencil"></i></a>
-                                                <form method="POST"
-                                                      action="{{ route('sotto-progetto.destroy', ["sottoProgetto" => $sottoProgetto] ) }}"
-                                                      id="delete_progetto"
-                                                      name="delete_progetto"
-                                                      onsubmit="confirm('Sei sicuro di voler cancellare?')">
-                                                    @csrf
-                                                    @method("DELETE")
-                                                    <button type="submit" ><i class="lni lni-trash"></i></button>
-                                                </form>
-                                            @endif
-                                        @endauth
-                                        {{$sottoProgetto->titolo}}</h3>
-                                    <p class="mt-6 text-base text-gray-500">{{$sottoProgetto->descrizione}}</p>
-                                    <div class="mt-8">
-                                        <div class="flex items-center">
-                                            <h4 class="flex-shrink-0 pr-4 text-sm font-semibold tracking-wider text-indigo-600 uppercase bg-white"> Info aggiuntive </h4>
-                                            <div class="flex-1 border-t-2 border-gray-200"></div>
-                                        </div>
-                                        <ul class="mt-8 space-y-5 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-5">
-                                            <li class="flex items-start lg:col-span-1">
-                                                <div class="flex-shrink-0">
-                                                    <svg class="w-5 h-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                </div>
-
-                                                <p class="ml-3 text-sm text-gray-700"> <strong> Data Rilascio: </strong> </p>
-                                                <p class="ml-3 text-sm text-gray-700">{{$sottoProgetto->data_rilascio}}</p>
-                                            </li>
-                                            <li class="flex items-start lg:col-span-1">
-                                                <div class="flex-shrink-0">
-                                                    <svg class="w-5 h-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                                    </svg>
-                                                </div>
-
-                                                <p class="ml-3 text-sm text-gray-700">Responsabile in carica:</p>
-                                                <p class="ml-3 text-sm text-gray-700">{{$sottoProgetto->responsabile->nome . " " . $sottoProgetto->responsabile->cognome}}</p>
-                                            </li>
-                                        </ul>
-                                    </div>
+    <div class="container mx-auto">
+        <div class="row">
+            <div class="lg:w-6/12 pr-5 column">
+                <!-----Descrizione----->
+                <div class="card-grey mb-10">
+                    <div class="card-white px-5 py-5">
+                        <h3 class="text-4xl font-semibold leading-normal text-blueGray-700 uppercase">
+                            {{$sottoProgetto->titolo}}
+                        </h3>
+                        @auth
+                            @if(Auth::user()->ruolo == "manager")
+                                <div class="flex flex-wrap">
+                                    <a href="{{ route('sotto-progetto.edit', $sottoProgetto) }}"><i
+                                            class="lni lni-pencil px-12"></i></a>
+                                    <form method="POST"
+                                          action="{{ route('sotto-progetto.destroy', $sottoProgetto) }}"
+                                          id="delete_progetto"
+                                          name="delete_progetto"
+                                          onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                        @csrf
+                                        @method("DELETE")
+                                        <button type="submit"><i class="lni lni-trash"></i></button>
+                                    </form>
                                 </div>
-                            </div>
+                            @endif
+                        @endauth
+                    </div>
+                    <div class="card-white mt-5 px-5 py-5">
+                        <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                            DESCRIZIONE:
+                        </div>
+                        <div class="text-blueGray-700">
+                            {{$sottoProgetto->descrizione}}
+                        </div>
+                        <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                            DATA DI RILASCIO PREVISTA:
+                        </div>
+                        <div class="text-blueGray-700">
+                            {{$sottoProgetto->data_rilascio}}
+                        </div>
+                        <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                            RESPONSABILE:
+                        </div>
+                        <div class="text-blueGray-700">
+                            <a class="underline"
+                               href="{{route("ricercatore.show", $sottoProgetto->responsabile)}}">
+                            {{$sottoProgetto->responsabile->nome . " " . $sottoProgetto->responsabile->cognome}}
+                            </a>
+                        </div>
+                        <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
+                            PROGETTO ASSOCIATO:
+                        </div>
+                        <div class="text-blueGray-700">
+                            <a class="underline"
+                               href="{{route("progetto.show", $progetto)}}">
+                                {{$progetto->titolo}}
+                            </a>
                         </div>
                     </div>
                 </div>
+                <!-----Fine Descrizione----->
+                <!-----Milestones----->
+                <x-table>
+                    <x-slot name="titolo_interno">
+                        ELENCO MILESTONES
+                    </x-slot>
+                    <x-slot name="pulsanti_up_interno">
+                        @auth
+                            @if(Auth::user()->id == $sottoProgetto->responsabile_id)
+                                <x-button>
+                                    <a href="{{route("milestone.create", compact("sottoProgetto"))}}">
+                                        CREA MILESTONE
+                                    </a>
+                                </x-button>
+                            @endif
+                        @endauth
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($milestones))
+                            <div class="px-5 pb-5">
+                                {{$milestones->links()}}
+                            </div>
+                        @endif
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>Data di rilascio</x-th>
+                        <x-th>Descrizione</x-th>
+                        @auth
+                            @if(Auth::user()->id == $sottoProgetto->responsabile_id)
+                                <x-th class="text-left">Azioni</x-th>
+                            @endif
+                        @endauth
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($milestones))
+                            @if($milestones->isEmpty())
+                                <x-tr>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left">-</x-td>
+                                    @auth
+                                        @if(Auth::user()->id == $sottoProgetto->responsabile_id)
+                                            <x-td class="text-left">-</x-td>
+                                        @endif
+                                    @endauth
+                                </x-tr>
+                            @else
+                                @foreach($milestones as $milestone)
+                                    <x-tr>
+                                        <x-td>{{$milestone->data_evento}}</x-td>
+                                        <x-td>{{$milestone->descrizione}}</x-td>
+                                        @auth
+                                            @if(Auth::user()->id == $sottoProgetto->responsabile_id)
+                                                <x-td>
+                                                    <div class="flex-wrap flex justify-between">
+                                                        <a href="{{ route('milestone.edit', compact('sottoProgetto', 'milestone')) }}"><i
+                                                                class="lni lni-pencil"></i></a>
+                                                        <form method="POST"
+                                                              action="{{ route('milestone.destroy', compact('sottoProgetto', 'milestone')) }}"
+                                                              id="delete_milestone"
+                                                              name="delete_milestone"
+                                                              onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                                            @csrf
+                                                            @method("DELETE")
+                                                            <button type="submit"><i class="lni lni-trash"></i></button>
+                                                        </form>
+                                                    </div>
+                                                </x-td>
+                                            @endif
+                                        @endauth
+                                    </x-tr>
+                                @endforeach
+                            @endif
+                        @endif
+                    </x-slot>
+                </x-table>
+                <!-----Fine Milestones----->
+            </div>
+
+            <div class="lg:w-6/12 pl-5 column">
+                <!-----Ricercatori----->
+                <x-table>
+                    <x-slot name="titolo_interno">
+                        ELENCO RICERCATORI
+                    </x-slot>
+                    <x-slot name="pulsanti_up_interno">
+                        @auth
+                            @if(Auth::user()->id == $sottoProgetto->responsabile_id)
+                                <x-button>
+                                    <a href="{{route("sotto-progetto.edit-ricercatori", compact("sottoProgetto"))}}">
+                                        MODIFICA RICERCATORI
+                                    </a>
+                                </x-button>
+                            @endif
+                        @endauth
+                    </x-slot>
+                    <x-slot name="link">
+                        @if(isset($ricercatori))
+                            <div class="px-5 pb-5">
+                                {{$ricercatori->links()}}
+                            </div>
+                        @endif
+                    </x-slot>
+                    <x-slot name="pulsanti_up_interno">
+                        @auth
+                            @if(Auth::user()->id == $sottoProgetto->responsabile_id)
+                                <x-button>
+                                    <a href="{{route("sotto-progetto.edit-ricercatori", compact("sottoProgetto"))}}">
+                                        MODIFICA RICERCATORI
+                                    </a>
+                                </x-button>
+                            @endif
+                        @endauth
+                    </x-slot>
+                    <x-slot name="colonne">
+                        <x-th>Nome</x-th>
+                        <x-th>Ambito ricerca</x-th>
+                        <x-th class="resp640">Università</x-th>
+                    </x-slot>
+                    <x-slot name="righe">
+                        @if(isset($ricercatori))
+                            @if($ricercatori->isEmpty())
+                                <x-tr>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left">-</x-td>
+                                    <x-td class="text-left resp640">-</x-td>
+                                </x-tr>
+                            @else
+                                @foreach($ricercatori as $ricercatore)
+                                    <x-tr>
+                                        <x-td>
+                                            <a class="underline"
+                                               href="{{route("ricercatore.guest-show", $ricercatore)}}">
+                                                {{$ricercatore->nome . ' ' . $ricercatore->cognome}}
+                                            </a>
+                                        </x-td>
+                                        <x-td>{{$ricercatore->ambito_ricerca}}</x-td>
+                                        <x-td class="resp640">{{$ricercatore->universita}}</x-td>
+                                    </x-tr>
+                                @endforeach
+                            @endif
+                        @endif
+                    </x-slot>
+                </x-table>
+                <!-----Fine Ricercatori----->
             </div>
         </div>
-
+    </div>
 @endsection

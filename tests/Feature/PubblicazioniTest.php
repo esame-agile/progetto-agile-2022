@@ -16,14 +16,10 @@ class PubblicazioniTest extends TestCase
 
     public function test_caricamento_views_pubblicazioni_ricercatore()
     {
-        $progetto = Progetto::factory()->create();
         $user=Ricercatore::factory()->create();
 
         $this->actingAs($user)
             ->get('/pubblicazione/create/' . $user->id)
-            ->assertStatus(200);
-        $this->actingAs($user)
-            ->get('/pubblicazione/edit/' . $progetto->id)
             ->assertStatus(200);
     }
 

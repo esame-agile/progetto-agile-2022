@@ -1,7 +1,6 @@
 @extends('layouts/main')
 @section('content')
     <div class="container mx-auto">
-        @yield('alert-message')
         <h2 class="text-3xl font-bold leading-normal text-blueGray-700 mb-2 ml-5 uppercase">Crea progetto</h2>
         <div class="card-grey mb-10">
             <form method="POST"
@@ -42,19 +41,19 @@
                 </div>
                 <div class="mb-6 flex flex-wrap justify-between">
                     <div class="w-1/3 pr-3">
-                        <label for="datainizio"
+                        <label for="data_inizio"
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                             Data di inizio
                         </label>
-                        <x-input name="datainizio" type="date" id="datainizio" value="{{ old('datainizio') }}"
+                        <x-input name="data_inizio" type="date" id="data_inizio" value="{{ old('data_inizio') }}"
                                  required></x-input>
                     </div>
                     <div class="w-1/3">
-                        <label for="datafine"
+                        <label for="data_fine"
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                             Data di fine
                         </label>
-                        <x-input name="datafine" type="date" id="datafine" value="{{ old('datafine') }}"
+                        <x-input name="data_fine" type="date" id="data_fine" value="{{ old('data_fine') }}"
                                  required></x-input>
                     </div>
                     <div class="w-1/3 pl-3">

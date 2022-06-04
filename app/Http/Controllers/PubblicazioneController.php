@@ -15,46 +15,38 @@ use Illuminate\Support\Facades\Auth;
 
 class PubblicazioneController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View
+     * @param Pubblicazione $pubblicazione
+     * @return View|Factory|Application
      */
+    public function show(Pubblicazione $pubblicazione): View|Factory|Application
+    {
+        $autori = $pubblicazione->ricercatori()->paginate(10);
+        return view('pubblicazioni.show', compact('pubblicazione', 'autori'));
+    }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param Ricercatore $ricercatore
      * @return Application|Factory|View
      */
     public function create(Ricercatore $ricercatore): View|Factory|Application
     {
         $progetti = $ricercatore->progetti()->paginate(10);
-        $ricercatori = Ricercatore::paginate(10);
-        return view('pubblicazioni.create', compact('progetti','ricercatori','ricercatore'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     *
-     */
-    public function edit(Progetto $progetto): View|Factory|Application
-    {
-
-        $pubblicazioniF = $progetto->pubblicazioni()->where('ufficiale', '=','0')->get();
-        $pubblicazioniT = $progetto->pubblicazioni()->where('ufficiale', '=','1')->get();
-        return view('pubblicazioni.edit', compact('pubblicazioniF','pubblicazioniT','progetto'));
+        $ricercatori = Ricercatore::all();
+        return view('pubblicazioni.create', compact('progetti', 'ricercatori', 'ricercatore'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-
      */
     public function update(Request $request, Progetto $progetto): RedirectResponse
     {
         $this->setVisibilitaPubblicazioni($request);
-        return redirect()->route('progetto.show',$progetto);
+        return redirect()->route('progetto.show', compact('progetto'))->with('success', 'Pubblicazioni aggiornate con successo');
     }
 
     /**
@@ -81,49 +73,41 @@ class PubblicazioneController extends Controller
             'doi' => 'required|max:255|min:3',
             'titolo' => 'required|max:255|min:3',
             'autori_esterni' => 'required|max:255|min:3',
+            'file_name' => 'required',
             'tipologia' => 'required|max:255|min:3',
             'progetto_id' => 'required|integer',
         ]);
+
         $pubblicazione->doi = $request->doi;
         $pubblicazione->titolo = $request->titolo;
         $pubblicazione->autori_esterni = $request->autori_esterni;
         $pubblicazione->tipologia = $request->tipologia;
         $pubblicazione->progetto()->associate($request->progetto_id);
-        $file=$request->file_name;
-        $filename=time().'.'.$file->extension();
+        $file = $request->file_name;
+        $filename = time() . '.' . $file->extension();
         $request->file_name->move('assets', $filename);
-        $pubblicazione->file_name=$filename;
+        $pubblicazione->file_name = $filename;
         $pubblicazione->save();
         foreach ($request->ricercatori as $ricercatore_id) {
-            $ricercatore=Ricercatore::find($ricercatore_id);
-            $pubblicazione->ricercatore()->attach($ricercatore);
+            $ricercatore = Ricercatore::find($ricercatore_id);
+            $ricercatore->pubblicazioni()->attach($pubblicazione->id);
         }
 
         return $pubblicazione;
     }
-    public function download(Request $request, $file_name) {
 
-        return response()->download(public_path('assets/'.$file_name));
+    public function download(Request $request, $file_name)
+    {
+        return response()->download(public_path('assets/' . $file_name));
     }
 
     public function setVisibilitaPubblicazioni(Request $request)
     {
-        if($request->pubblicazioniT!=null) {
-            foreach ($request->pubblicazioniT as $pubblicazioneT_id) {
-                $pubblicazioneT = Pubblicazione::find($pubblicazioneT_id);
-                $pubblicazioneT->ufficiale = false;
-                $pubblicazioneT->save();
-            }
+        if ($request->visibilita == 1) {
+            Pubblicazione::find($request->pubblicazione)->update(['ufficiale' => true]);
+        } else {
+            Pubblicazione::find($request->pubblicazione)->update(['ufficiale' => false]);
         }
-        if($request->pubblicazioniF!=null) {
-            foreach ($request->pubblicazioniF as $pubblicazioneF_id) {
-                $pubblicazioneF = Pubblicazione::find($pubblicazioneF_id);
-                $pubblicazioneF->ufficiale = true;
-                $pubblicazioneF->save();
-            }
-        }
-        return 0;
-
     }
 
     /**
@@ -141,7 +125,6 @@ class PubblicazioneController extends Controller
             return redirect()->route('ricercatore.show')->with('error', 'Non hai i permessi per eliminare questa pubblicazione');
         }
     }
-
 
 
 }

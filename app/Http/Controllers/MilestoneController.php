@@ -11,27 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class MilestoneController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param SottoProgetto $sottoProgetto
-     * @return View
-     */
-    public function index(SottoProgetto $sottoProgetto): View
-    {
-        $sp = SottoProgetto::where("id",$sottoProgetto->id)->firstOrFail();
-        if ($sp->milestones && ($sp->responsabile_id == Auth::user()->id || Auth::user()->hasRuolo("manager"))) {
-            $milestones = Milestone::where('sotto_progetto_id', $sottoProgetto->id)->paginate(10);
-            return view('milestone.index', compact('sottoProgetto', 'milestones'));
-        } else {
-            return view('sotto-progetto.index');
-        }
-    }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @param int $sottoProgetto
+     * @param SottoProgetto $sottoProgetto
      * @return View
      */
     public function create(SottoProgetto $sottoProgetto ): View
@@ -61,22 +45,6 @@ class MilestoneController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param SottoProgetto $sottoProgetto
-     * @param Milestone $milestone
-     * @return View
-     */
-    public function show(SottoProgetto $sottoProgetto, Milestone $milestone): View
-    {
-        if (($milestone->sotto_progetto->responsabile_id == Auth::user()->id || Auth::user()->hasRuolo("manager")) && $milestone->sotto_progetto->id == $sottoProgetto->id) {
-            return view('milestone.show', compact('sottoProgetto','milestone'));
-        } else {
-            return view('sotto-progetto.index');
-        }
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param SottoProgetto $sottoProgetto
@@ -88,7 +56,7 @@ class MilestoneController extends Controller
         if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id && $milestone->sotto_progetto->id == $sottoProgetto->id) {
             return view('milestone.edit', compact('sottoProgetto','milestone'));
         } else {
-            return view('sotto-progetto.index');
+            return view('sotto-progetto.show', compact('sottoProgetto'));
         }
     }
 
@@ -105,7 +73,7 @@ class MilestoneController extends Controller
         if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id && $milestone->sotto_progetto->id == $sottoProgetto->id) {
             return $this->milestoneFill($request,$sottoProgetto, $milestone);
         } else {
-            return redirect()->route('sotto-progetto.index');
+            return redirect()->route('sotto-progetto.show', compact('sottoProgetto'));
         }
     }
 
@@ -120,14 +88,15 @@ class MilestoneController extends Controller
         if ($milestone->sotto_progetto->responsabile_id == Auth::user()->id) {
             $sottoProgetto = $milestone->sotto_progetto;
             $milestone->delete();
-            return redirect()->route('milestone.index', compact('sottoProgetto'));
+            return redirect()->route('sotto-progetto.show', compact('sottoProgetto'))->with('success', 'Milestone eliminato con successo');
         } else {
-            return redirect()->route('sotto-progetto.index');
+            return redirect()->route('sotto-progetto.show', compact('sottoProgetto'))->with('error', 'Non puoi eliminare questo Milestone');
         }
     }
 
     /**
      * @param Request $request
+     * @param SottoProgetto $sottoProgetto
      * @param Milestone $milestone
      * @return RedirectResponse
      */
@@ -143,6 +112,6 @@ class MilestoneController extends Controller
         $milestone->sotto_progetto()->associate($sottoProgetto->id);
         $milestone->save();
 
-        return redirect()->route('milestone.index', compact('sottoProgetto'));
+        return redirect()->route('sotto-progetto.show', compact('sottoProgetto'));
     }
 }

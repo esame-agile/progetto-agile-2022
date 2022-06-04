@@ -44,11 +44,6 @@
                                 AGGIUNGI
                             </a>
                         </x-button>
-                        <x-button>
-                            <a href="{{route('pubblicazioni.edit',$ricercatore)}}">
-                                VISIBILITA'
-                            </a>
-                        </x-button>
                     </x-slot>
                     <x-slot name="link">
                         @if(isset($pubblicazioni))
@@ -61,9 +56,10 @@
                         <x-th>DOI</x-th>
                         <x-th>Titolo</x-th>
                         <x-th class="resp1024">Tipologia</x-th>
+                        <x-th class="resp1024">Autori esterni</x-th>
                         <x-th class="resp640">Progetto</x-th>
                         <x-th>File</x-th>
-                        <x-th>Azioni</x-th>
+                        <x-th class="text-center">Azioni</x-th>
                     </x-slot>
                     <x-slot name="righe">
                         @if(isset($pubblicazioni))
@@ -72,15 +68,17 @@
                                     <x-td>-</x-td>
                                     <x-td>-</x-td>
                                     <x-td class="resp1024">-</x-td>
+                                    <x-td class="resp1024">-</x-td>
                                     <x-td class="resp640">-</x-td>
                                     <x-td>-</x-td>
-                                    <x-td>-</x-td>
+                                    <x-td class="text-center">-</x-td>
                                 </x-tr>
                             @else
                                 @foreach($pubblicazioni as $pubblicazione)
                                     <x-tr>
                                         <x-td>{{$pubblicazione->doi}}</x-td>
-                                        @if($pubblicazione->sorgente != "api")
+
+                                      @if($pubblicazione->sorgente != "api")
                                             <x-td><a class="underline"
                                                      href="{{route("pubblicazione.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
                                                 </a>
@@ -89,7 +87,13 @@
                                             <x-td>{{$pubblicazione->titolo}}</x-td>
                                         @endif
                                         <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
-                                        <x-td class="resp640">{{$pubblicazione->progetto}}</x-td>
+                                        <x-td class="resp1024">{{$pubblicazione->autori_esterni}}</x-td>
+                                        <x-td class="resp640">
+                                            <a class="underline"
+                                               href="{{route('progetto.show', $pubblicazione->progetto)}}">
+                                                {{$pubblicazione->progetto->titolo}}
+                                            </a>
+                                        </x-td>
                                         @if($pubblicazione->sorgente != "api")
                                             <x-td>
                                                 <a class="underline" href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}">
@@ -103,6 +107,7 @@
                                             <x-td>
                                                 <form method="POST"
                                                       class="float-right"
+
                                                       action="{{ route('pubblicazioni.destroy', $pubblicazione) }}"
                                                       id="delete_progetto"
                                                       name="delete_progetto"

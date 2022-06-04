@@ -36,7 +36,11 @@ class Progetto extends Model
     }
 
     public function finanziatori(){
-        return $this->hasMany(Finanziatore::class);
+        return $this->belongsToMany(Finanziatore::class);
+    }
+
+    public function movimenti(){
+        return $this->hasMany(Movimento::class);
     }
 
     public function ricercatori(){
@@ -54,6 +58,5 @@ class Progetto extends Model
 
     public function pubblicazioni(){
         return $this->hasMany(Pubblicazione::class);
-
     }
 }

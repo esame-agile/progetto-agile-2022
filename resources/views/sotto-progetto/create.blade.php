@@ -37,7 +37,7 @@
                         <label for="responsabile_id"
                                class="block  text-sm font-medium text-gray-900 dark:text-gray-300">Responsabile</label>
                         <x-select name="responsabile_id" id="responsabile_id">
-                            <x-slot name="body">
+                            <x-slot name="slot">
                                 @foreach($ricercatori as $ricercatore)
                                     <option value="{{$ricercatore->id}}">
                                         {{$ricercatore->nome}} {{$ricercatore->cognome}}
@@ -50,12 +50,18 @@
                         <label for="progetto_id"
                                class="block  text-sm font-medium text-gray-900 dark:text-gray-300">Progetto</label>
                         <x-select name="progetto_id" id="progetto_id">
-                            <x-slot name="body">
-                                @foreach($progetti as $progetto)
-                                    <option value="{{$progetto->id}}">
-                                        {{$progetto->titolo}}
+                            <x-slot name="slot">
+                                @if(request()->get('progetto') != null)
+                                    <option value="{{\App\Models\Progetto::find(request()->get('progetto'))->id}}" selected>
+                                        {{\App\Models\Progetto::find(request()->get('progetto'))->titolo}}
                                     </option>
-                                @endforeach
+                                @else
+                                    @foreach($progetti as $progetto)
+                                        <option value="{{$progetto->id}}">
+                                            {{$progetto->titolo}}
+                                        </option>
+                                    @endforeach
+                                @endif
                             </x-slot>
                         </x-select>
                     </div>

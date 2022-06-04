@@ -26,9 +26,6 @@ class SottoProgettoTest extends TestCase
         $this->actingAs($user)
             ->get('/sotto-progetto/'. $sottoProgetto->id .'/edit-ricercatori')
             ->assertStatus(200);
-        $this->actingAs($user)
-            ->get('/sotto-progetto/'. $sottoProgetto->id .'/add-ricercatore')
-            ->assertStatus(200);
     }
 
     public function test_caricamento_views_sotto_progetti_manager()
@@ -149,7 +146,7 @@ class SottoProgettoTest extends TestCase
         $user2 = Ricercatore::factory()->create();
         $this->actingAs($user)
             ->post('/sotto-progetto/' . $sottoProgetto->id . '/store-ricercatore', [
-                'ricercatore_id' => $user2->id
+                'ricercatori' => [$user2->id]
             ])
             ->assertStatus(302);
         $this->assertCount(1, $sottoProgetto->ricercatori);

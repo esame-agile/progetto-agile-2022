@@ -15,15 +15,21 @@ use Illuminate\Support\Facades\Auth;
 
 class PubblicazioneController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View
+     * @param Pubblicazione $pubblicazione
+     * @return View|Factory|Application
      */
+    public function show(Pubblicazione $pubblicazione): View|Factory|Application
+    {
+        $autori = $pubblicazione->ricercatori()->paginate(10);
+        return view('pubblicazioni.show', compact('pubblicazione', 'autori'));
+    }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param Ricercatore $ricercatore
      * @return Application|Factory|View
      */
     public function create(Ricercatore $ricercatore): View|Factory|Application
@@ -36,7 +42,6 @@ class PubblicazioneController extends Controller
     /**
      * Update the specified resource in storage.
      *
-
      */
     public function update(Request $request, Progetto $progetto): RedirectResponse
     {

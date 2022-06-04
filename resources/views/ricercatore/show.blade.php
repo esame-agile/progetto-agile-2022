@@ -77,7 +77,12 @@
                                 @foreach($pubblicazioni as $pubblicazione)
                                     <x-tr>
                                         <x-td>{{$pubblicazione->doi}}</x-td>
-                                        <x-td>{{$pubblicazione->titolo}}</x-td>
+                                        <x-td>
+                                            <a class="underline"
+                                               href="{{route('pubblicazioni.show', $pubblicazione)}}">
+                                                {{$pubblicazione->titolo}}
+                                            </a>
+                                        </x-td>
                                         <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
                                         <x-td class="resp1024">{{$pubblicazione->autori_esterni}}</x-td>
                                         <x-td class="resp640">

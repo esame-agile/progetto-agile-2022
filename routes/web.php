@@ -372,6 +372,12 @@ Route::prefix('pubblicazione')->group(function () {
      * Vista per far creare una pubblicazione a un ricercatore.
      *
      */
+    Route::get('/show/{pubblicazione}', [PubblicazioneController::class, 'show'])->name('pubblicazioni.show');
+
+    /**
+     * Vista per far creare una pubblicazione a un ricercatore.
+     *
+     */
     Route::get('/create/{ricercatore}', [PubblicazioneController::class, 'create'])->name('pubblicazioni.create')->middleware('auth', 'ruolo:ricercatore');
 
     /**

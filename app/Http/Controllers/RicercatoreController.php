@@ -47,7 +47,7 @@ class RicercatoreController extends Controller
     public function guest_show(Ricercatore $ricercatore): Factory|View|Application
     {
         $progetti = $ricercatore->progetti()->paginate(10);
-        $pubblicazioni=$ricercatore->pubblicazioni()->where('ufficiale','=','1')->paginate(10);
+        $pubblicazioni = $ricercatore->pubblicazioni()->where('ufficiale','=','true')->paginate(10);
         return view('ricercatore.guest-show', compact('ricercatore', 'progetti', 'pubblicazioni'));
     }
 

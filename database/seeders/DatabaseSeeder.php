@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Finanziatore;
 use App\Models\Manager;
 use App\Models\Milestone;
+use App\Models\Movimento;
 use App\Models\Progetto;
 use App\Models\Ricercatore;
 use App\Models\SottoProgetto;
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
         $ricercatore->progetti()->saveMany(Progetto::factory(12)->create());
         $progetto = $ricercatore->progetti()->first();
         $progetto->responsabile()->associate($ricercatore);
+        $progetto->movimenti()->saveMany(Movimento::factory(5)->create());
         $progetto->save();
         echo "RICERCATORE: \n";
         echo "email: " . $ricercatore->email . "\n" . "password: password" . "\n";

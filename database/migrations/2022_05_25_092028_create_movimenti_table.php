@@ -18,7 +18,9 @@ return new class extends Migration
             $table->float('importo');
             $table->string('causale');
             $table->date('data');
+            $table->integer('approvazione')->default(0);
             $table->foreignId('progetto_id')->constrained('progetti');
+            $table->foreignId('utente_id')->constrained('utenti');
             $table->timestamps();
         });
     }

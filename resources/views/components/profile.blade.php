@@ -19,7 +19,7 @@
         </div>
     </div>
 </div>
-@if(isset($progetti) && isset($pubblicazioni))
+@if(isset($progetti) && isset($pubblicazioni) && isset($movimenti))
     <div class="row">
         <div class="lg:w-6/12 pr-5 column">
             {{$pubblicazioni}}
@@ -31,6 +31,7 @@
     </div>
 @elseif(isset($pubblicazioni))
     {{$pubblicazioni}}
+    {{$movimenti}}
 @elseif(isset($progetti))
     {{$progetti}}
 @endif

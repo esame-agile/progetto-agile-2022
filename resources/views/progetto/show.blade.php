@@ -1,7 +1,6 @@
 @extends('layouts.main')
 @section('content')
     <div class="container mx-auto">
-        {{--        <div class="flex flex-wrap justify-between mb-10">--}}
         <div class="row">
             <div class="lg:w-6/12 pr-5 column">
                 <!-----Descrizione----->
@@ -295,5 +294,11 @@
                 <!-----Fine Report----->
             </div>
         </div>
+        <x-button class="mb-10">
+            <a href="{{route("movimento.index",$progetto)}}">
+                VEDI MOVIMENTI
+            </a>
+        </x-button>
     </div>
 @endsection
+

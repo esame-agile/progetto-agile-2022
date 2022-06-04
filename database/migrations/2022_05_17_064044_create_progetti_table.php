@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('scopo');
             $table->date('data_inizio');
             $table->date('data_fine');
-            $table->unsignedInteger('budget');
+            $table->float('budget');
             $table->foreignId('responsabile_id')->constrained('utenti')->onUpdate("cascade")->onDelete("cascade");
             $table->timestamps();
         });

@@ -43,13 +43,14 @@
                         </div>
                         <div class="text-blueGray-700">
                             {{$progetto->budget}}€
-                            <x-button class="float-right">
-                                <a href="{{route("movimento.index",$progetto)}}">
-                                    VEDI MOVIMENTI
-                                </a>
-                            </x-button>
+                            @auth()
+                                <x-button class="float-right">
+                                    <a href="{{route("movimento.index",$progetto)}}">
+                                        VEDI MOVIMENTI
+                                    </a>
+                                </x-button>
+                            @endauth
                         </div>
-
                     </div>
                 </div>
                 <!-----Fine Descrizione----->

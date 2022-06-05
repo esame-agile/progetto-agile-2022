@@ -22,11 +22,12 @@
                         <x-input name="scopo" type="text" id="scopo" value="{{ old('scopo') }}" required></x-input>
                     </div>
                     <div class="w-1/3 pl-3">
-                        <label for="budget"
+                        <label for="budget_show"
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                             Budget
                         </label>
-                        <x-input name="budget" type="number" id="budget" value="{{ old('budget') }}" required></x-input>
+                        <x-input name="budget_show" type="number" id="budget_show" value="0" disabled></x-input>
+                        <x-input name="budget" type="hidden" id="budget" value="0" hidden></x-input>
                     </div>
                 </div>
                 <div class="mb-6 flex flex-wrap justify-between">

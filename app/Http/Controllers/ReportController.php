@@ -10,18 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
-
-    public function index()
+    public function create(Progetto $progetto)
     {
-    }
-
-    public function create(Progetto $progetto) {
-
         $progetto = Progetto::find($progetto->id);
         if (Auth::user()->hasRuolo('ricercatore')) {
             return view('report.create', compact('progetto'));
         }
-
+        return redirect()->route('progetto.show', compact('progetto'))->with('error', 'Non sei autorizzato a creare un report');
     }
 
     public function store(Request $request, Progetto $progetto)
@@ -33,9 +28,9 @@ class ReportController extends Controller
 
         //upload del file
         $file = $request->file_name;
-        $filename=time().'.'.$file->extension();
+        $filename = time() . '.' . $file->extension();
         $request->file_name->move('assets', $filename);
-        $report->file_name=$filename;
+        $report->file_name = $filename;
 
         $report->data = $request->data_rilascio;
         $report->ricercatore_id = Auth::user()->id;
@@ -45,31 +40,30 @@ class ReportController extends Controller
         $ricercatori = $progetto->ricercatori()->paginate(10);
         $sottoProgetti = $progetto->sotto_progetti()->paginate(10);
         $reports = $progetto->reports()->paginate(10);
-        $pubblicazioni=$progetto->pubblicazioni()->paginate(10);
+        $pubblicazioni = $progetto->pubblicazioni()->paginate(10);
 
-        return redirect()->route('progetto.show', compact('progetto', 'ricercatori', 'sottoProgetti', 'reports','pubblicazioni'));
+        return redirect()->route('progetto.show', compact('progetto', 'ricercatori', 'sottoProgetti', 'reports', 'pubblicazioni'));
 
     }
 
-    public function download(Request $request, $file_name) {
-
-        return response()->download(public_path('assets/'.$file_name));
-    }
-
-    public function show()
+    public function download(Request $request, $file_name)
     {
+
+        return response()->download(public_path('assets/' . $file_name));
     }
 
-    public function destroy(Report $report, Progetto $progetto)
+    public function destroy(Report $report)
     {
+        $progetto = $report->progetto()->first();
         if (Auth::user()->hasRuolo('ricercatore')) {
             $report->delete();
         }
-        $ricercatori = $progetto->ricercatori()->get();
-        $sotto_progetti = $progetto->sotto_progetti()->get();
-        $reports = $progetto->reports()->get();
-
-        return redirect()->route('progetto.show', compact('progetto', 'ricercatori', 'sotto_progetti', 'reports'));
+//        $ricercatori = $progetto->ricercatori()->get();
+//        $sottoProgetti = $progetto->sotto_progetti()->get();
+//        $reports = $progetto->reports()->get();
+//
+//        return redirect()->route('progetto.show', compact('progetto', 'ricercatori', 'sottoProgetti', 'reports'));
+        return redirect()->route('progetto.show', compact('progetto'));
     }
 
 }

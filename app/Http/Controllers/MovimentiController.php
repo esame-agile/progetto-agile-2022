@@ -19,7 +19,11 @@ class MovimentiController extends Controller
      */
     public function index(Progetto $progetto): Factory|View|Application
     {
-        $movimenti = $progetto->movimenti()->paginate(10);
+        if(Auth::user()->id == $progetto->responsabile_id){
+            $movimenti = $progetto->movimenti()->paginate(10);
+        } else {
+            $movimenti = $progetto->movimenti()->where('approvazione', '!=', 0)->paginate(10);
+        }
         return view('movimento.index', compact('movimenti', 'progetto'));
     }
 
@@ -29,11 +33,12 @@ class MovimentiController extends Controller
      */
     public function create(Progetto $progetto): View|Factory|RedirectResponse|Application
     {
-        if (!($progetto->ricercatori()->where('ricercatore_id', Auth::user()->id)->exists() ||
-            $progetto->finanziatori()->where('finanziatore_id', Auth::user()->id)->exists())) {
-            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per creare un movimento');
+        if (Auth::user()->hasRuolo('ricercatore') && $progetto->ricercatori()->where('ricercatore_id', Auth::user()->id)->exists() ||
+            Auth::user()->hasRuolo('finanziatore') || Auth::user()->id == $progetto->responsabile_id) {
+
+            return view('movimento.create', compact('progetto'));
         }
-        return view('movimento.create', compact('progetto'));
+        return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per creare un movimento');
     }
 
     /**
@@ -43,14 +48,15 @@ class MovimentiController extends Controller
      */
     public function store(Request $request, Progetto $progetto): RedirectResponse
     {
-        if (Auth::user()->hasRuolo("manager") ||
-            !($progetto->ricercatori()->where('ricercatore_id', Auth::user()->id)->exists() ||
-                $progetto->finanziatori()->where('finanziatore_id', Auth::user()->id)->exists())) {
+        if (Auth::user()->hasRuolo('ricercatore') && $progetto->ricercatori()->where('ricercatore_id', Auth::user()->id)->exists() ||
+            Auth::user()->hasRuolo('finanziatore') || Auth::user()->id == $progetto->responsabile_id) {
+
+            $movimento = new Movimento();
+            $this->movimentoFill($request, $movimento, $progetto);
+            return redirect()->route('movimento.index', compact('progetto'))->with('success', 'Movimento creato con successo');
+        } else {
             return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per creare un movimento');
         }
-        $movimento = new Movimento();
-        $this->movimentoFill($request, $movimento, $progetto);
-        return redirect()->route('movimento.index', compact('progetto'))->with('success', 'Movimento creato con successo');
     }
 
     /**
@@ -60,16 +66,13 @@ class MovimentiController extends Controller
      */
     public function edit(Progetto $progetto, Movimento $movimento): Factory|View|RedirectResponse|Application
     {
-        if (Auth::user()->hasRuolo("manager") ||
-            !($progetto->ricercatori()->where('ricercatore_id', Auth::user()->id)->exists() ||
-                $progetto->finanziatori()->where('finanziatore_id', Auth::user()->id)->exists())) {
-            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per editare un movimento');
-        }
-        if ($movimento->approvazione != 0) {
+        if ($movimento->approvazione != 0){
+            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non puoi modificare un movimento già approvato');
+        } elseif ($progetto->responsabile_id == Auth::user()->id) {
+            return view('movimento.edit', compact('movimento', 'progetto'));
+        } else {
             return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non puoi modificare un movimento già approvato');
         }
-
-        return view('movimento.edit', compact('movimento', 'progetto'));
     }
 
     /**
@@ -80,23 +83,21 @@ class MovimentiController extends Controller
      */
     public function update(Request $request, Progetto $progetto, Movimento $movimento): RedirectResponse
     {
-        if (Auth::user()->hasRuolo("manager") ||
-            !($progetto->ricercatori()->where('ricercatore_id', Auth::user()->id)->exists() ||
-                $progetto->finanziatori()->where('finanziatore_id', Auth::user()->id)->exists())) {
-            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per editare un movimento');
-        }
-
-        if ($movimento->approvazione != 0) {
+        if ($movimento->approvazione != 0){
+            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non puoi modificare un movimento già approvato');
+        } elseif ($progetto->responsabile_id == Auth::user()->id) {
+            $this->movimentoFill($request, $movimento, $progetto);
+            return redirect()->route('movimento.index')->with('success', 'Movimento modificato con successo');
+        } else {
             return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non puoi modificare un movimento già approvato');
         }
-
-        $this->movimentoFill($request, $movimento, $progetto);
-        return redirect()->route('movimento.index')->with('success', 'Movimento modificato con successo');
     }
 
     public function approva(Progetto $progetto, Movimento $movimento)
     {
-        if (Auth::user()->hasRuolo("ricercatore") && $progetto->responsabile_id == Auth::user()->id) {
+        if ($movimento->approvazione != 0){
+            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non puoi modificare un movimento già approvato');
+        } elseif ($progetto->responsabile_id == Auth::user()->id) {
             $movimento->approvazione = 1;
             $movimento->save();
             $progetto->budget += $movimento->importo;
@@ -109,7 +110,9 @@ class MovimentiController extends Controller
 
     public function disapprova(Progetto $progetto, Movimento $movimento)
     {
-        if (Auth::user()->hasRuolo("ricercatore") && $progetto->responsabile_id == Auth::user()->id) {
+        if ($movimento->approvazione != 0){
+            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non puoi modificare un movimento già approvato');
+        } elseif (Auth::user()->hasRuolo("ricercatore") && $progetto->responsabile_id == Auth::user()->id) {
             $movimento->approvazione = 2;
             $movimento->save();
             return redirect()->route('movimento.index', compact('progetto'));
@@ -125,18 +128,14 @@ class MovimentiController extends Controller
      */
     public function destroy(Progetto $progetto, Movimento $movimento): RedirectResponse
     {
-        if (Auth::user()->hasRuolo("manager") ||
-            !($progetto->ricercatori()->where('ricercatore_id', Auth::user()->id)->exists() ||
-                $progetto->finanziatori()->where('finanziatore_id', Auth::user()->id)->exists())) {
-            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per eliminare un movimento');
-        }
-
         if ($movimento->approvazione != 0) {
             return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non puoi eliminare un movimento già approvato');
+        } elseif ($progetto->responsabile_id == Auth::user()->id) {
+            $movimento->delete();
+            return redirect()->route('movimento.index')->with('success', 'Movimento eliminato con successo');
+        } else {
+            return redirect()->route('movimento.index', compact('progetto'))->with('error', 'Non hai i permessi per eliminare un movimento');
         }
-
-        $movimento->delete();
-        return redirect()->route('movimento.index')->with('success', 'Movimento eliminato con successo');
     }
 
     private function movimentoFill(Request $request, Movimento $movimento, Progetto $progetto)
@@ -152,9 +151,20 @@ class MovimentiController extends Controller
         }
         $movimento->causale = $request->causale;
         $movimento->data = date('Y-m-d');
-        $movimento->approvazione = (Auth::user()->hasRuolo('finanziatore') ? 1 : 0);
+        if (Auth::user()->hasRuolo("finanziatore")) {
+            $movimento->approvazione = 1;
+            $progetto->budget += $movimento->importo;
+            $progetto->save();
+        } else {
+            $movimento->approvazione = 0;
+        }
         $movimento->progetto_id = $progetto->id;
         $movimento->utente_id = Auth::user()->id;
         $movimento->save();
+
+        if (Auth::user()->hasRuolo("finanziatore") &&
+            !($progetto->finanziatori()->where('finanziatore_id', Auth::user()->id)->exists())) {
+            $progetto->finanziatori()->attach(Auth::user()->id);
+        }
     }
 }

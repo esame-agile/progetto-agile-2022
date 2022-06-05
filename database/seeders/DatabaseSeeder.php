@@ -25,12 +25,12 @@ class DatabaseSeeder extends Seeder
         echo "MANAGER: \n";
         echo "email: " . $manager->email . "\n" . "password: password" . "\n";
         echo "------------------------------------------------------\n";
-        Ricercatore::factory(1)->create();
-        $ricercatore = Ricercatore::first();
+        $ricercatore = Ricercatore::factory()->create();
         $ricercatore->progetti()->saveMany(Progetto::factory(12)->create());
         $progetto = $ricercatore->progetti()->first();
         $progetto->responsabile()->associate($ricercatore);
         $progetto->movimenti()->saveMany(Movimento::factory(5)->create());
+        $progetto->finanziatori()->saveMany(Finanziatore::factory(2)->create());
         $progetto->save();
         $ricercatore->sotto_progetti()->saveMany(SottoProgetto::factory(12)->create());
         $sottoProgetto = $ricercatore->sotto_progetti()->first();
@@ -41,7 +41,6 @@ class DatabaseSeeder extends Seeder
         echo "RICERCATORE: \n";
         echo "email: " . $ricercatore->email . "\n" . "password: password" . "\n";
         echo "------------------------------------------------------\n";
-        Finanziatore::factory(12)->create();
         $finanziatore = Finanziatore::first();
         echo "FINANZIATORE: \n";
         echo "email: " . $finanziatore->email . "\n" . "password: password" . "\n";

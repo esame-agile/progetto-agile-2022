@@ -40,7 +40,7 @@
                     </x-slot>
                     <x-slot name="pulsanti_up">
                         <x-button>
-                            <a href="{{route('pubblicazioni.create',$ricercatore)}}">
+                            <a href="{{route('pubblicazioni.create')}}">
                                 AGGIUNGI
                             </a>
                         </x-button>
@@ -78,7 +78,7 @@
                                     <x-tr>
                                         <x-td>{{$pubblicazione->doi}}</x-td>
 
-                                      @if($pubblicazione->sorgente != "api")
+                                        @if($pubblicazione->sorgente != "api")
                                             <x-td><a class="underline"
                                                      href="{{route("pubblicazioni.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
                                                 </a>
@@ -96,7 +96,8 @@
                                         </x-td>
                                         @if($pubblicazione->sorgente != "api")
                                             <x-td>
-                                                <a class="underline" href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}">
+                                                <a class="underline"
+                                                   href="{{route('pubblicazioni.download', $pubblicazione->file_name)}}">
                                                     {{$pubblicazione->file_name}}
                                                 </a>
                                             </x-td>
@@ -105,19 +106,21 @@
                                         @endif
                                         @if($pubblicazione->sorgente != "api")
                                             <x-td>
-                                                <form method="POST"
-                                                      class="float-right"
+                                                <div class="flex flex-wrap justify-center">
+                                                    <form method="POST"
+                                                          class="float-right"
 
-                                                      action="{{ route('pubblicazioni.destroy', $pubblicazione) }}"
-                                                      id="delete_progetto"
-                                                      name="delete_progetto"
-                                                      onsubmit="confirm('Sei sicuro di voler cancellare?')">
-                                                    @csrf
-                                                    @method("DELETE")
-                                                    <button type="submit">
-                                                        <i class="lni lni-trash"></i>
-                                                    </button>
-                                                </form>
+                                                          action="{{ route('pubblicazioni.destroy', $pubblicazione) }}"
+                                                          id="delete_progetto"
+                                                          name="delete_progetto"
+                                                          onsubmit="confirm('Sei sicuro di voler cancellare?')">
+                                                        @csrf
+                                                        @method("DELETE")
+                                                        <button type="submit">
+                                                            <i class="lni lni-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </x-td>
                                         @else
                                             <x-td>

@@ -12,7 +12,12 @@ class FinanziatoriTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_pagina_personale_show_returns_a_successful_response()
+    /**
+     * Pagina personale finanziatore.
+     *
+     * @return void
+     */
+    public function test_pagina_personale_show_returns_a_successful_response(): void
     {
         $finanziatore = Finanziatore::factory()->create();
         $this->actingAs($finanziatore);
@@ -21,13 +26,23 @@ class FinanziatoriTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_pagina_personale_non_puo_essere_visualizzata_da_un_guest()
+    /**
+     * Pagina personale finanziatore non può essere visualizzata da un guest.
+     *
+     * @return void
+     */
+    public function test_pagina_personale_non_puo_essere_visualizzata_da_un_guest(): void
     {
         $response = $this->get('/finanziatore/show');
         $response->assertStatus(302);
     }
 
-    public function test_finanziatore_puo_accedere_alla_pagina_di_modifica_delle_sue_informazioni()
+    /**
+     * Pagina di modifica dell informazioni di un finanziatore.
+     *
+     * @return void
+     */
+    public function test_finanziatore_puo_accedere_alla_pagina_di_modifica_delle_sue_informazioni(): void
     {
         $finanziatore = Finanziatore::factory()->create();
         $this->actingAs($finanziatore);
@@ -36,7 +51,12 @@ class FinanziatoriTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_finanziatore_puo_modificare_i_suoi_campi()
+    /**
+     * Il finanziatore può modificare i suoi dati.
+     *
+     * @return void
+     */
+    public function test_finanziatore_puo_modificare_i_suoi_dati(): void
     {
         $faker = Faker\Factory::create();
         $finanziatore = Finanziatore::factory()->create();
@@ -51,9 +71,13 @@ class FinanziatoriTest extends TestCase
             ])->assertRedirect('/finanziatore/show');
     }
 
-  /*  public function test_pagina_edit_restituisce_errore_se_i_campi_non_sono_validi()
+    /**
+     * Il finanziatore non può modificare i suoi dati se i campi non sono validi.
+     *
+     * @return void
+     */
+    public function test_pagina_edit_restituisce_errore_se_i_campi_non_sono_validi(): void
     {
-        $faker = Faker\Factory::create();
         $finanziatore = Finanziatore::factory()->create();
         $this->actingAs($finanziatore)
             ->put('/finanziatore/update/' . $finanziatore->id, [
@@ -64,9 +88,14 @@ class FinanziatoriTest extends TestCase
                 'password_confirmation' => '', // password
                 'nome_azienda' => '',
             ])->assertRedirect('/');
-    }*/
+    }
 
-    public function test_guest_non_puo_modificare_informazioni_di_un_finanziatore()
+    /**
+     * Un guest non può modificare i dati di un finanziatore.
+     *
+     * @return void
+     */
+    public function test_guest_non_puo_modificare_le_informazioni_di_un_finanziatore(): void
     {
         Finanziatore::factory(1)->create();
         $this->get('finanziatore/edit/1')->assertStatus(302);

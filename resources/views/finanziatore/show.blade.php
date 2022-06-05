@@ -44,6 +44,7 @@
                     <x-slot name="colonne">
                         <x-th>Titolo</x-th>
                         <x-th>Scopo</x-th>
+                        <x-th>Budget</x-th>
                         <x-th class="resp640">Data inizio</x-th>
                         <x-th class="resp640">Data fine</x-th>
                     </x-slot>
@@ -51,6 +52,7 @@
                         @if(isset($progetti))
                             @if($progetti->isEmpty())
                                 <x-tr>
+                                    <x-td>-</x-td>
                                     <x-td>-</x-td>
                                     <x-td>-</x-td>
                                     <x-td class="resp640">-</x-td>
@@ -64,6 +66,11 @@
                                             </a>
                                         </x-td>
                                         <x-td>{{$progetto->scopo}}</x-td>
+                                        @if($progetto->budget > 0)
+                                            <x-td class="text-green-600">{{$progetto->budget}}€</x-td>
+                                        @else
+                                            <x-td class="text-red-600">{{$progetto->budget}}€</x-td>
+                                        @endif
                                         <x-td class="resp640">{{$progetto->data_inizio}}</x-td>
                                         <x-td class="resp640">{{$progetto->data_fine}}</x-td>
                                     </x-tr>

@@ -1,22 +1,26 @@
 <?php
 
 namespace Tests\Feature;
+
 use App\Models\Manager;
 use App\Models\Progetto;
 use App\Models\Ricercatore;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Faker;
 
 class ProgettoTest extends TestCase
 {
     use RefreshDatabase;
 
-
-    public function test_caricamento_views_progetti_manager()
+    /**
+     * Caricamento delle viste dei progetti per un manager.
+     *
+     * @return void
+     */
+    public function test_caricamento_views_progetti_manager(): void
     {
         $user = Manager::factory()->create();
-        $progetto= Progetto::factory()->create();
+        $progetto = Progetto::factory()->create();
 
         $this->actingAs($user)
             ->get('/progetto/index')
@@ -32,7 +36,12 @@ class ProgettoTest extends TestCase
             ->assertStatus(200);
     }
 
-    public function test_manager_puo_creare_progetto()
+    /**
+     * Manager può creare un progetto.
+     *
+     * @return void
+     */
+    public function test_manager_puo_creare_progetto(): void
     {
         $user = Manager::factory()->create();
         $project = Progetto::factory()->make();
@@ -50,12 +59,18 @@ class ProgettoTest extends TestCase
             ->assertStatus(302);
         $this->assertCount(1, Progetto::all());
     }
-    public function test_manager_puo_modificare_progetto()
+
+    /**
+     * Manager puo modificare un progetto.
+     *
+     * @return void
+     */
+    public function test_manager_puo_modificare_progetto(): void
     {
         $user = Manager::factory()->create();
         $project = Progetto::factory()->create();
         $this->actingAs($user)
-            ->put('/progetto/update/' . $project->id,  [
+            ->put('/progetto/update/' . $project->id, [
                 'titolo' => $project->titolo,
                 'descrizione' => $project->descrizione,
                 'scopo' => $project->scopo,
@@ -69,7 +84,12 @@ class ProgettoTest extends TestCase
         $this->assertEquals($project->titolo, Progetto::first()->titolo);
     }
 
-    public function test_manager_puo_eliminare_progetto()
+    /**
+     * Manager può eliminare un progetto.
+     *
+     * @return void
+     */
+    public function test_manager_puo_eliminare_progetto(): void
     {
         $user = Manager::factory()->create();
         $project = Progetto::factory()->create();
@@ -81,7 +101,12 @@ class ProgettoTest extends TestCase
         $this->assertCount(0, Progetto::all());
     }
 
-    public function test_responsabile_puo_aggiungere_ricercatore()
+    /**
+     * Responsabile può aggiungere dei ricercatori a un progetto.
+     *
+     * @return void
+     */
+    public function test_responsabile_puo_aggiungere_ricercatore(): void
     {
         $user = Ricercatore::factory()->create();
         $project = Progetto::factory()->create([
@@ -96,7 +121,12 @@ class ProgettoTest extends TestCase
         $this->assertCount(1, $project->ricercatori);
     }
 
-    public function test_responsabile_puo_eliminare_ricercatore()
+    /**
+     * Responsabile può rimuovere dei ricercatori da un progetto.
+     *
+     * @return void
+     */
+    public function test_responsabile_puo_rimuovere_ricercatore(): void
     {
         $user = Ricercatore::factory()->create();
         $project = Progetto::factory()->create([
@@ -110,7 +140,12 @@ class ProgettoTest extends TestCase
         $this->assertCount(0, $project->ricercatori);
     }
 
-    public function test_responsabile_non_puo_eliminare_ricercatore_se_non_autorizzato()
+    /**
+     * Ricercatore non responsabile non può rimuovere un altro ricercatore.
+     *
+     * @return void
+     */
+    public function test_ricercatore_non_puo_rimuovere_ricercatore_se_non_e_responsabile(): void
     {
         $user = Ricercatore::factory()->create();
         $project = Progetto::factory()->create();
@@ -121,23 +156,4 @@ class ProgettoTest extends TestCase
             ->assertStatus(302);
         $this->assertCount(1, $project->ricercatori);
     }
-    public function test_utente_non_responsabile_non_puo_eliminare_ricercatore()
-    {
-        $user = Ricercatore::factory()->create();
-        $project = Progetto::factory()->create();
-        $user2 = Ricercatore::factory()->create();
-        $project->ricercatori()->attach($user2->id);
-        $this->actingAs($user)
-            ->delete('/progetto/' . $project->id . '/remove-ricercatore/' . $user2->id)
-            ->assertStatus(302);
-        $this->assertCount(1, $project->ricercatori);
-    }
-    public function test_tutti_i_progetti_navbarButton_returns_a_successful_response()
-    {
-
-        $response = $this->get('/progetto/index');
-
-        $response->assertStatus(200);
-    }
-
 }

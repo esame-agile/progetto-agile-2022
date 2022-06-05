@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Progetto;
+use App\Models\Ricercatore;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,8 +21,10 @@ class ReportFactory extends Factory
         //TODO: Implement pdf upload and download
         return [
             'titolo' => $this->faker->sentence,
-            'filename' => $this->faker->sentence,
-            'data' => $this->faker->sentence,
+            'file_name' => '123456.pdf',
+            'data' => date('Y-m-d'),
+            'progetto_id' => Progetto::factory()->create()->id,
+            'ricercatore_id' => Ricercatore::factory()->create()->id,
         ];
     }
 }

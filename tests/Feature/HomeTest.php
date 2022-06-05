@@ -12,7 +12,7 @@ class HomeTest extends TestCase
      *
      * @return void
      */
-    public function test_the_home_page_returns_a_successful_response()
+    public function test_the_home_page_returns_a_successful_response(): void
     {
         $response = $this->get('/');
 
@@ -24,16 +24,33 @@ class HomeTest extends TestCase
      *
      * @return void
      */
-    public function test_the_login_button_returns_a_successful_response()
+    public function test_the_login_button_returns_a_successful_response(): void
     {
         $response = $this->get('/login');
 
         $response->assertStatus(200);
     }
 
-    public function test_ricercatori_button_returns_a_successful_response()
+    /**
+     * Apertura lista ricercatori.
+     *
+     * @return void
+     */
+    public function test_ricercatori_button_returns_a_successful_response(): void
     {
         $response = $this->get('/ricercatore/index');
+
+        $response->assertStatus(200);
+    }
+
+    /**
+     * Apertura lista progetti.
+     *
+     * @return void
+     */
+    public function test_progetti_button_returns_a_successful_response(): void
+    {
+        $response = $this->get('/progetto/index');
 
         $response->assertStatus(200);
     }

@@ -60,24 +60,21 @@
                         <div class="w-1/3">
                             <x-label for="ricercatori">Ricercatori associati</x-label>
                             <ul class="scroll-py-1 text-sm text-gray-700 dark:text-gray-200 max-h-64 overflow-y-scroll">
-                                @foreach($ricercatori as $ricercatoricheck)
-                                    @if($ricercatoricheck->id==$ricercatore->id)
-                                        <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                            <label>
-                                                <input type="checkbox" name="ricercatori[]"
-                                                       form="pubblicazione_create"
-                                                       tabindex="-1"
-                                                       value="{{$ricercatoricheck->id}}" checked>
-                                                {{$ricercatoricheck->nome}} {{$ricercatoricheck->cognome}}
-                                            </label>
-                                        </li>
+                                @foreach($ricercatori as $ricercatore)
+                                    @if($ricercatore->id == $autore->id)
+                                        <label>
+                                            <input type="hidden" name="ricercatori[]"
+                                                   form="pubblicazione_create"
+                                                   tabindex="-1"
+                                                   value="{{$ricercatore->id}}" checked>
+                                        </label>
                                     @else
                                         <li class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                                             <label>
                                                 <input type="checkbox" name="ricercatori[]"
                                                        form="pubblicazione_create"
-                                                       value="{{$ricercatoricheck->id}}">
-                                                {{$ricercatoricheck->nome}} {{$ricercatoricheck->cognome}}
+                                                       value="{{$ricercatore->id}}">
+                                                {{$ricercatore->nome}} {{$ricercatore->cognome}}
                                             </label>
                                         </li>
                                     @endif

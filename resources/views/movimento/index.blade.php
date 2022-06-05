@@ -3,7 +3,8 @@
     <div class="container mx-auto">
         <x-table>
             <x-slot name="titolo">
-                Elenco delle spese
+                Elenco delle spese per <a class="underline"
+                                          href="{{route("progetto.show", compact("progetto"))}}">{{$progetto->titolo}}</a>
             </x-slot>
             <x-slot name="link">
                 @if(isset($movimenti))
@@ -21,7 +22,19 @@
                             </a>
                         </x-button>
                     @endif
+                    @if(Auth::user()->hasRuolo('finanziatore'))
+                        <x-button>
+                            <a href="{{route("movimento.create", compact("progetto"))}}">
+                                FINANZIA PROGETTO
+                            </a>
+                        </x-button>
+                    @endif
                 @endauth
+            </x-slot>
+            <x-slot name="titolo_interno">
+                <h2 class="text-xl font-bold leading-normal text-blueGray-700 ml-5 uppercase">
+                    BUDGET ATTUALE: {{$progetto->budget}}€
+                </h2>
             </x-slot>
             <x-slot name="colonne">
                 <x-th>Importo</x-th>
@@ -50,14 +63,18 @@
                         </x-tr>
                     @else
                         @auth
-                            @if(Auth::user()->id == $progetto->responsabile_id)
-                                @foreach ($movimenti as $movimento)
-                                    <x-tr>
-                                        <x-td>{{ $movimento->importo }}</x-td>
-                                        <x-td>{{$movimento->causale }}</x-td>
-                                        <x-td class="resp640">
-                                            {{ date('d/m/Y', strtotime($movimento->data )) }}
-                                        </x-td>
+                            @foreach ($movimenti as $movimento)
+                                <x-tr>
+                                    @if($movimento->importo > 0)
+                                        <x-td class="text-green-600">{{$movimento->importo}}€</x-td>
+                                    @else
+                                        <x-td class="text-red-600">{{$movimento->importo}}€</x-td>
+                                    @endif
+                                    <x-td>{{$movimento->causale }}</x-td>
+                                    <x-td class="resp640">
+                                        {{ date('d/m/Y', strtotime($movimento->data )) }}
+                                    </x-td>
+                                    @if(Auth::user()->id == $progetto->responsabile_id)
                                         <x-td>
                                             @if($movimento->approvazione==2)
                                                 <i class="fa-solid fa-xmark flex justify-center"></i>
@@ -87,22 +104,10 @@
                                                 <span class="flex flex-wrap justify-center">-</span>
                                             @endif
                                         </x-td>
-                                    </x-tr>
-                                @endforeach
-                            @else
-                                @foreach($movimenti as $movimento)
-                                    @if($movimento->approvazione==1)
-                                        <x-tr>
-                                            <x-td>{{$movimento->importo}}</x-td>
-                                            <x-td>{{$movimento->causale}}</x-td>
-                                            <x-td class="resp640">
-                                                {{ date('d/m/Y', strtotime($movimento->data )) }}
-                                            </x-td>
-                                        </x-tr>
                                     @endif
-                                @endforeach
-                            @endauth
-                        @endif
+                                </x-tr>
+                            @endforeach
+                        @endauth
                     @endif
                 @endif
             </x-slot>

@@ -6,14 +6,20 @@ use App\Models\Manager;
 use App\Models\Movimento;
 use App\Models\Progetto;
 use App\Models\Ricercatore;
-use App\Models\SottoProgetto;
+use Faker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class MovimentiTest extends TestCase
 {
     use RefreshDatabase;
-    public function test_caricamento_views_movimenti()
+
+    /**
+     * Caricamento delle viste per i movimenti di un progetto per un responsabile.
+     *
+     * @return void
+     */
+    public function test_caricamento_views_movimenti_responsabile(): void
     {
         $user = Ricercatore::factory()->create();
         $progetto = Progetto::factory()->create([
@@ -25,174 +31,202 @@ class MovimentiTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->get('/progetto/' . $progetto->id .'/movimento/index')
+            ->get('/progetto/' . $progetto->id . '/movimento/index')
             ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/progetto/' . $progetto->id .'/movimento/edit/' . $movimento->id)
+            ->get('/progetto/' . $progetto->id . '/movimento/edit/' . $movimento->id)
             ->assertStatus(200);
         $this->actingAs($user)
-            ->get('/progetto/' . $progetto->id .'/movimento/create')
+            ->get('/progetto/' . $progetto->id . '/movimento/create')
             ->assertStatus(200);
     }
 
-//    public function test_caricamento_views_movimenti_manager()
-//    {
-//        $user = Manager::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->create();
-//        $this->actingAs($user)
-//            ->get('/sotto-progetto/index')
-//            ->assertStatus(200);
-//        $this->actingAs($user)
-//            ->get('/sotto-progetto/show/' . $sottoProgetto->id)
-//            ->assertStatus(200);
-//    }
-//
-//    public function test_caricamento_views_movimenti_ricercatore()
-//    {
-//        $user = Ricercatore::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->create();
-//        $this->actingAs($user)
-//            ->get('/sotto-progetto/index')
-//            ->assertStatus(200);
-//        $this->actingAs($user)
-//            ->get('/sotto-progetto/show/' . $sottoProgetto->id)
-//            ->assertStatus(200);
-//    }
-//
-//    public function test_manager_puo_creare_sotto_progetto()
-//    {
-//        $user = Manager::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->make();
-//        $this->actingAs($user)
-//            ->post('/sotto-progetto/store', [
-//                'titolo' => $sottoProgetto->titolo,
-//                'descrizione' => $sottoProgetto->descrizione,
-//                'data_rilascio' => $sottoProgetto->data_rilascio,
-//                'responsabile_id' => $sottoProgetto->responsabile_id,
-//                'progetto_id' => $sottoProgetto->progetto_id,
-//            ])
-//            ->assertStatus(302);
-//        $this->assertCount(1, SottoProgetto::all());
-//    }
-//
-//    public function test_manager_puo_modificare_sotto_progetto()
-//    {
-//        $user = Manager::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->create();
-//        $this->actingAs($user)
-//            ->put('/sotto-progetto/update/' . $sottoProgetto->id, [
-//                'titolo' => $sottoProgetto->titolo,
-//                'descrizione' => $sottoProgetto->descrizione,
-//                'data_rilascio' => $sottoProgetto->data_rilascio,
-//                'responsabile_id' => $sottoProgetto->responsabile_id,
-//                'progetto_id' => $sottoProgetto->progetto_id,
-//            ])
-//            ->assertStatus(302);
-//        $this->assertEquals($sottoProgetto->titolo, SottoProgetto::first()->titolo);
-//    }
-//
-//    public function test_manager_puo_eliminare_sotto_progetto()
-//    {
-//        $user = Manager::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->create();
-//        $this->actingAs($user)
-//            ->delete('/sotto-progetto/destroy/' . $sottoProgetto->id)
-//                ->assertStatus(302);
-//        $this->assertCount(0, SottoProgetto::all());
-//    }
-//
-//    public function test_utente_non_autorizzato_non_puo_creare_sotto_progetto()
-//    {
-//        $user = Ricercatore::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->make();
-//        $this->actingAs($user)
-//            ->post('/sotto-progetto/store/', [
-//                'titolo' => $sottoProgetto->titolo,
-//                'descrizione' => $sottoProgetto->descrizione,
-//                'data_rilascio' => $sottoProgetto->data_rilascio,
-//                'responsabile_id' => $sottoProgetto->responsabile_id,
-//                'progetto_id' => $sottoProgetto->progetto_id,
-//            ])
-//            ->assertStatus(302);
-//        $this->assertCount(0, SottoProgetto::all());
-//    }
-//
-//    public function test_utente_non_autorizzato_non_puo_modificare_sotto_progetto()
-//    {
-//        $user = Ricercatore::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->create();
-//        $sottoProgetto2 = SottoProgetto::factory()->make();
-//        $this->actingAs($user)
-//            ->put('/sotto-progetto/update/' . $sottoProgetto->id, [
-//                'titolo' => $sottoProgetto2->titolo,
-//                'descrizione' => $sottoProgetto2->descrizione,
-//                'data_rilascio' => $sottoProgetto2->data_rilascio,
-//                'responsabile_id' => $sottoProgetto2->responsabile_id,
-//                'progetto_id' => $sottoProgetto2->progetto_id,
-//            ])
-//            ->assertStatus(302);
-//        $this->assertNotEquals($sottoProgetto2->titolo, SottoProgetto::first()->titolo);
-//    }
-//
-//    public function test_utente_non_autorizzato_non_puo_eliminare_sotto_progetto()
-//    {
-//        $user = Ricercatore::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->create();
-//        $this->actingAs($user)
-//            ->delete('/sotto-progetto/destroy/' . $sottoProgetto->id)
-//                ->assertStatus(302);
-//        $this->assertCount(1, SottoProgetto::all());
-//    }
-//
-//    public function test_responsabile_puo_aggiungere_ricercatore()
-//    {
-//        $user = Ricercatore::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->create([
-//            'responsabile_id' => $user->id
-//        ]);
-//        $user2 = Ricercatore::factory()->create();
-//        $this->actingAs($user)
-//            ->post('/sotto-progetto/' . $sottoProgetto->id . '/store-ricercatore', [
-//                'ricercatore_id' => $user2->id
-//            ])
-//            ->assertStatus(302);
-//        $this->assertCount(1, $sottoProgetto->ricercatori);
-//    }
-//
-//    public function test_responsabile_puo_eliminare_ricercatore()
-//    {
-//        $user = Ricercatore::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->create([
-//            'responsabile_id' => $user->id
-//        ]);
-//        $user2 = Ricercatore::factory()->create();
-//        $sottoProgetto->ricercatori()->attach($user2->id);
-//        $this->actingAs($user)
-//            ->delete('/sotto-progetto/' . $sottoProgetto->id . '/remove-ricercatore/' . $user2->id)
-//            ->assertStatus(302);
-//        $this->assertCount(0, $sottoProgetto->ricercatori);
-//    }
-//
-//    public function test_responsabile_non_puo_eliminare_ricercatore_se_non_autorizzato()
-//    {
-//        $user = Ricercatore::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->create();
-//        $user2 = Ricercatore::factory()->create();
-//        $sottoProgetto->ricercatori()->attach($user2->id);
-//        $this->actingAs($user)
-//            ->delete('/sotto-progetto/' . $sottoProgetto->id . '/remove-ricercatore/' . $user2->id)
-//            ->assertStatus(302);
-//        $this->assertCount(1, $sottoProgetto->ricercatori);
-//    }
-//    public function test_utente_non_responsabile_non_puo_eliminare_ricercatore()
-//    {
-//        $user = Ricercatore::factory()->create();
-//        $sottoProgetto = SottoProgetto::factory()->create();
-//        $user2 = Ricercatore::factory()->create();
-//        $sottoProgetto->ricercatori()->attach($user2->id);
-//        $this->actingAs($user)
-//            ->delete('/sotto-progetto/' . $sottoProgetto->id . '/remove-ricercatore/' . $user2->id)
-//            ->assertStatus(302);
-//        $this->assertCount(1, $sottoProgetto->ricercatori);
-//    }
+    /**
+     * Caricamento delle viste per i movimenti di un progetto per un manager.
+     *
+     * @return void
+     */
+    public function test_caricamento_views_movimenti_manager(): void
+    {
+        $user = Manager::factory()->create();
+        $progetto = Progetto::factory()->create([
+            'responsabile_id' => $user->id
+        ]);
+        $this->actingAs($user)
+            ->get('/progetto/' . $progetto->id . '/movimento/index')
+            ->assertStatus(200);
+    }
+
+    /**
+     * Caricamento delle viste per i movimenti di un progetto per un ricercatore.
+     *
+     * @return void
+     */
+    public function test_caricamento_views_movimenti_ricercatore(): void
+    {
+        $user = Ricercatore::factory()->create();
+        $progetto = Progetto::factory()->create([
+            'responsabile_id' => $user->id
+        ]);
+        $this->actingAs($user)
+            ->get('/progetto/' . $progetto->id . '/movimento/index')
+            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/progetto/' . $progetto->id . '/movimento/create')
+            ->assertStatus(200);
+    }
+
+    /**
+     * Caricamento delle viste per i movimenti di un progetto per un ricercatore.
+     *
+     * @return void
+     */
+    public function test_caricamento_views_movimenti_finanziatore(): void
+    {
+        $user = Ricercatore::factory()->create();
+        $progetto = Progetto::factory()->create([
+            'responsabile_id' => $user->id
+        ]);
+        $this->actingAs($user)
+            ->get('/progetto/' . $progetto->id . '/movimento/index')
+            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/progetto/' . $progetto->id . '/movimento/create')
+            ->assertStatus(200);
+    }
+
+    /**
+     * Guest non puà visualizzare o editare un movimento.
+     *
+     * @return void
+     */
+    public function test_guest_non_puo_visualizzare_o_editare_i_movimenti(): void
+    {
+        $progetto = Progetto::factory()->create();
+        $movimento = Movimento::factory()->create([
+            'progetto_id' => $progetto->id
+        ]);
+        $this->get('/progetto/' . $progetto->id . '/movimento/index')->assertStatus(302);
+        $this->get('/progetto/' . $progetto->id . '/movimento/create')->assertStatus(302);
+        $this->get('/progetto/' . $progetto->id . '/movimento/edit/' . $movimento->id)->assertStatus(302);
+        $this->put('/progetto/' . $progetto->id . '/movimento/update/' . $movimento->id)->assertStatus(302);
+        $this->delete('/progetto/' . $progetto->id . '/movimento/destroy/' . $movimento->id)->assertStatus(302);
+    }
+
+    /**
+     * Ricercatore può creare un movimento per un progetto ad egli assegnato.
+     *
+     * @return void
+     */
+    public function test_ricercatore_puo_creare_un_movimento(): void
+    {
+        $faker = Faker\Factory::create();
+        $user = Ricercatore::factory()->create();
+        $progetto = Progetto::factory()->create();
+        $progetto->ricercatori()->attach($user);
+        $progetto->save();
+
+        $this->actingAs($user)
+            ->post('/progetto/' . $progetto->id . '/movimento/store', [
+                'causale' => $faker->sentence,
+                'importo' => $faker->randomFloat(2, 0, 100),
+            ])
+            ->assertRedirect('/progetto/' . $progetto->id . '/movimento/index');
+
+        $this->assertCount(1, Movimento::all());
+    }
+
+    /**
+     * Ricercatore può accettare un movimento.
+     *
+     * @return void
+     */
+    public function test_responsabile_puo_accettare_un_movimento(): void
+    {
+        $user = Ricercatore::factory()->create();
+        $progetto = Progetto::factory()->create([
+            'responsabile_id' => $user->id
+        ]);
+        $movimento = Movimento::factory()->create([
+            'progetto_id' => $progetto->id,
+            'approvazione' => 0
+        ]);
+        $this->actingAs($user)
+            ->put('/progetto/' . $progetto->id . '/movimento/approva/' . $movimento->id)
+            ->assertStatus(302);
+
+        $movimento = Movimento::find($movimento->id);
+        $this->assertEquals(1, $movimento->approvazione);
+    }
+
+    /**
+     * Ricercatore può accettare un movimento.
+     *
+     * @return void
+     */
+    public function test_responsabile_puo_rifiutare_un_movimento(): void
+    {
+        $user = Ricercatore::factory()->create();
+        $progetto = Progetto::factory()->create([
+            'responsabile_id' => $user->id
+        ]);
+        $movimento = Movimento::factory()->create([
+            'progetto_id' => $progetto->id,
+            'approvazione' => 0
+        ]);
+        $this->actingAs($user)
+            ->put('/progetto/' . $progetto->id . '/movimento/disapprova/' . $movimento->id)
+            ->assertStatus(302);
+
+        $movimento = Movimento::find($movimento->id);
+        $this->assertEquals(2, $movimento->approvazione);
+    }
+
+    /**
+     * Movimento non può essere eliminato dopo essere stato accettato o rifiutato..
+     *
+     * @return void
+     */
+    public function test_movimento_non_puo_essere_eliminato_dopo_essere_stato_accettato_o_rifiutato(): void
+    {
+        $user = Ricercatore::factory()->create();
+        $progetto = Progetto::factory()->create([
+            'responsabile_id' => $user->id
+        ]);
+        $movimento = Movimento::factory()->create([
+            'progetto_id' => $progetto->id,
+            'approvazione' => 1
+        ]);
+        $this->actingAs($user)
+            ->delete('/progetto/' . $progetto->id . '/movimento/destroy/' . $movimento->id)
+            ->assertStatus(302);
+
+        $this->assertCount(1, Movimento::all());
+    }
+
+    /**
+     * Un movimento accettato va a modificare il budget del progetto.
+     *
+     * @return void
+     */
+    public function test_un_movimento_accettato_va_a_modificare_il_budget_del_progetto(): void
+    {
+        $user = Ricercatore::factory()->create();
+        $progetto = Progetto::factory()->create([
+            'responsabile_id' => $user->id,
+            'budget' => 100,
+        ]);
+        $movimento = Movimento::factory()->create([
+            'progetto_id' => $progetto->id,
+            'importo' => -50,
+            'approvazione' => 0
+        ]);
+        $this->actingAs($user)
+            ->put('/progetto/' . $progetto->id . '/movimento/approva/' . $movimento->id)
+            ->assertStatus(302);
+
+        $progetto = Progetto::find($progetto->id);
+        $this->assertEquals(50, $progetto->budget);
+    }
+
 }

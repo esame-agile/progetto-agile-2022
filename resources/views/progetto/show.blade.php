@@ -109,7 +109,7 @@
                                                     @if($pubblicazione->ufficiale)
                                                         <div class="flex justify-center">
                                                             <form method="POST"
-                                                                  action="{{ route('pubblicazioni.update', compact('progetto', 'pubblicazione')) }}">
+                                                                  action="{{ route('pubblicazioni.update', compact('pubblicazione')) }}">
                                                                 @csrf
                                                                 @method("PUT")
                                                                 <input type="hidden" name="visibilita" value="0">
@@ -120,7 +120,7 @@
                                                     @else
                                                         <div class="flex justify-center">
                                                             <form method="POST"
-                                                                  action="{{ route('pubblicazioni.update', compact('progetto', 'pubblicazione')) }}">
+                                                                  action="{{ route('pubblicazioni.update', compact('pubblicazione')) }}">
                                                                 @csrf
                                                                 @method("PUT")
                                                                 <input type="hidden" name="visibilita" value="1">

@@ -1,45 +1,79 @@
 <?php
 
 namespace Tests\Feature;
-use App\Models\Manager;
+
 use App\Models\Progetto;
 use App\Models\Pubblicazione;
 use App\Models\Ricercatore;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Faker;
 
 class PubblicazioniTest extends TestCase
 {
     use RefreshDatabase;
 
 
-    public function test_caricamento_views_pubblicazioni_ricercatore()
+    /**
+     * Viste per le pubblicazioni guest.
+     *
+     * @return void
+     */
+    public function test_caricamento_views_pubblicazioni(): void
     {
-        $user=Ricercatore::factory()->create();
+        $pubblicazione = Pubblicazione::factory()->create();
+        $this->get('/pubblicazione/show/' . $pubblicazione->id)->assertStatus(200);
+    }
+
+    /**
+     * Viste per le pubblicazioni ricercatore
+     *
+     * @return void
+     */
+    public function test_caricamento_views_pubblicazioni_ricercatore(): void
+    {
+        $user = Ricercatore::factory()->create();
+        $pubblicazione = Pubblicazione::factory()->create();
 
         $this->actingAs($user)
-            ->get('/pubblicazione/create/' . $user->id)
+            ->get('/pubblicazione/show/' . $pubblicazione->id)
+            ->assertStatus(200);
+        $this->actingAs($user)
+            ->get('/pubblicazione/create')
             ->assertStatus(200);
     }
 
-   /* public function test_ricercatore_puo_modificare_visibilita_pubblicazioni()
+    /**
+     * Il responsabile di un progetto può modificare le pubblicazioni del suo progetto.
+     *
+     * @return void
+     */
+    public function test_responsabile_puo_modificare_visibilita_pubblicazioni_del_suo_progetto(): void
     {
         $user = Ricercatore::factory()->create();
-        $pubblicazioniT=Pubblicazione::factory(5)->create();
-        $pubblicazioniT_id=$pubblicazioniT->pluck('id');
-        $pubblicazioniF=Pubblicazione::factory(5)->create();
-        $pubblicazioniF_id=$pubblicazioniF->pluck('id');
-        $progetto=Progetto::factory()->create();
-        $progetto->responsabile_id=$user->id;
+        $progetto = Progetto::factory()->create([
+            'responsabile_id' => $user->id
+        ]);
+        $pubblicazione = Pubblicazione::factory()->create([
+            'ufficiale' => false,
+        ]);
+        $pubblicazione->progetto()->associate($progetto);
+        $pubblicazione->save();
+
         $this->actingAs($user)
-            ->put('/pubblicazione/update'. $progetto->id, [
-                'pubblicazioneiT'=>$pubblicazioniT_id,
-                'pubblicazioneiF'=>$pubblicazioniF_id,
+            ->put('/pubblicazione/update/' . $pubblicazione->id, [
+                'visibilita' => 1,
             ])
             ->assertStatus(302);
-    }*/
-    public function test_ricercatore_puo_eliminare_pubblicazione()
+        $pubblicazione = Pubblicazione::find($pubblicazione->id);
+        $this->assertEquals(true, $pubblicazione->ufficiale);
+    }
+
+    /**
+     * Il ricercatore può eliminare una pubblicazione.
+     *
+     * @return void
+     */
+    public function test_ricercatore_puo_eliminare_pubblicazione(): void
     {
         $user = Ricercatore::factory()->create();
         $pubblicazione = Pubblicazione::factory()->create();

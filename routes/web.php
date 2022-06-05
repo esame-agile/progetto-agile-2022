@@ -345,7 +345,7 @@ Route::prefix('report')->group(function () {
     Route::get('/create/{progetto}', [ReportController::class, 'create'])->name('report.create')->middleware('auth', 'ruolo:ricercatore');
 
     /**
-     * Salbataggio dei report da un ricercatore.
+     * Salvataggio dei report da un ricercatore.
      *
      */
     //perchè create??
@@ -361,7 +361,7 @@ Route::prefix('report')->group(function () {
      * Eliminazione report da chi l'ha caricato.
      *
      */
-    Route::delete('/destroy/{report}/{progetto}', [ReportController::class, 'destroy'])->name('report.destroy')->middleware('auth', 'ruolo:ricercatore');
+    Route::delete('/destroy/{report}', [ReportController::class, 'destroy'])->name('report.destroy')->middleware('auth', 'ruolo:ricercatore');
 });
 /**
  * CRUD per le pubblicazioni.
@@ -378,13 +378,13 @@ Route::prefix('pubblicazione')->group(function () {
      * Vista per far creare una pubblicazione a un ricercatore.
      *
      */
-    Route::get('/create/{ricercatore}', [PubblicazioneController::class, 'create'])->name('pubblicazioni.create')->middleware('auth', 'ruolo:ricercatore');
+    Route::get('/create', [PubblicazioneController::class, 'create'])->name('pubblicazioni.create')->middleware('auth', 'ruolo:ricercatore');
 
     /**
      * Aggiorna le informazioni sulle pubblicazioni.
      *
      */
-    Route::put('/update/{progetto}', [PubblicazioneController::class, 'update'])->name('pubblicazioni.update')->middleware('auth', 'ruolo:ricercatore');
+    Route::put('/update/{pubblicazione}', [PubblicazioneController::class, 'update'])->name('pubblicazioni.update')->middleware('auth', 'ruolo:ricercatore');
 
     /**
      * Aggiorna le informazioni di una pubblicazione.

@@ -29,23 +29,24 @@ class PubblicazioneController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param Ricercatore $ricercatore
      * @return Application|Factory|View
      */
-    public function create(Ricercatore $ricercatore): View|Factory|Application
+    public function create(): View|Factory|Application
     {
-        $progetti = $ricercatore->progetti()->paginate(10);
+        $autore = Ricercatore::find(Auth::user()->id);
+        $progetti = $autore->progetti()->paginate(10);
         $ricercatori = Ricercatore::all();
-        return view('pubblicazioni.create', compact('progetti', 'ricercatori', 'ricercatore'));
+        return view('pubblicazioni.create', compact('progetti', 'ricercatori', 'autore'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      */
-    public function update(Request $request, Progetto $progetto): RedirectResponse
+    public function update(Request $request, Pubblicazione $pubblicazione): RedirectResponse
     {
-        $this->setVisibilitaPubblicazioni($request);
+        $this->setVisibilitaPubblicazioni($request, $pubblicazione);
+        $progetto = $pubblicazione->progetto()->first();
         return redirect()->route('progetto.show', compact('progetto'))->with('success', 'Pubblicazioni aggiornate con successo');
     }
 
@@ -101,12 +102,12 @@ class PubblicazioneController extends Controller
         return response()->download(public_path('assets/' . $file_name));
     }
 
-    public function setVisibilitaPubblicazioni(Request $request)
+    public function setVisibilitaPubblicazioni(Request $request, Pubblicazione $pubblicazione): void
     {
         if ($request->visibilita == 1) {
-            Pubblicazione::find($request->pubblicazione)->update(['ufficiale' => true]);
+            Pubblicazione::find($pubblicazione->id)->update(['ufficiale' => true]);
         } else {
-            Pubblicazione::find($request->pubblicazione)->update(['ufficiale' => false]);
+            Pubblicazione::find($pubblicazione->id)->update(['ufficiale' => false]);
         }
     }
 

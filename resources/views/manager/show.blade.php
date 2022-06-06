@@ -12,7 +12,10 @@
                 @endauth
             </x-slot>
             <x-slot name="info">
+                <x-li>
+                    <span class="font-bold">Sei un manager</span> <br>
 
+                </x-li>
             </x-slot>
             <x-slot name="profile_picture">
                 <div class="profile-picture">

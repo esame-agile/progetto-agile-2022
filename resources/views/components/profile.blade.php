@@ -11,7 +11,6 @@
                 {{$info}}
             </ul>
         </div>
-        {{$profile_picture}}
         <div class="card-white profile-info">
             <ul class="list-none">
                 {{$contatti}}
@@ -20,14 +19,10 @@
     </div>
 </div>
 @if(isset($progetti) && isset($pubblicazioni))
-    <div class="row">
-        <div class="lg:w-6/12 pr-5 column">
-            {{$pubblicazioni}}
-        </div>
-        <div class="lg:w-6/12 pl-5 column">
-            {{$progetti}}
-        </div>
-    </div>
+
+    {{$pubblicazioni}}
+    {{$progetti}}
+
 @elseif(isset($pubblicazioni))
     {{$pubblicazioni}}
 @elseif(isset($progetti))

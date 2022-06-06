@@ -21,7 +21,7 @@
                 <div class="mb-6 flex flex-wrap justify-between">
                     <div class="w-1/3 pr-3">
                         @auth()
-                            @if(Auth::user()->hasRuolo('ricercaotore'))
+                            @if(Auth::user()->hasRuolo('ricercatore'))
                                 <label for="causale"
                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                     Causale

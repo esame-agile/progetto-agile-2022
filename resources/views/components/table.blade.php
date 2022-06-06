@@ -23,7 +23,7 @@
         </div>
     @endif
     {{$link}}
-    <div class="overflow-hidden rounded-lg shadow-lg">
+    <div class="overflow-x-auto rounded-lg shadow-lg">
         <table class="w-full">
             <thead>
             <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">

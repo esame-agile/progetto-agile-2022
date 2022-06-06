@@ -41,10 +41,10 @@
                         <div class="text-sm leading-normal text-blueGray-700 font-bold uppercase">
                             BUDGET ATTUALE:
                         </div>
-                        <div class="text-blueGray-700">
+                        <div class="text-blueGray-700 flex flex-wrap justify-between">
                             {{$progetto->budget}}€
                             @auth()
-                                <x-button class="float-right">
+                                <x-button>
                                     <a href="{{route("movimento.index",$progetto)}}">
                                         VEDI MOVIMENTI
                                     </a>
@@ -249,14 +249,17 @@
                         <x-th class="resp640">Università</x-th>
                     </x-slot>
                     <x-slot name="righe">
-                        <x-tr>
-                            @if(isset($ricercatori))
-                                @if($ricercatori->isEmpty())
+
+                        @if(isset($ricercatori))
+                            @if($ricercatori->isEmpty())
+                                <x-tr>
                                     <x-td class="text-left">-</x-td>
                                     <x-td class="text-left">-</x-td>
                                     <x-td class="text-left resp640">-</x-td>
-                                @else
-                                    @foreach($ricercatori as $ricercatore)
+                                </x-tr>
+                            @else
+                                @foreach($ricercatori as $ricercatore)
+                                    <x-tr>
                                         <x-td>
                                             <a class="underline"
                                                href="{{route("ricercatore.guest-show", $ricercatore)}}">
@@ -265,10 +268,10 @@
                                         </x-td>
                                         <x-td>{{$ricercatore->ambito_ricerca}}</x-td>
                                         <x-td class="resp640">{{$ricercatore->universita}}</x-td>
-                                    @endforeach
-                                @endif
+                                    </x-tr>
+                                @endforeach
                             @endif
-                        </x-tr>
+                        @endif
                     </x-slot>
                 </x-table>
                 <!-----Fine Ricercatori----->

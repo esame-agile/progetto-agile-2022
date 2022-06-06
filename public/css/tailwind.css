@@ -1205,10 +1205,17 @@ p {
     flex-wrap: wrap;
 }
 
+.header-hero {
+    background-image: url(../images/background.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .header-hero::before {
     content: '';
     z-index: -1;
-    opacity: .9;
+    opacity: .7;
     position: absolute;
     top: 0;
     left: 0;
@@ -1216,7 +1223,6 @@ p {
     height: 100%;
     --bg-opacity: 1;
     background-color: #FFFFFF;
-
 }
 
 .navigation {

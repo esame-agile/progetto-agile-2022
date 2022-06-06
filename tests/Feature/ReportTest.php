@@ -2,12 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\Finanziatore;
-use App\Models\Manager;
 use App\Models\Progetto;
 use App\Models\Report;
 use App\Models\Ricercatore;
-use App\Models\SottoProgetto;
 use Tests\TestCase;
 
 class ReportTest extends TestCase

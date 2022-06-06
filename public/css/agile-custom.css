@@ -118,6 +118,11 @@
         display: none;
     }
 
+    .card-white.profile-info {
+        max-width: 100%; width: 100%;
+        margin-top: 2rem;
+    }
+
     .contatti {
         display: none;
     }

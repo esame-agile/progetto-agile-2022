@@ -355,7 +355,7 @@ Route::prefix('report')->group(function () {
      * Download dei report da un ricercatore.
      *
      */
-    Route::get('/download{file_name}', [ReportController::class, 'download'])->name('report.download');
+    Route::get('/download/{file_name}', [ReportController::class, 'download'])->name('report.download');
 
     /**
      * Eliminazione report da chi l'ha caricato.

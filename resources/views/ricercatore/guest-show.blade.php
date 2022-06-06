@@ -66,18 +66,18 @@
                                         <x-td>{{$pubblicazione->doi}}</x-td>
                                         @if($pubblicazione->sorgente != "api")
                                             <x-td><a class="underline"
-                                                     href="{{route("pubblicazioni.show", $pubblicazione)}}">{{$pubblicazione->titolo}}
+                                                     href="{{route("pubblicazioni.show", $pubblicazione)}}">{{Str::limit($pubblicazione->titolo, 20)}}
                                                 </a>
                                             </x-td>
                                         @else
-                                            <x-td>{{$pubblicazione->titolo}}</x-td>
+                                            <x-td>{{Str::limit($pubblicazione->titolo, 20)}}</x-td>
                                         @endif
                                         <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
                                         <x-td class="resp1024">{{$pubblicazione->autori_esterni}}</x-td>
                                         <x-td class="resp640">
                                             <a class="underline"
                                                href="{{route('progetto.show', $pubblicazione->progetto)}}">
-                                                {{$pubblicazione->progetto->titolo}}
+{{--                                                {{$pubblicazione->progetto()->first()->titolo}}--}}
                                             </a>
                                         </x-td>
                                         @if($pubblicazione->sorgente != "api")

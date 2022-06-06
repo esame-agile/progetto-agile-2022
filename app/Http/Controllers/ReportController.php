@@ -48,7 +48,6 @@ class ReportController extends Controller
 
     public function download(Request $request, $file_name)
     {
-
         return response()->download(public_path('assets/' . $file_name));
     }
 
@@ -58,11 +57,6 @@ class ReportController extends Controller
         if (Auth::user()->hasRuolo('ricercatore')) {
             $report->delete();
         }
-//        $ricercatori = $progetto->ricercatori()->get();
-//        $sottoProgetti = $progetto->sotto_progetti()->get();
-//        $reports = $progetto->reports()->get();
-//
-//        return redirect()->route('progetto.show', compact('progetto', 'ricercatori', 'sottoProgetti', 'reports'));
         return redirect()->route('progetto.show', compact('progetto'));
     }
 

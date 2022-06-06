@@ -15,4 +15,14 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(true);
     }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function test_che_abbiamo_finito()
+    {
+        $this->assertEquals('abbiamo finito', 'abbiamo finito');
+    }
 }

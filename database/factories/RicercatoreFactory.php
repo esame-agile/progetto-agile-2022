@@ -31,6 +31,7 @@ class RicercatoreFactory extends UtenteFactory
                 'data_nascita' => $this->faker->date(),
                 'universita' => $this->faker->company,
                 'ambito_ricerca' => $this->faker->sentence,
+                'pid' => '0000',
             ]);
 
     }

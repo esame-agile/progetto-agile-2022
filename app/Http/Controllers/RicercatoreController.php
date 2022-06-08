@@ -86,9 +86,9 @@ class RicercatoreController extends Controller
         $this->validateRicercatore();
         if ($request->password != null) {
             $this->validatePassword();
-            $ricercatore->update($request->all(['nome', 'cognome', 'email', 'password', 'data_nascita', 'universita', 'ambito_ricerca']));
+            $ricercatore->update($request->all(['nome', 'cognome', 'email', 'password', 'data_nascita', 'universita', 'ambito_ricerca', 'pid']));
         } else {
-            $ricercatore->update($request->all(['nome', 'cognome', 'email', 'data_nascita', 'universita', 'ambito_ricerca']));
+            $ricercatore->update($request->all(['nome', 'cognome', 'email', 'data_nascita', 'universita', 'ambito_ricerca', 'pid']));
         }
         return redirect()->route('ricercatore.show', compact('ricercatore'))->with('success', 'Informazioni aggiorante con successo.');
     }
@@ -131,6 +131,7 @@ class RicercatoreController extends Controller
             'data_nascita' => 'required',
             'universita' => 'required',
             'ambito_ricerca' => 'required',
+            'pid' => 'required|string|max:4|min:4',
         ]);
     }
 
@@ -160,7 +161,11 @@ class RicercatoreController extends Controller
      */
     public function getPubblicazioni(Ricercatore $ricercatore, \Illuminate\Database\Eloquent\Collection|array $pubblicazioni): array|\Illuminate\Database\Eloquent\Collection
     {
-        $url = "https://dblp.org/search/publ/api?q=author:" . str_replace(" ", "_", $ricercatore->nome) . "_" . str_replace(" ", "_", $ricercatore->cognome) . ":&format=json&h=1000";
+        $author = str_replace(" ", "_", $ricercatore->nome) . "_" . str_replace(" ", "_", $ricercatore->cognome);
+        if($ricercatore->pid != '0000') {
+            $author = $author . "_" . $ricercatore->pid;
+        }
+        $url = "https://dblp.org/search/publ/api?q=author:" . $author . ":&format=json&h=1000";
 
         $pubbl = json_decode(file_get_contents($url), true);
         if (isset($pubbl['result']['hits']['hit'])) {

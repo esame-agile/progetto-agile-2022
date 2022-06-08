@@ -88,12 +88,18 @@
                                         @endif
                                         <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
                                         <x-td class="resp1024">{{$pubblicazione->autori_esterni}}</x-td>
-                                        <x-td class="resp640">
-                                            <a class="underline"
-                                               href="{{route('progetto.show', $pubblicazione->progetto)}}">
-                                                {{$pubblicazione->progetto->titolo}}
-                                            </a>
-                                        </x-td>
+                                        @if($pubblicazione->sorgente != "api")
+                                            <x-td class="resp640">
+                                                <a class="underline"
+                                                   href="{{route('progetto.show', $pubblicazione->progetto)}}">
+                                                    {{$pubblicazione->progetto->titolo}}
+                                                </a>
+                                            </x-td>
+                                        @else
+                                            <x-td>
+                                                -
+                                            </x-td>
+                                        @endif
                                         @if($pubblicazione->sorgente != "api")
                                             <x-td>
                                                 <a class="underline"

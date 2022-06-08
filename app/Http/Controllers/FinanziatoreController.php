@@ -31,9 +31,13 @@ class FinanziatoreController extends Controller
      * @param Finanziatore $finanziatore
      * @return Factory|View|Application
      */
-    public function edit(Finanziatore $finanziatore): Factory|View|Application
+    public function edit(Finanziatore $finanziatore): Factory|View|Application|RedirectResponse
     {
-        return view('finanziatore.edit', compact('finanziatore'));
+        if (Auth::user()->id == $finanziatore->id){
+            return view('finanziatore.edit', compact('finanziatore'));
+        } else {
+            return redirect()->route('home');
+        }
     }
 
     /**

@@ -63,11 +63,15 @@ class RicercatoreController extends Controller
      * Vista per editare i dati personali di un ricercatore.
      *
      * @param Ricercatore $ricercatore
-     * @return Factory|View|Application
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function edit(Ricercatore $ricercatore): Factory|View|Application
+    public function edit(Ricercatore $ricercatore): Application|Factory|View|RedirectResponse
     {
-        return view('ricercatore.edit', compact('ricercatore'));
+        if (Auth::user()->id == $ricercatore->id){
+            return view('ricercatore.edit', compact('ricercatore'));
+        } else {
+            return redirect()->route('home');
+        }
     }
 
     /**

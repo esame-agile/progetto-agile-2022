@@ -27,11 +27,15 @@ class ManagerController extends Controller
      * Vista per editare i dati personali di un manager.
      *
      * @param Manager $manager
-     * @return Factory|View|Application
+     * @return Factory|View|Application|RedirectResponse
      */
-    public function edit(Manager $manager): Factory|View|Application
+    public function edit(Manager $manager): Factory|View|Application|RedirectResponse
     {
-        return view('manager.edit', compact('manager'));
+        if (Auth::user()->id == $manager->id){
+            return view('manager.edit', compact('manager'));
+        } else {
+            return redirect()->route('home');
+        }
     }
 
     /**

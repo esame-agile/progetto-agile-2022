@@ -81,6 +81,7 @@ class RicercatoriTest extends TestCase
                 'data_nascita' => '2000-01-01',
                 'universita' => 'Università di {$faker->city()}',
                 'ambito_ricerca' => 'Ingegneria',
+                'pid' => '0001',
             ])->assertRedirect('/ricercatore/show?ricercatore=' . $ricercatore->id);
     }
 

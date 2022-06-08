@@ -25,7 +25,16 @@ class DatabaseSeeder extends Seeder
         echo "MANAGER: \n";
         echo "email: " . $manager->email . "\n" . "password: password" . "\n";
         echo "------------------------------------------------------\n";
-        $ricercatore = Ricercatore::factory()->create();
+        $ricercatore = Ricercatore::factory()->create([
+            'pid' => '0001',
+            'nome' => 'Michele',
+            'cognome' => 'Tucci',
+            'email' => 'michele.tucci0001@example.com',
+            'data_nascita' => date('y-m-d'),
+            'universita' => 'Università degli Studi dell\'Aquila',
+            'ambito_ricerca' => 'Information Engineering, Computer Science and Mathematics',
+
+        ]);
         $ricercatore->progetti()->saveMany(Progetto::factory(12)->create());
         $progetto = $ricercatore->progetti()->first();
         $progetto->responsabile()->associate($ricercatore);

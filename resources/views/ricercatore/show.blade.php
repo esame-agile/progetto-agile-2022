@@ -5,6 +5,11 @@
         <x-profile>
             <x-slot name="nome">
                 {{$ricercatore->nome}} {{$ricercatore->cognome}}
+                @if($ricercatore->pid != null)
+                    (PID: {{$ricercatore->pid}})
+                @else
+                    (PID: - )
+                  @endif
                 @auth()
                     {{-- Pulsante per editare informazioni personali --}}
                     <a href="{{route('ricercatore.edit', $ricercatore)}}"><i
@@ -87,7 +92,11 @@
                                             <x-td>{{$pubblicazione->titolo}}</x-td>
                                         @endif
                                         <x-td class="resp1024">{{$pubblicazione->tipologia}}</x-td>
-                                        <x-td class="resp1024">{{$pubblicazione->autori_esterni}}</x-td>
+                                        @if($pubblicazione->sorgente != "api")
+                                            <x-td class="resp640">{{$pubblicazione->autori_esterni}}</x-td>
+                                        @else
+                                            <x-td class="resp640">-</x-td>
+                                        @endif
                                         @if($pubblicazione->sorgente != "api")
                                             <x-td class="resp640">
                                                 <a class="underline"
@@ -96,9 +105,7 @@
                                                 </a>
                                             </x-td>
                                         @else
-                                            <x-td>
-                                                -
-                                            </x-td>
+                                            <x-td class="resp640">-</x-td>
                                         @endif
                                         @if($pubblicazione->sorgente != "api")
                                             <x-td>

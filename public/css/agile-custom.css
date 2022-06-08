@@ -86,10 +86,6 @@
     padding: 2% 2% 2% 2%;
 }
 
-.profile-info {
-    max-width: 30%; width: 30%;
-    padding: 2% 2% 2% 2%;
-}
 
 .row {
     display: flex;
@@ -116,11 +112,6 @@
 
     .resp640, .resp1024 {
         display: none;
-    }
-
-    .card-white.profile-info {
-        max-width: 100%; width: 100%;
-        margin-top: 2rem;
     }
 
     .contatti {

@@ -16,19 +16,29 @@
                     @csrf
                     @method('PUT')
                     <div class="mb-6 flex flex-wrap justify-between">
-                        <div class="w-1/2 pr-3">
+                        <div class="w-1/3 pr-3">
                             <label for="nome"
                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nome</label>
                             <x-input name="nome" type="text" id="nome" value="{{$ricercatore->nome}}"
                                      class="@error('nome') is-invalid @enderror "
                                      required></x-input>
                         </div>
-                        <div class="w-1/2">
+                        <div class="w-1/3">
                             <label for="cognome"
                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cognome</label>
                             <x-input name="cognome" type="text" id="cognome" value="{{$ricercatore->cognome}}"
                                      class="@error('cognome') is-invalid @enderror "
                                      required></x-input>
+                        </div>
+                        <div class="w-1/3 pl-3">
+                            <label for="pid"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">PID</label>
+                            @if($ricercatore->pid != null)
+                                <x-input name="pid" type="number" id="pid" value="{{$ricercatore->pid}}" min="0" placeholder="0000"></x-input>
+                            @else
+                                <x-input name="pid" type="number" id="pid" value="0000" min="0" placeholder="0000"></x-input>
+                            @endif
+
                         </div>
                     </div>
 

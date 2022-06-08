@@ -16,7 +16,7 @@ class Ricercatore extends Utente
     {
         parent::__construct($attributes);
 
-        $this->mergeFillable(['data_nascita', 'universita', 'ambito_ricerca']);
+        $this->mergeFillable(['data_nascita', 'universita', 'ambito_ricerca', 'pid']);
     }
 
     public static function boot()

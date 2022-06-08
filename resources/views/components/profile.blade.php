@@ -1,18 +1,12 @@
 @yield('alert-message')
 <div class="card-grey mb-10">
-    <div class="flex flex-wrap justify-center mb-2">
-        <h2 class="text-2xl font-bold leading-normal text-blueGray-700">
-            {{$nome}}
-        </h2>
-    </div>
-    <div class="flex flex-wrap justify-between">
-        <div class="card-white profile-info">
+    <div class=" ">
+        <div class="card-white profile-info w-full px-4 py-4">
+            <h2 class="text-2xl font-bold leading-normal text-blueGray-700">
+                {{$nome}}
+            </h2>
             <ul class="list-none">
                 {{$info}}
-            </ul>
-        </div>
-        <div class="card-white profile-info">
-            <ul class="list-none">
                 {{$contatti}}
             </ul>
         </div>

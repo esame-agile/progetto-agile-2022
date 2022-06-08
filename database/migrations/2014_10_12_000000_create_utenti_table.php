@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('universita')->nullable();
             $table->string('ambito_ricerca')->nullable();
             $table->string('nome_azienda')->nullable();
+            $table->string('pid')->default('0000');
             $table->rememberToken();
             $table->timestamps();
         });

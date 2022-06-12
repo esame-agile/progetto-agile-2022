@@ -56,7 +56,7 @@ class FinanziatoreController extends Controller
         } else {
             $finanziatore->update($request->all(['nome', 'cognome', 'email', 'nome_azienda']));
         }
-        return redirect()->route('finanziatore.show')->with('success', 'Informazioni aggiorante con successo.');
+        return redirect()->route('finanziatore.show')->with('success', 'Informazioni aggiornate con successo.');
     }
 
     /**

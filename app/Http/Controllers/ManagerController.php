@@ -54,7 +54,7 @@ class ManagerController extends Controller
         } else {
             $manager->update($request->all(['nome', 'cognome', 'email']));
         }
-        return redirect()->route('manager.show', compact('manager'))->with('success', 'Informazioni aggiorante con successo.');
+        return redirect()->route('manager.show', compact('manager'))->with('success', 'Informazioni aggiornate con successo.');
     }
 
     /**

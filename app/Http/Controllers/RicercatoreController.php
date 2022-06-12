@@ -90,11 +90,11 @@ class RicercatoreController extends Controller
         } else {
             $ricercatore->update($request->all(['nome', 'cognome', 'email', 'data_nascita', 'universita', 'ambito_ricerca', 'pid']));
         }
-        return redirect()->route('ricercatore.show', compact('ricercatore'))->with('success', 'Informazioni aggiorante con successo.');
+        return redirect()->route('ricercatore.show', compact('ricercatore'))->with('success', 'Informazioni aggiornate con successo.');
     }
 
     /**
-     * Vista con l'elenco dei progetto del ricercaotore
+     * Vista con l'elenco dei progetti del ricercatore
      *
      * @return Factory|View|Application
      */
@@ -106,7 +106,7 @@ class RicercatoreController extends Controller
     }
 
     /**
-     * Vista con l'elenco dei progetto del ricercaotore
+     * Vista con l'elenco dei progetti del ricercatore
      *
      * @return Factory|View|Application
      */
